@@ -7,13 +7,6 @@
     "text": "About this site"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Pérégrinations pythonesques",
-    "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
-  },
-  {
     "objectID": "cours_poo_solid.html",
     "href": "cours_poo_solid.html",
     "title": "Programmation Orientée Objet – Introduction",
@@ -33,5 +26,12 @@
     "title": "Programmation Orientée Objet – Introduction",
     "section": "Première classe : Book",
     "text": "Première classe : Book\n\nDéclaration de la classe\n\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n\n    def __repr__(self):\n        return f\"{self.title} – {self.author}\""
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Pérégrinations pythonesques",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   }
 ]
