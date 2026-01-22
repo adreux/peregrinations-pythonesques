@@ -1,0 +1,21 @@
+[project]
+name = "lesson"
+version = "0.1.0"
+description = "Cours POO & SOLID"
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "jupyter>=1.1.1",
+    "pyyaml>=6.0.3",
+    "requests",
+    "rich",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "ipykernel",
+    "jupyterlab",
+    "quarto"
+]
+
