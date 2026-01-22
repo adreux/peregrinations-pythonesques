@@ -18,14 +18,14 @@
     "href": "cours_poo_solid.html",
     "title": "Programmation Orientée Objet – Introduction",
     "section": "",
-    "text": "Problème sans POO :\nImaginez gérer une bibliothèque avec des dictionnaires et des fonctions dispersées.\n\nbook1 = {\"titre\": \"1984\", \"auteur\": \"Orwell\", \"disponible\": True}\nbook2 = {\"titre\": \"Dune\", \"auteur\": \"Herbert\", \"disponible\": False}\n\ndef borrow_book(book):\n    if book[\"disponible\"]:\n        book[\"disponible\"] = False\n        return True\n    return False\n\nborrow_book(book2)\n\nFalse"
+    "text": "Tip\n\n\n\nVersion interactive\nOuvrir ce cours dans Binder"
   },
   {
     "objectID": "cours_poo_solid.html#introduction",
     "href": "cours_poo_solid.html#introduction",
     "title": "Programmation Orientée Objet – Introduction",
-    "section": "",
-    "text": "Problème sans POO :\nImaginez gérer une bibliothèque avec des dictionnaires et des fonctions dispersées.\n\nbook1 = {\"titre\": \"1984\", \"auteur\": \"Orwell\", \"disponible\": True}\nbook2 = {\"titre\": \"Dune\", \"auteur\": \"Herbert\", \"disponible\": False}\n\ndef borrow_book(book):\n    if book[\"disponible\"]:\n        book[\"disponible\"] = False\n        return True\n    return False\n\nborrow_book(book2)\n\nFalse"
+    "section": "Introduction",
+    "text": "Introduction\n\nPourquoi la POO ?\nProblème sans POO :\nImaginez gérer une bibliothèque avec des dictionnaires et des fonctions dispersées.\n\nbook1 = {\"titre\": \"1984\", \"auteur\": \"Orwell\", \"disponible\": True}\nbook2 = {\"titre\": \"Dune\", \"auteur\": \"Herbert\", \"disponible\": False}\n\ndef borrow_book(book):\n    if book[\"disponible\"]:\n        book[\"disponible\"] = False\n        return True\n    return False\n\nborrow_book(book2)\n\nFalse"
   },
   {
     "objectID": "cours_poo_solid.html#première-classe-book",

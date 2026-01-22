@@ -5,6 +5,12 @@ execute:
   echo: true
 ---
 
+::: {.callout-tip}
+**Version interactive**  
+[Ouvrir ce cours dans Binder](https://mybinder.org/v2/gh/adreux/peregrinations-pythonesques/HEAD)
+:::
+
+
 ## Introduction
 
 ### Pourquoi la POO ?
