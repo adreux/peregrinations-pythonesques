@@ -1,0 +1,166 @@
+---
+title: "Exercices POO et SOLID"
+---
+
+::: {.callout-tip}
+## Version interactive
+[Ouvrir ce cours dans Binder](https://mybinder.org/v2/gh/adreux/peregrinations-pythonesques/HEAD)
+:::
+
+## Exercices pratiques
+
+Mettez en pratique vos connaissances avec ces exercices.
+
+## Exercice 1 : Système de bibliothèque
+
+### Contexte
+Créez un système de gestion de bibliothèque en respectant les principes SOLID.
+
+### Consignes
+
+1. Créez une classe `Book` avec les attributs : titre, auteur, ISBN, disponibilité
+2. Créez une classe `User` avec : nom, email, livres empruntés
+3. Implémentez un `BorrowManager` pour gérer les emprunts
+4. Ajoutez un système de notifications par email (utilisez le principe SRP)
+
+::: {.callout-note}
+## Conseils
+- Utilisez des dataclasses pour les modèles simples
+- Pensez à ajouter des logs avec `logging`
+- Respectez le principe de responsabilité unique
+:::
+
+### Squelette de départ
+
+```{python}
+#| eval: false
+
+from dataclasses import dataclass
+from datetime import datetime
+import logging
+
+@dataclass
+class Book:
+    title: str
+    author: str
+    isbn: str
+    available: bool = True
+
+# À compléter...
+```
+
+## Exercice 2 : Système de réductions
+
+### Contexte
+Implémentez différentes stratégies de réduction en utilisant le pattern Strategy (principe OCP).
+
+### Consignes
+
+1. Créez une interface `DiscountStrategy`
+2. Implémentez au moins 3 stratégies différentes :
+   - Réduction étudiant (10%)
+   - Réduction senior (15%)
+   - Réduction fidélité (20%)
+3. Créez une classe `Order` qui utilise une stratégie de réduction
+
+::: {.callout-tip}
+## Bonus
+Ajoutez une stratégie "Sans réduction" et une stratégie "Black Friday" (50%).
+:::
+
+## Exercice 3 : Système de documents
+
+### Contexte
+Créez une hiérarchie de documents en respectant le principe LSP.
+
+### Consignes
+
+1. Créez une classe abstraite `Document`
+2. Implémentez au moins 3 types de documents :
+   - `Book` (empruntable)
+   - `Magazine` (empruntable pour 7 jours max)
+   - `ArchiveDocument` (non empruntable, consultation sur place)
+3. Tous doivent être utilisables de manière polymorphique
+
+## Solutions
+
+::: {.callout-warning collapse="true"}
+## Voir les solutions (essayez d'abord !)
+
+### Solution Exercice 1
+
+```{python}
+#| eval: false
+
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import List
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
+@dataclass
+class Book:
+    title: str
+    author: str
+    isbn: str
+    available: bool = True
+
+@dataclass
+class User:
+    name: str
+    email: str
+    borrowed_books: List[Book] = field(default_factory=list)
+
+@dataclass
+class Borrow:
+    book: Book
+    user: User
+    borrow_date: datetime
+    return_date: datetime = None
+
+class BorrowManager:
+    def __init__(self):
+        self.borrows = []
+    
+    def borrow_book(self, book: Book, user: User) -> Borrow:
+        if not book.available:
+            raise ValueError(f"Le livre '{book.title}' n'est pas disponible")
+        
+        book.available = False
+        user.borrowed_books.append(book)
+        borrow = Borrow(book, user, datetime.now())
+        self.borrows.append(borrow)
+        
+        logging.info(f"{user.name} a emprunté '{book.title}'")
+        return borrow
+    
+    def return_book(self, borrow: Borrow):
+        borrow.book.available = True
+        borrow.user.borrowed_books.remove(borrow.book)
+        borrow.return_date = datetime.now()
+        
+        logging.info(f"{borrow.user.name} a retourné '{borrow.book.title}'")
+
+class EmailService:
+    def send_reminder(self, user: User, book: Book):
+        logging.info(f"Email envoyé à {user.email} : rappel pour '{book.title}'")
+
+# Test
+book = Book("1984", "George Orwell", "978-0451524935")
+user = User("Alice", "alice@example.com")
+manager = BorrowManager()
+email_service = EmailService()
+
+borrow = manager.borrow_book(book, user)
+email_service.send_reminder(user, book)
+```
+:::
+
+## Pour aller plus loin
+
+Essayez d'intégrer ces exercices avec :
+- Des tests unitaires (pytest)
+- Une base de données (SQLite)
+
+[Retour au cours](index.qmd){.btn .btn-secondary}

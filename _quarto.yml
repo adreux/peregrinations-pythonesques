@@ -1,20 +1,55 @@
 project:
   type: website
+  output-dir: docs
+  render:
+    - "*.qmd"
+    - "cours/**/*.qmd"
+    - "!notebook/"
+    - "!notebooks/"
 
 website:
   title: "Pérégrinations pythonesques"
   navbar:
+    background: primary
+    search: true
     left:
-      - href: index.qmd
-        text: Home
-      - href: cours_poo_solid.qmd
-        text: Cours POO
-      - about.qmd
+      - text: "Accueil"
+        href: index.qmd
+      - text: "Sessions"
+        menu:
+          - text: "POO et Principes SOLID"
+            href: cours/poo-solid/cours_poo_solid_complet.qmd
+          - text: "Exercices POO"
+            href: exercices.qmd
+          - text: "---"
+          - text: "Prochaines sessions à venir..."
+    right:
+      - text: "GitHub"
+        href: https://github.com/adreux/peregrinations-pythonesques
+
+  sidebar:
+    - title: "POO et SOLID"
+      style: "docked"
+      background: light
+      contents:
+        - text: "Cours complet"
+          href: cours/poo-solid/cours_poo_solid_complet.qmd
+        - text: "Exercices"
+          href: exercices.qmd
 
 format:
   html:
-    theme:
-      - cosmo
-      - brand
-    css: styles.css
+    theme: 
+      light: cosmo
+      dark: darkly
     toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+    code-copy: true
+    link-external-newwindow: true
+
+execute:
+  freeze: false
+  cache: false
+  enabled: false

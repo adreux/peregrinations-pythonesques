@@ -1,0 +1,855 @@
+---
+title: "Programmation Orientée Objet et Principes SOLID en Python"
+subtitle: "De la théorie à la pratique"
+---
+
+::: {.callout-tip}
+## Version interactive
+[Ouvrir ce cours dans Binder](https://mybinder.org/v2/gh/adreux/peregrinations-pythonesques/HEAD)
+:::
+
+# Introduction
+
+## Pourquoi la POO ?
+
+**Problème sans POO :**  
+Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions dispersées.
+
+```{python}
+book1 = {"titre": "1984", "auteur": "Orwell", "disponible": True}
+book2 = {"titre": "Dune", "auteur": "Herbert", "disponible": False}
+
+def borrow_book(book):
+    if book["disponible"]:
+        book["disponible"] = False
+        return True
+    return False
+
+print(f"Emprunt réussi : {borrow_book(book1)}")
+print(f"Livre 1 : {book1}")
+```
+
+::: {.callout-warning}
+## Problèmes sans POO
+- Pas de validation des données
+- Code dupliqué partout
+- Difficile à maintenir et déboguer
+- Pas de cohérence entre les objets
+- Impossible de tracer les modifications
+:::
+
+**Avec la POO :**
+- Encapsulation : données et comportements regroupés
+- Réutilisabilité : héritage et composition
+- Maintenabilité : modifications localisées
+- Debugging facilité : logs et tracés centralisés
+
+# Concepts Fondamentaux
+
+## Classes et Instances
+
+Une classe est un **modèle** pour créer des objets.
+
+```{python}
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] - %(message)s"
+)
+
+class Book:
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+        self.available = True
+
+book = Book('1984', 'George Orwell')
+logging.info(f"Livre créé : {book}")
+```
+
+## Méthodes magiques
+
+### `__str__` : Représentation lisible
+
+`__str__` définit comment un objet est affiché pour un humain (print, logs), au lieu d'une représentation technique inutile.
+
+```{python}
+class Book:
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+        self.available = True
+    
+    def __str__(self):
+        return f"{self.title} – {self.author}"
+
+book = Book('1984', 'George Orwell')
+logging.info(f"Livre : {book}")
+```
+
+::: {.callout-tip}
+## Bonne pratique
+Définissez toujours `__str__` pour faciliter le debugging et les logs.
+:::
+
+### `__eq__` : Comparaison d'égalité
+
+`__eq__` définit quand deux objets doivent être considérés égaux par leur contenu, et non par leur identité.
+
+```{python}
+# Sans __eq__
+book1 = Book('1984', 'George Orwell')
+book2 = Book('1984', 'George Orwell')
+print(f"Égaux sans __eq__ ? {book1 == book2}")  # False
+
+# Avec __eq__
+class Book:
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+        self.available = True
+    
+    def __str__(self):
+        return f"{self.title} – {self.author}"
+
+    def __eq__(self, other):
+        if not isinstance(other, Book):
+            return NotImplemented
+        return self.title == other.title and self.author == other.author
+
+book1 = Book('1984', 'George Orwell')
+book2 = Book('1984', 'George Orwell')
+print(f"Égaux avec __eq__ ? {book1 == book2}")  # True
+```
+
+::: {.callout-important}
+## Important
+Sans `__eq__`, Python compare les identités (adresses mémoire), pas le contenu.
+:::
+
+## Dataclasses : Simplification moderne
+
+Les dataclasses automatisent la création de `__init__`, `__repr__`, `__eq__` et plus encore.
+
+```{python}
+from dataclasses import dataclass
+
+@dataclass
+class Book:
+    title: str
+    author: str
+    available: bool = True
+
+book1 = Book('1984', 'George Orwell')
+book2 = Book('1984', 'George Orwell')
+
+print(book1)
+print(f"Égaux ? {book1 == book2}")
+```
+
+::: {.callout-note}
+## Avantages des dataclasses
+- Moins de code boilerplate
+- Type hints intégrés (meilleure documentation)
+- Valeurs par défaut simples
+- Représentation automatique lisible
+:::
+
+### Quand utiliser les dataclasses ?
+
+**Utilisez les dataclasses pour :**
+- Classes "conteneurs" de données (DTO, modèles)
+- Configuration d'objets
+- Résultats de calculs
+
+**Évitez pour :**
+- Classes avec beaucoup de logique métier
+- Héritage complexe
+- Besoin de contrôle fin sur `__init__`
+
+## Encapsulation
+
+Protéger les données internes avec des attributs privés/protégés.
+
+```{python}
+class BankAccount:
+    def __init__(self, initial_balance):
+        self.__balance = initial_balance  # Privé (__)
+
+    def deposit(self, amount):
+        if amount <= 0:
+            raise ValueError("Le montant à déposer doit être positif")
+        self.__balance += amount
+        logging.info(f"Dépôt de {amount}€. Nouveau solde : {self.__balance}€")
+
+    def get_balance(self):
+        return self.__balance
+
+account = BankAccount(100)
+account.deposit(50)
+print(f"Solde : {account.get_balance()}€")
+```
+
+**Avantages :**
+- Contrôle des accès
+- Validation des modifications
+- Protection contre les erreurs
+
+## Héritage
+
+Réutiliser du code en créant des sous-classes.
+
+```{python}
+class User:
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+        logging.info(f"Utilisateur créé : {name}")
+
+class Librarian(User):
+    def __init__(self, name, email, department):
+        super().__init__(name, email)  # Appelle le constructeur parent
+        self.department = department
+        self.permissions = ["borrow", "add_book", "delete_book"]
+        logging.info(f"Bibliothécaire créé : département {department}")
+
+librarian = Librarian("Marie", "marie@library.com", "Histoire")
+print(f"Permissions : {librarian.permissions}")
+```
+
+::: {.callout-note}
+## Le rôle de super()
+`super().__init__()` appelle le constructeur de la classe parente pour initialiser les attributs qu'elle gère, avant d'ajouter nos propres attributs spécifiques.
+
+Quand `Librarian` hérite de `User`, on doit d'abord initialiser les attributs communs (`name`, `email`) avec `super().__init__(name, email)`, puis ajouter les attributs spécifiques au bibliothécaire (`department`). Sans `super()`, les attributs du parent ne seraient pas initialisés.
+:::
+
+## Polymorphisme
+
+Même interface, comportements différents.
+
+```{python}
+class Document:
+    def __init__(self, title):
+        self.title = title
+    
+    def display(self):
+        raise NotImplementedError
+
+class Book(Document):
+    def display(self):
+        return f"Livre: {self.title}"
+
+class Magazine(Document):
+    def display(self):
+        return f"Magazine: {self.title}"
+
+# Test polymorphique
+documents = [
+    Book("1984"),
+    Magazine("National Geographic")
+]
+
+for doc in documents:
+    print(doc.display())
+```
+
+# Décorateurs Python
+
+## @property - Propriétés gérées
+
+Transformer une méthode en attribut accessible avec validation.
+
+```{python}
+class Book:
+    def __init__(self, title, price):
+        self._title = title
+        self._price = price
+
+    @property
+    def price(self):
+        """Getter"""
+        logging.info(f"[LOG] Accès au prix de '{self._title}'")
+        return self._price
+
+    @price.setter
+    def price(self, new_price):
+        """Setter avec validation"""
+        if new_price < 0:
+            raise ValueError("Le prix ne peut pas être négatif")
+        logging.info(f"[LOG] Prix modifié: {self._price} → {new_price}")
+        self._price = new_price
+
+book = Book("1984", 15.99)
+print(f"Prix initial : {book.price}€")
+book.price = 12.99
+print(f"Nouveau prix : {book.price}€")
+```
+
+::: {.callout-tip}
+## Pourquoi utiliser un setter ?
+Le setter permet d'ajouter de la validation et du contrôle quand on modifie un attribut, au lieu de laisser n'importe quelle valeur être assignée directement.
+
+Sans setter, on pourrait écrire `book.price = -50` et Python accepterait sans vérifier. Le setter intercepte toute modification de `price` pour :
+- Vérifier que la valeur est valide (pas négative)
+- Logger le changement pour le debugging
+- Garantir la cohérence des données
+:::
+
+**Avantages pour le debugging :**
+- Logs automatiques sur les accès
+- Validation centralisée
+- Traçabilité des modifications
+
+## @staticmethod - Méthodes utilitaires
+
+Méthodes sans accès à l'instance ou la classe.
+
+```{python}
+class LibraryUtils:
+    @staticmethod
+    def format_isbn(isbn):
+        """Formatage ISBN sans besoin de l'instance"""
+        return f"{isbn[:3]}-{isbn[3:4]}-{isbn[4:9]}-{isbn[9:12]}-{isbn[12]}"
+
+isbn = "9782070368228"
+formatted = LibraryUtils.format_isbn(isbn)
+print(f"ISBN formaté : {formatted}")
+```
+
+**Quand l'utiliser :**
+- Fonctions utilitaires liées conceptuellement à la classe
+- Pas besoin de `self` ou `cls`
+
+## @classmethod - Méthodes de classe
+
+Méthodes avec accès à la classe (pas l'instance).
+
+```{python}
+class Book:
+    total_count = 0
+
+    def __init__(self, title):
+        self.title = title
+        Book.total_count += 1
+
+    @classmethod
+    def from_dict(cls, data):
+        """Factory method - constructeur alternatif"""
+        return cls(data['title'])
+
+    @classmethod
+    def get_total_count(cls):
+        return cls.total_count
+
+book1 = Book("1984")
+book2 = Book.from_dict({'title': 'Dune'})
+print(f"Nombre total de livres : {Book.get_total_count()}")
+```
+
+**Avantages :**
+- Constructeurs alternatifs (factory methods)
+- Accès aux variables de classe
+- Utile pour le tracking
+
+## @abstractmethod - Classes abstraites
+
+Forcer l'implémentation dans les sous-classes.
+
+```{python}
+from abc import ABC, abstractmethod
+
+class Borrowable(ABC):
+    @abstractmethod
+    def borrow(self):
+        pass
+
+    @abstractmethod
+    def return_item(self):
+        pass
+
+class Book(Borrowable):
+    def __init__(self, title):
+        self.title = title
+        self.available = True
+
+    def borrow(self):
+        if not self.available:
+            raise Exception(f"Le livre '{self.title}' n'est pas disponible")
+        self.available = False
+        return f"Livre '{self.title}' emprunté"
+
+    def return_item(self):
+        self.available = True
+        return f"Livre '{self.title}' retourné"
+
+book = Book("1984")
+print(book.borrow())
+print(book.return_item())
+```
+
+**Avantages :**
+- Contrat d'interface clair
+- Erreurs à la création, pas à l'exécution
+- Documentation du comportement attendu
+
+# Principes SOLID
+
+## S - Single Responsibility Principle
+
+**Principe :** Une classe = une responsabilité.
+
+::: {.panel-tabset}
+
+## Mauvais exemple
+
+```python
+class Book:
+    def __init__(self, title):
+        self.title = title
+
+    def borrow(self):
+        pass
+
+    def send_reminder_email(self):
+        # PROBLÈME : Book ne devrait pas gérer les emails
+        pass
+
+    def save_to_db(self):
+        # PROBLÈME : Book ne devrait pas gérer la DB
+        pass
+```
+
+## Bon exemple
+
+```{python}
+from dataclasses import dataclass
+from datetime import datetime
+
+@dataclass
+class Book:
+    """Responsabilité : Représenter un livre"""
+    title: str
+    author: str
+    available: bool = True
+
+@dataclass
+class Borrow:
+    book: Book
+    user: str
+    borrow_date: datetime
+
+class BorrowManager:
+    """Responsabilité : Gérer les emprunts"""
+    def borrow_book(self, book, user):
+        if book.available:
+            book.available = False
+            borrow = Borrow(book, user, datetime.now())
+            logging.info(f"Emprunt créé : {book.title} par {user}")
+            return borrow
+        raise Exception(f"Livre non disponible : {book.title}")
+
+class EmailService:
+    """Responsabilité : Envoyer des emails"""
+    def send_reminder(self, borrow):
+        logging.info(f"Email envoyé pour : {borrow.book.title}")
+
+# Test
+book = Book("1984", "George Orwell")
+manager = BorrowManager()
+email_service = EmailService()
+
+borrow = manager.borrow_book(book, "Alice")
+email_service.send_reminder(borrow)
+```
+
+:::
+
+**Avantages debugging :**
+- Erreur d'email ? Chercher dans `EmailService` uniquement
+- Problème de BDD ? Chercher dans `BookRepository`
+- Logs plus clairs et ciblés
+
+## O - Open/Closed Principle
+
+**Principe :** Ouvert à l'extension, fermé à la modification.
+
+::: {.panel-tabset}
+
+## Mauvais exemple
+
+```python
+class DiscountCalculator:
+    def calculate(self, user_type, amount):
+        if user_type == "student":
+            return amount * 0.9
+        elif user_type == "senior":
+            return amount * 0.85
+        elif user_type == "vip":
+            return amount * 0.8
+        return amount
+        # Problème : Ajouter un nouveau type = modifier cette classe
+```
+
+## Bon exemple
+
+```{python}
+from abc import ABC, abstractmethod
+
+class DiscountStrategy(ABC):
+    @abstractmethod
+    def apply(self, amount):
+        pass
+
+class StudentDiscount(DiscountStrategy):
+    def apply(self, amount):
+        return amount * 0.9
+
+class SeniorDiscount(DiscountStrategy):
+    def apply(self, amount):
+        return amount * 0.85
+
+class VIPDiscount(DiscountStrategy):
+    def apply(self, amount):
+        return amount * 0.8
+
+class User:
+    def __init__(self, name, discount_strategy):
+        self.name = name
+        self.discount_strategy = discount_strategy
+
+    def calculate_price(self, amount):
+        return self.discount_strategy.apply(amount)
+
+# Test
+student = User("Alice", StudentDiscount())
+senior = User("Bob", SeniorDiscount())
+
+print(f"Prix étudiant : {student.calculate_price(100)}€")
+print(f"Prix senior : {senior.calculate_price(100)}€")
+```
+
+:::
+
+**Avantages :**
+- Ajouter une nouvelle remise = créer une nouvelle classe
+- Code existant non modifié = moins de bugs
+- Tests unitaires isolés
+
+## L - Liskov Substitution Principle
+
+**Principe :** Les sous-classes doivent pouvoir remplacer leurs classes parentes.
+
+::: {.panel-tabset}
+
+## Mauvais exemple
+
+```python
+class Bird:
+    def fly(self):
+        return "Je vole"
+
+class Penguin(Bird):
+    def fly(self):
+        raise Exception("Je ne peux pas voler!")
+        # PROBLÈME : Penguin ne peut pas remplacer Bird
+```
+
+## Bon exemple
+
+```{python}
+class Document:
+    def __init__(self, title):
+        self.title = title
+
+    def can_be_borrowed(self):
+        return True
+
+class Book(Document):
+    def can_be_borrowed(self):
+        return True  # Cohérent avec Document
+
+class ArchiveDocument(Document):
+    def can_be_borrowed(self):
+        return False  # Cohérent, juste une réponse différente
+
+def display_availability(document: Document):
+    status = "disponible" if document.can_be_borrowed() else "archivé"
+    print(f"{document.title}: {status}")
+
+# Test
+book = Book("1984")
+archive = ArchiveDocument("Manuscrit ancien")
+
+display_availability(book)
+display_availability(archive)
+```
+
+:::
+
+## I - Interface Segregation Principle
+
+**Principe :** Interfaces spécifiques plutôt qu'une interface générale.
+
+::: {.panel-tabset}
+
+## Mauvais exemple
+
+```python
+class Printable(ABC):
+    @abstractmethod
+    def print(self):
+        pass
+
+    @abstractmethod
+    def scan(self):
+        pass
+
+    @abstractmethod
+    def fax(self):
+        pass
+
+class SimplePrinter(Printable):
+    def print(self):
+        return "Impression..."
+
+    def scan(self):
+        raise NotImplementedError("Pas de scanner!")
+
+    def fax(self):
+        raise NotImplementedError("Pas de fax!")
+```
+
+## Bon exemple
+
+```{python}
+from abc import ABC, abstractmethod
+
+class Printable(ABC):
+    @abstractmethod
+    def print(self):
+        pass
+
+class Scannable(ABC):
+    @abstractmethod
+    def scan(self):
+        pass
+
+class Faxable(ABC):
+    @abstractmethod
+    def fax(self):
+        pass
+
+class SimplePrinter(Printable):
+    def print(self):
+        return "Impression..."
+
+class MultifunctionPrinter(Printable, Scannable, Faxable):
+    def print(self):
+        return "Impression..."
+
+    def scan(self):
+        return "Scan..."
+
+    def fax(self):
+        return "Fax..."
+
+# Test
+simple = SimplePrinter()
+multifunction = MultifunctionPrinter()
+
+print(simple.print())
+print(multifunction.scan())
+```
+
+:::
+
+## D - Dependency Inversion Principle
+
+**Principe :** Dépendre d'abstractions, pas d'implémentations concrètes.
+
+::: {.panel-tabset}
+
+## Mauvais exemple
+
+```python
+class MySQLDatabase:
+    def save(self, data):
+        print("Sauvegarde dans MySQL")
+
+class BorrowManager:
+    def __init__(self):
+        self.db = MySQLDatabase()  # Dépendance forte !
+
+    def record_borrow(self, borrow):
+        self.db.save(borrow)
+        # Impossible de tester avec une fausse DB
+        # Impossible de changer vers PostgreSQL facilement
+```
+
+## Bon exemple
+
+```{python}
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+
+class DatabaseInterface(ABC):
+    @abstractmethod
+    def save(self, data):
+        pass
+
+class MySQLDatabase(DatabaseInterface):
+    def save(self, data):
+        logging.info(f"[MySQL] Sauvegarde: {data}")
+
+class PostgreSQLDatabase(DatabaseInterface):
+    def save(self, data):
+        logging.info(f"[PostgreSQL] Sauvegarde: {data}")
+
+class FakeDatabase(DatabaseInterface):
+    """Pour les tests"""
+    def save(self, data):
+        logging.info(f"[FAKE] Sauvegarde: {data}")
+
+class BorrowManager:
+    def __init__(self, database: DatabaseInterface):
+        self.db = database  # Injection de dépendance
+
+    def record_borrow(self, borrow):
+        self.db.save(borrow)
+
+# Utilisation
+@dataclass
+class Book:
+    title: str
+
+@dataclass
+class Borrow:
+    book: Book
+    user: str
+
+db_prod = MySQLDatabase()
+manager_prod = BorrowManager(db_prod)
+
+db_test = FakeDatabase()
+manager_test = BorrowManager(db_test)
+
+borrow = Borrow(Book("1984"), "Alice")
+manager_prod.record_borrow(borrow)
+manager_test.record_borrow(borrow)
+```
+
+:::
+
+**Avantages pour le debugging :**
+- Tests isolés avec fausses dépendances
+- Logs différents selon l'environnement
+- Changement de DB sans toucher au code métier
+
+# Cas pratique : Debugging
+
+## Sans POO - Cauchemar du debugging
+
+```python
+def borrow_book(books, book_id, user_id):
+    book = books[book_id]
+    if book["available"]:
+        book["available"] = False
+        # Où logger ? Quelle fonction a causé l'erreur ?
+        return True
+    return False
+```
+
+**Problèmes :**
+- Pas de traçabilité
+- Erreurs silencieuses
+- Impossible de savoir qui a modifié quoi
+
+## Avec POO - Debugging structuré
+
+```{python}
+from datetime import datetime
+from dataclasses import dataclass
+
+@dataclass
+class Book:
+    title: str
+    _available: bool = True
+    
+    @property
+    def available(self):
+        return self._available
+
+    @available.setter
+    def available(self, value):
+        logging.info(
+            f"'{self.title}' - Disponibilité: {self._available} → {value}"
+        )
+        self._available = value
+
+@dataclass
+class Borrow:
+    book: Book
+    user: str
+    borrow_date: datetime = None
+    
+    def __post_init__(self):
+        if self.borrow_date is None:
+            self.borrow_date = datetime.now()
+        logging.info(
+            f"Emprunt créé: '{self.book.title}' par {self.user} "
+            f"à {self.borrow_date}"
+        )
+
+# Test
+book = Book("1984")
+book.available = False
+borrow = Borrow(book, "Alice")
+```
+
+**Avantages :**
+- Logs automatiques et structurés
+- Traçabilité complète
+- Facile de retrouver l'origine d'une erreur
+
+# Résumé
+
+## Avantages de la POO
+
+### Maintenance
+- Code organisé et modulaire
+- Modifications localisées
+- Réutilisation par héritage/composition
+
+### Debugging
+- Logs centralisés par classe
+- Traçabilité via `@property`
+- Erreurs plus précises
+
+### Évolutivité
+- SOLID garantit l'extensibilité
+- Tests unitaires isolés
+- Nouveaux features sans casser l'existant
+
+### Collaboration
+- Interfaces claires
+- Responsabilités définies
+- Documentation naturelle via les classes
+
+## Conclusion
+
+::: {.callout-note}
+## Points clés
+La POO n'est pas juste une façon d'organiser du code, c'est un outil pour :
+- **Penser** en termes de responsabilités
+- **Debugger** efficacement avec des logs structurés
+- **Faire évoluer** le code sans tout casser
+- **Collaborer** avec des interfaces claires
+
+Les principes SOLID sont des garde-fous qui vous éviteront des heures de debugging et de refactoring.
+:::
+
+::: {.callout-tip}
+## Conseil final
+Commencez simple, refactorisez quand la complexité augmente, et testez chaque classe individuellement.
+:::

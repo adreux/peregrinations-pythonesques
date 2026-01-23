@@ -1,0 +1,331 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "",
+    "text": "Les Learning Fridays sont des sessions de formation courtes et pratiques, pensées pour progresser collectivement sur des sujets techniques essentiels au métier de la data."
+  },
+  {
+    "objectID": "index.html#bienvenue",
+    "href": "index.html#bienvenue",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "",
+    "text": "Les Learning Fridays sont des sessions de formation courtes et pratiques, pensées pour progresser collectivement sur des sujets techniques essentiels au métier de la data."
+  },
+  {
+    "objectID": "index.html#lobjectif",
+    "href": "index.html#lobjectif",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "L’objectif",
+    "text": "L’objectif\nL’objectif est double :\n\nRenforcer les fondamentaux nécessaires pour être plus efficace et autonome dans ses missions\nDévelopper une culture technique transverse, utile au-delà du contexte immédiat du projet"
+  },
+  {
+    "objectID": "index.html#format-des-sessions",
+    "href": "index.html#format-des-sessions",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "Format des sessions",
+    "text": "Format des sessions\nChaque session aborde un thème concret, illustré par des exemples réels, avec une attention particulière portée aux :\n\nBonnes pratiques de production\nQualité du code\nCas d’usage data modernes (LLM, recherche documentaire, RAG)"
+  },
+  {
+    "objectID": "index.html#projet-fil-rouge",
+    "href": "index.html#projet-fil-rouge",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "Projet fil rouge",
+    "text": "Projet fil rouge\nUn projet fil rouge autour du déploiement d’un système RAG (Retrieval Augmented Generation) permettra de mettre en pratique l’ensemble des notions abordées au fil des sessions (dans un second temps)."
+  },
+  {
+    "objectID": "index.html#sessions-disponibles",
+    "href": "index.html#sessions-disponibles",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "Sessions disponibles",
+    "text": "Sessions disponibles\n\nProgrammation Orientée Objet et Principes SOLID\nLa première session couvre les fondamentaux de la POO et les principes SOLID, essentiels pour écrire du code maintenable et évolutif.\nContenu :\n\nConcepts fondamentaux de la POO (classes, héritage, polymorphisme)\nDataclasses et méthodes magiques Python\nDécorateurs (@property, @staticmethod, @classmethod, @abstractmethod)\nPrincipes SOLID avec exemples pratiques\nExercices d’application\n\nAccéder au cours POO et SOLID\n\n\n\n\n\n\n\nNoteProchaines sessions\n\n\n\nD’autres sessions seront ajoutées progressivement pour couvrir l’ensemble des compétences nécessaires au développement de solutions data en production."
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "",
+    "text": "TipVersion interactive\n\n\n\nOuvrir ce cours dans Binder",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#pourquoi-la-poo",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#pourquoi-la-poo",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Pourquoi la POO ?",
+    "text": "Pourquoi la POO ?\nProblème sans POO :\nImaginez gérer une bibliothèque avec des dictionnaires et des fonctions dispersées.\n\nbook1 = {\"titre\": \"1984\", \"auteur\": \"Orwell\", \"disponible\": True}\nbook2 = {\"titre\": \"Dune\", \"auteur\": \"Herbert\", \"disponible\": False}\n\ndef borrow_book(book):\n    if book[\"disponible\"]:\n        book[\"disponible\"] = False\n        return True\n    return False\n\nprint(f\"Emprunt réussi : {borrow_book(book1)}\")\nprint(f\"Livre 1 : {book1}\")\n\n\n\n\n\n\n\nWarningProblèmes sans POO\n\n\n\n\nPas de validation des données\nCode dupliqué partout\nDifficile à maintenir et déboguer\nPas de cohérence entre les objets\nImpossible de tracer les modifications\n\n\n\nAvec la POO : - Encapsulation : données et comportements regroupés - Réutilisabilité : héritage et composition - Maintenabilité : modifications localisées - Debugging facilité : logs et tracés centralisés",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#classes-et-instances",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#classes-et-instances",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Classes et Instances",
+    "text": "Classes et Instances\nUne classe est un modèle pour créer des objets.\n\nimport logging\nlogging.basicConfig(\n    level=logging.INFO,\n    format=\"%(asctime)s [%(levelname)s] - %(message)s\"\n)\n\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n\nbook = Book('1984', 'George Orwell')\nlogging.info(f\"Livre créé : {book}\")",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#méthodes-magiques",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#méthodes-magiques",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Méthodes magiques",
+    "text": "Méthodes magiques\n\n__str__ : Représentation lisible\n__str__ définit comment un objet est affiché pour un humain (print, logs), au lieu d’une représentation technique inutile.\n\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n    \n    def __str__(self):\n        return f\"{self.title} – {self.author}\"\n\nbook = Book('1984', 'George Orwell')\nlogging.info(f\"Livre : {book}\")\n\n\n\n\n\n\n\nTipBonne pratique\n\n\n\nDéfinissez toujours __str__ pour faciliter le debugging et les logs.\n\n\n\n\n__eq__ : Comparaison d’égalité\n__eq__ définit quand deux objets doivent être considérés égaux par leur contenu, et non par leur identité.\n\n# Sans __eq__\nbook1 = Book('1984', 'George Orwell')\nbook2 = Book('1984', 'George Orwell')\nprint(f\"Égaux sans __eq__ ? {book1 == book2}\")  # False\n\n# Avec __eq__\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n    \n    def __str__(self):\n        return f\"{self.title} – {self.author}\"\n\n    def __eq__(self, other):\n        if not isinstance(other, Book):\n            return NotImplemented\n        return self.title == other.title and self.author == other.author\n\nbook1 = Book('1984', 'George Orwell')\nbook2 = Book('1984', 'George Orwell')\nprint(f\"Égaux avec __eq__ ? {book1 == book2}\")  # True\n\n\n\n\n\n\n\nImportantImportant\n\n\n\nSans __eq__, Python compare les identités (adresses mémoire), pas le contenu.",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#dataclasses-simplification-moderne",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#dataclasses-simplification-moderne",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Dataclasses : Simplification moderne",
+    "text": "Dataclasses : Simplification moderne\nLes dataclasses automatisent la création de __init__, __repr__, __eq__ et plus encore.\n\nfrom dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    author: str\n    available: bool = True\n\nbook1 = Book('1984', 'George Orwell')\nbook2 = Book('1984', 'George Orwell')\n\nprint(book1)\nprint(f\"Égaux ? {book1 == book2}\")\n\n\n\n\n\n\n\nNoteAvantages des dataclasses\n\n\n\n\nMoins de code boilerplate\nType hints intégrés (meilleure documentation)\nValeurs par défaut simples\nReprésentation automatique lisible\n\n\n\n\nQuand utiliser les dataclasses ?\nUtilisez les dataclasses pour : - Classes “conteneurs” de données (DTO, modèles) - Configuration d’objets - Résultats de calculs\nÉvitez pour : - Classes avec beaucoup de logique métier - Héritage complexe - Besoin de contrôle fin sur __init__",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#encapsulation",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#encapsulation",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Encapsulation",
+    "text": "Encapsulation\nProtéger les données internes avec des attributs privés/protégés.\n\nclass BankAccount:\n    def __init__(self, initial_balance):\n        self.__balance = initial_balance  # Privé (__)\n\n    def deposit(self, amount):\n        if amount &lt;= 0:\n            raise ValueError(\"Le montant à déposer doit être positif\")\n        self.__balance += amount\n        logging.info(f\"Dépôt de {amount}€. Nouveau solde : {self.__balance}€\")\n\n    def get_balance(self):\n        return self.__balance\n\naccount = BankAccount(100)\naccount.deposit(50)\nprint(f\"Solde : {account.get_balance()}€\")\n\nAvantages : - Contrôle des accès - Validation des modifications - Protection contre les erreurs",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#héritage",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#héritage",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Héritage",
+    "text": "Héritage\nRéutiliser du code en créant des sous-classes.\n\nclass User:\n    def __init__(self, name, email):\n        self.name = name\n        self.email = email\n        logging.info(f\"Utilisateur créé : {name}\")\n\nclass Librarian(User):\n    def __init__(self, name, email, department):\n        super().__init__(name, email)  # Appelle le constructeur parent\n        self.department = department\n        self.permissions = [\"borrow\", \"add_book\", \"delete_book\"]\n        logging.info(f\"Bibliothécaire créé : département {department}\")\n\nlibrarian = Librarian(\"Marie\", \"marie@library.com\", \"Histoire\")\nprint(f\"Permissions : {librarian.permissions}\")\n\n\n\n\n\n\n\nNoteLe rôle de super()\n\n\n\nsuper().__init__() appelle le constructeur de la classe parente pour initialiser les attributs qu’elle gère, avant d’ajouter nos propres attributs spécifiques.\nQuand Librarian hérite de User, on doit d’abord initialiser les attributs communs (name, email) avec super().__init__(name, email), puis ajouter les attributs spécifiques au bibliothécaire (department). Sans super(), les attributs du parent ne seraient pas initialisés.",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#polymorphisme",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#polymorphisme",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Polymorphisme",
+    "text": "Polymorphisme\nMême interface, comportements différents.\n\nclass Document:\n    def __init__(self, title):\n        self.title = title\n    \n    def display(self):\n        raise NotImplementedError\n\nclass Book(Document):\n    def display(self):\n        return f\"Livre: {self.title}\"\n\nclass Magazine(Document):\n    def display(self):\n        return f\"Magazine: {self.title}\"\n\n# Test polymorphique\ndocuments = [\n    Book(\"1984\"),\n    Magazine(\"National Geographic\")\n]\n\nfor doc in documents:\n    print(doc.display())",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#property---propriétés-gérées",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#property---propriétés-gérées",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "@property - Propriétés gérées",
+    "text": "@property - Propriétés gérées\nTransformer une méthode en attribut accessible avec validation.\n\nclass Book:\n    def __init__(self, title, price):\n        self._title = title\n        self._price = price\n\n    @property\n    def price(self):\n        \"\"\"Getter\"\"\"\n        logging.info(f\"[LOG] Accès au prix de '{self._title}'\")\n        return self._price\n\n    @price.setter\n    def price(self, new_price):\n        \"\"\"Setter avec validation\"\"\"\n        if new_price &lt; 0:\n            raise ValueError(\"Le prix ne peut pas être négatif\")\n        logging.info(f\"[LOG] Prix modifié: {self._price} → {new_price}\")\n        self._price = new_price\n\nbook = Book(\"1984\", 15.99)\nprint(f\"Prix initial : {book.price}€\")\nbook.price = 12.99\nprint(f\"Nouveau prix : {book.price}€\")\n\n\n\n\n\n\n\nTipPourquoi utiliser un setter ?\n\n\n\nLe setter permet d’ajouter de la validation et du contrôle quand on modifie un attribut, au lieu de laisser n’importe quelle valeur être assignée directement.\nSans setter, on pourrait écrire book.price = -50 et Python accepterait sans vérifier. Le setter intercepte toute modification de price pour : - Vérifier que la valeur est valide (pas négative) - Logger le changement pour le debugging - Garantir la cohérence des données\n\n\nAvantages pour le debugging : - Logs automatiques sur les accès - Validation centralisée - Traçabilité des modifications",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#staticmethod---méthodes-utilitaires",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#staticmethod---méthodes-utilitaires",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "@staticmethod - Méthodes utilitaires",
+    "text": "@staticmethod - Méthodes utilitaires\nMéthodes sans accès à l’instance ou la classe.\n\nclass LibraryUtils:\n    @staticmethod\n    def format_isbn(isbn):\n        \"\"\"Formatage ISBN sans besoin de l'instance\"\"\"\n        return f\"{isbn[:3]}-{isbn[3:4]}-{isbn[4:9]}-{isbn[9:12]}-{isbn[12]}\"\n\nisbn = \"9782070368228\"\nformatted = LibraryUtils.format_isbn(isbn)\nprint(f\"ISBN formaté : {formatted}\")\n\nQuand l’utiliser : - Fonctions utilitaires liées conceptuellement à la classe - Pas besoin de self ou cls",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#classmethod---méthodes-de-classe",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#classmethod---méthodes-de-classe",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "@classmethod - Méthodes de classe",
+    "text": "@classmethod - Méthodes de classe\nMéthodes avec accès à la classe (pas l’instance).\n\nclass Book:\n    total_count = 0\n\n    def __init__(self, title):\n        self.title = title\n        Book.total_count += 1\n\n    @classmethod\n    def from_dict(cls, data):\n        \"\"\"Factory method - constructeur alternatif\"\"\"\n        return cls(data['title'])\n\n    @classmethod\n    def get_total_count(cls):\n        return cls.total_count\n\nbook1 = Book(\"1984\")\nbook2 = Book.from_dict({'title': 'Dune'})\nprint(f\"Nombre total de livres : {Book.get_total_count()}\")\n\nAvantages : - Constructeurs alternatifs (factory methods) - Accès aux variables de classe - Utile pour le tracking",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#abstractmethod---classes-abstraites",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#abstractmethod---classes-abstraites",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "@abstractmethod - Classes abstraites",
+    "text": "@abstractmethod - Classes abstraites\nForcer l’implémentation dans les sous-classes.\n\nfrom abc import ABC, abstractmethod\n\nclass Borrowable(ABC):\n    @abstractmethod\n    def borrow(self):\n        pass\n\n    @abstractmethod\n    def return_item(self):\n        pass\n\nclass Book(Borrowable):\n    def __init__(self, title):\n        self.title = title\n        self.available = True\n\n    def borrow(self):\n        if not self.available:\n            raise Exception(f\"Le livre '{self.title}' n'est pas disponible\")\n        self.available = False\n        return f\"Livre '{self.title}' emprunté\"\n\n    def return_item(self):\n        self.available = True\n        return f\"Livre '{self.title}' retourné\"\n\nbook = Book(\"1984\")\nprint(book.borrow())\nprint(book.return_item())\n\nAvantages : - Contrat d’interface clair - Erreurs à la création, pas à l’exécution - Documentation du comportement attendu",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#s---single-responsibility-principle",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#s---single-responsibility-principle",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "S - Single Responsibility Principle",
+    "text": "S - Single Responsibility Principle\nPrincipe : Une classe = une responsabilité.\n\nMauvais exempleBon exemple\n\n\nclass Book:\n    def __init__(self, title):\n        self.title = title\n\n    def borrow(self):\n        pass\n\n    def send_reminder_email(self):\n        # PROBLÈME : Book ne devrait pas gérer les emails\n        pass\n\n    def save_to_db(self):\n        # PROBLÈME : Book ne devrait pas gérer la DB\n        pass\n\n\n\nfrom dataclasses import dataclass\nfrom datetime import datetime\n\n@dataclass\nclass Book:\n    \"\"\"Responsabilité : Représenter un livre\"\"\"\n    title: str\n    author: str\n    available: bool = True\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: str\n    borrow_date: datetime\n\nclass BorrowManager:\n    \"\"\"Responsabilité : Gérer les emprunts\"\"\"\n    def borrow_book(self, book, user):\n        if book.available:\n            book.available = False\n            borrow = Borrow(book, user, datetime.now())\n            logging.info(f\"Emprunt créé : {book.title} par {user}\")\n            return borrow\n        raise Exception(f\"Livre non disponible : {book.title}\")\n\nclass EmailService:\n    \"\"\"Responsabilité : Envoyer des emails\"\"\"\n    def send_reminder(self, borrow):\n        logging.info(f\"Email envoyé pour : {borrow.book.title}\")\n\n# Test\nbook = Book(\"1984\", \"George Orwell\")\nmanager = BorrowManager()\nemail_service = EmailService()\n\nborrow = manager.borrow_book(book, \"Alice\")\nemail_service.send_reminder(borrow)\n\n\n\n\nAvantages debugging : - Erreur d’email ? Chercher dans EmailService uniquement - Problème de BDD ? Chercher dans BookRepository - Logs plus clairs et ciblés",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#o---openclosed-principle",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#o---openclosed-principle",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "O - Open/Closed Principle",
+    "text": "O - Open/Closed Principle\nPrincipe : Ouvert à l’extension, fermé à la modification.\n\nMauvais exempleBon exemple\n\n\nclass DiscountCalculator:\n    def calculate(self, user_type, amount):\n        if user_type == \"student\":\n            return amount * 0.9\n        elif user_type == \"senior\":\n            return amount * 0.85\n        elif user_type == \"vip\":\n            return amount * 0.8\n        return amount\n        # Problème : Ajouter un nouveau type = modifier cette classe\n\n\n\nfrom abc import ABC, abstractmethod\n\nclass DiscountStrategy(ABC):\n    @abstractmethod\n    def apply(self, amount):\n        pass\n\nclass StudentDiscount(DiscountStrategy):\n    def apply(self, amount):\n        return amount * 0.9\n\nclass SeniorDiscount(DiscountStrategy):\n    def apply(self, amount):\n        return amount * 0.85\n\nclass VIPDiscount(DiscountStrategy):\n    def apply(self, amount):\n        return amount * 0.8\n\nclass User:\n    def __init__(self, name, discount_strategy):\n        self.name = name\n        self.discount_strategy = discount_strategy\n\n    def calculate_price(self, amount):\n        return self.discount_strategy.apply(amount)\n\n# Test\nstudent = User(\"Alice\", StudentDiscount())\nsenior = User(\"Bob\", SeniorDiscount())\n\nprint(f\"Prix étudiant : {student.calculate_price(100)}€\")\nprint(f\"Prix senior : {senior.calculate_price(100)}€\")\n\n\n\n\nAvantages : - Ajouter une nouvelle remise = créer une nouvelle classe - Code existant non modifié = moins de bugs - Tests unitaires isolés",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#l---liskov-substitution-principle",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#l---liskov-substitution-principle",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "L - Liskov Substitution Principle",
+    "text": "L - Liskov Substitution Principle\nPrincipe : Les sous-classes doivent pouvoir remplacer leurs classes parentes.\n\nMauvais exempleBon exemple\n\n\nclass Bird:\n    def fly(self):\n        return \"Je vole\"\n\nclass Penguin(Bird):\n    def fly(self):\n        raise Exception(\"Je ne peux pas voler!\")\n        # PROBLÈME : Penguin ne peut pas remplacer Bird\n\n\n\nclass Document:\n    def __init__(self, title):\n        self.title = title\n\n    def can_be_borrowed(self):\n        return True\n\nclass Book(Document):\n    def can_be_borrowed(self):\n        return True  # Cohérent avec Document\n\nclass ArchiveDocument(Document):\n    def can_be_borrowed(self):\n        return False  # Cohérent, juste une réponse différente\n\ndef display_availability(document: Document):\n    status = \"disponible\" if document.can_be_borrowed() else \"archivé\"\n    print(f\"{document.title}: {status}\")\n\n# Test\nbook = Book(\"1984\")\narchive = ArchiveDocument(\"Manuscrit ancien\")\n\ndisplay_availability(book)\ndisplay_availability(archive)",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#i---interface-segregation-principle",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#i---interface-segregation-principle",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "I - Interface Segregation Principle",
+    "text": "I - Interface Segregation Principle\nPrincipe : Interfaces spécifiques plutôt qu’une interface générale.\n\nMauvais exempleBon exemple\n\n\nclass Printable(ABC):\n    @abstractmethod\n    def print(self):\n        pass\n\n    @abstractmethod\n    def scan(self):\n        pass\n\n    @abstractmethod\n    def fax(self):\n        pass\n\nclass SimplePrinter(Printable):\n    def print(self):\n        return \"Impression...\"\n\n    def scan(self):\n        raise NotImplementedError(\"Pas de scanner!\")\n\n    def fax(self):\n        raise NotImplementedError(\"Pas de fax!\")\n\n\n\nfrom abc import ABC, abstractmethod\n\nclass Printable(ABC):\n    @abstractmethod\n    def print(self):\n        pass\n\nclass Scannable(ABC):\n    @abstractmethod\n    def scan(self):\n        pass\n\nclass Faxable(ABC):\n    @abstractmethod\n    def fax(self):\n        pass\n\nclass SimplePrinter(Printable):\n    def print(self):\n        return \"Impression...\"\n\nclass MultifunctionPrinter(Printable, Scannable, Faxable):\n    def print(self):\n        return \"Impression...\"\n\n    def scan(self):\n        return \"Scan...\"\n\n    def fax(self):\n        return \"Fax...\"\n\n# Test\nsimple = SimplePrinter()\nmultifunction = MultifunctionPrinter()\n\nprint(simple.print())\nprint(multifunction.scan())",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#d---dependency-inversion-principle",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#d---dependency-inversion-principle",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "D - Dependency Inversion Principle",
+    "text": "D - Dependency Inversion Principle\nPrincipe : Dépendre d’abstractions, pas d’implémentations concrètes.\n\nMauvais exempleBon exemple\n\n\nclass MySQLDatabase:\n    def save(self, data):\n        print(\"Sauvegarde dans MySQL\")\n\nclass BorrowManager:\n    def __init__(self):\n        self.db = MySQLDatabase()  # Dépendance forte !\n\n    def record_borrow(self, borrow):\n        self.db.save(borrow)\n        # Impossible de tester avec une fausse DB\n        # Impossible de changer vers PostgreSQL facilement\n\n\n\nfrom abc import ABC, abstractmethod\nfrom dataclasses import dataclass\n\nclass DatabaseInterface(ABC):\n    @abstractmethod\n    def save(self, data):\n        pass\n\nclass MySQLDatabase(DatabaseInterface):\n    def save(self, data):\n        logging.info(f\"[MySQL] Sauvegarde: {data}\")\n\nclass PostgreSQLDatabase(DatabaseInterface):\n    def save(self, data):\n        logging.info(f\"[PostgreSQL] Sauvegarde: {data}\")\n\nclass FakeDatabase(DatabaseInterface):\n    \"\"\"Pour les tests\"\"\"\n    def save(self, data):\n        logging.info(f\"[FAKE] Sauvegarde: {data}\")\n\nclass BorrowManager:\n    def __init__(self, database: DatabaseInterface):\n        self.db = database  # Injection de dépendance\n\n    def record_borrow(self, borrow):\n        self.db.save(borrow)\n\n# Utilisation\n@dataclass\nclass Book:\n    title: str\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: str\n\ndb_prod = MySQLDatabase()\nmanager_prod = BorrowManager(db_prod)\n\ndb_test = FakeDatabase()\nmanager_test = BorrowManager(db_test)\n\nborrow = Borrow(Book(\"1984\"), \"Alice\")\nmanager_prod.record_borrow(borrow)\nmanager_test.record_borrow(borrow)\n\n\n\n\nAvantages pour le debugging : - Tests isolés avec fausses dépendances - Logs différents selon l’environnement - Changement de DB sans toucher au code métier",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#sans-poo---cauchemar-du-debugging",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#sans-poo---cauchemar-du-debugging",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Sans POO - Cauchemar du debugging",
+    "text": "Sans POO - Cauchemar du debugging\ndef borrow_book(books, book_id, user_id):\n    book = books[book_id]\n    if book[\"available\"]:\n        book[\"available\"] = False\n        # Où logger ? Quelle fonction a causé l'erreur ?\n        return True\n    return False\nProblèmes : - Pas de traçabilité - Erreurs silencieuses - Impossible de savoir qui a modifié quoi",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#avec-poo---debugging-structuré",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#avec-poo---debugging-structuré",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Avec POO - Debugging structuré",
+    "text": "Avec POO - Debugging structuré\n\nfrom datetime import datetime\nfrom dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    _available: bool = True\n    \n    @property\n    def available(self):\n        return self._available\n\n    @available.setter\n    def available(self, value):\n        logging.info(\n            f\"'{self.title}' - Disponibilité: {self._available} → {value}\"\n        )\n        self._available = value\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: str\n    borrow_date: datetime = None\n    \n    def __post_init__(self):\n        if self.borrow_date is None:\n            self.borrow_date = datetime.now()\n        logging.info(\n            f\"Emprunt créé: '{self.book.title}' par {self.user} \"\n            f\"à {self.borrow_date}\"\n        )\n\n# Test\nbook = Book(\"1984\")\nbook.available = False\nborrow = Borrow(book, \"Alice\")\n\nAvantages : - Logs automatiques et structurés - Traçabilité complète - Facile de retrouver l’origine d’une erreur",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#avantages-de-la-poo",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#avantages-de-la-poo",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Avantages de la POO",
+    "text": "Avantages de la POO\n\nMaintenance\n\nCode organisé et modulaire\nModifications localisées\nRéutilisation par héritage/composition\n\n\n\nDebugging\n\nLogs centralisés par classe\nTraçabilité via @property\nErreurs plus précises\n\n\n\nÉvolutivité\n\nSOLID garantit l’extensibilité\nTests unitaires isolés\nNouveaux features sans casser l’existant\n\n\n\nCollaboration\n\nInterfaces claires\nResponsabilités définies\nDocumentation naturelle via les classes",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#conclusion",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#conclusion",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Conclusion",
+    "text": "Conclusion\n\n\n\n\n\n\nNotePoints clés\n\n\n\nLa POO n’est pas juste une façon d’organiser du code, c’est un outil pour : - Penser en termes de responsabilités - Debugger efficacement avec des logs structurés - Faire évoluer le code sans tout casser - Collaborer avec des interfaces claires\nLes principes SOLID sont des garde-fous qui vous éviteront des heures de debugging et de refactoring.\n\n\n\n\n\n\n\n\nTipConseil final\n\n\n\nCommencez simple, refactorisez quand la complexité augmente, et testez chaque classe individuellement.",
+    "crumbs": [
+      "Cours complet"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid.html",
+    "href": "cours/poo-solid/cours_poo_solid.html",
+    "title": "Programmation Orientée Objet – Introduction",
+    "section": "",
+    "text": "Tip\n\n\n\nVersion interactive\nOuvrir ce cours dans Binder"
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid.html#introduction",
+    "href": "cours/poo-solid/cours_poo_solid.html#introduction",
+    "title": "Programmation Orientée Objet – Introduction",
+    "section": "Introduction",
+    "text": "Introduction\n\nPourquoi la POO ?\nProblème sans POO :\nImaginez gérer une bibliothèque avec des dictionnaires et des fonctions dispersées.\n\nbook1 = {\"titre\": \"1984\", \"auteur\": \"Orwell\", \"disponible\": True}\nbook2 = {\"titre\": \"Dune\", \"auteur\": \"Herbert\", \"disponible\": False}\n\ndef borrow_book(book):\n    if book[\"disponible\"]:\n        book[\"disponible\"] = False\n        return True\n    return False\n\nborrow_book(book2)\n\nFalse"
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid.html#première-classe-book",
+    "href": "cours/poo-solid/cours_poo_solid.html#première-classe-book",
+    "title": "Programmation Orientée Objet – Introduction",
+    "section": "Première classe : Book",
+    "text": "Première classe : Book\n\nDéclaration de la classe\n\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n\n    def __repr__(self):\n        return f\"{self.title} – {self.author}\""
+  },
+  {
+    "objectID": "exercices/poo-solid/exercices.html",
+    "href": "exercices/poo-solid/exercices.html",
+    "title": "Exercices POO et SOLID",
+    "section": "",
+    "text": "TipVersion interactive\n\n\n\nOuvrir ce cours dans Binder"
+  },
+  {
+    "objectID": "exercices/poo-solid/exercices.html#exercices-pratiques",
+    "href": "exercices/poo-solid/exercices.html#exercices-pratiques",
+    "title": "Exercices POO et SOLID",
+    "section": "Exercices pratiques",
+    "text": "Exercices pratiques\nMettez en pratique vos connaissances avec ces exercices."
+  },
+  {
+    "objectID": "exercices/poo-solid/exercices.html#exercice-1-système-de-bibliothèque",
+    "href": "exercices/poo-solid/exercices.html#exercice-1-système-de-bibliothèque",
+    "title": "Exercices POO et SOLID",
+    "section": "Exercice 1 : Système de bibliothèque",
+    "text": "Exercice 1 : Système de bibliothèque\n\nContexte\nCréez un système de gestion de bibliothèque en respectant les principes SOLID.\n\n\nConsignes\n\nCréez une classe Book avec les attributs : titre, auteur, ISBN, disponibilité\nCréez une classe User avec : nom, email, livres empruntés\nImplémentez un BorrowManager pour gérer les emprunts\nAjoutez un système de notifications par email (utilisez le principe SRP)\n\n\n\n\n\n\n\nNoteConseils\n\n\n\n\nUtilisez des dataclasses pour les modèles simples\nPensez à ajouter des logs avec logging\nRespectez le principe de responsabilité unique\n\n\n\n\n\nSquelette de départ\n\nfrom dataclasses import dataclass\nfrom datetime import datetime\nimport logging\n\n@dataclass\nclass Book:\n    title: str\n    author: str\n    isbn: str\n    available: bool = True\n\n# À compléter..."
+  },
+  {
+    "objectID": "exercices/poo-solid/exercices.html#exercice-2-système-de-réductions",
+    "href": "exercices/poo-solid/exercices.html#exercice-2-système-de-réductions",
+    "title": "Exercices POO et SOLID",
+    "section": "Exercice 2 : Système de réductions",
+    "text": "Exercice 2 : Système de réductions\n\nContexte\nImplémentez différentes stratégies de réduction en utilisant le pattern Strategy (principe OCP).\n\n\nConsignes\n\nCréez une interface DiscountStrategy\nImplémentez au moins 3 stratégies différentes :\n\nRéduction étudiant (10%)\nRéduction senior (15%)\nRéduction fidélité (20%)\n\nCréez une classe Order qui utilise une stratégie de réduction\n\n\n\n\n\n\n\nTipBonus\n\n\n\nAjoutez une stratégie “Sans réduction” et une stratégie “Black Friday” (50%)."
+  },
+  {
+    "objectID": "exercices/poo-solid/exercices.html#exercice-3-système-de-documents",
+    "href": "exercices/poo-solid/exercices.html#exercice-3-système-de-documents",
+    "title": "Exercices POO et SOLID",
+    "section": "Exercice 3 : Système de documents",
+    "text": "Exercice 3 : Système de documents\n\nContexte\nCréez une hiérarchie de documents en respectant le principe LSP.\n\n\nConsignes\n\nCréez une classe abstraite Document\nImplémentez au moins 3 types de documents :\n\nBook (empruntable)\nMagazine (empruntable pour 7 jours max)\nArchiveDocument (non empruntable, consultation sur place)\n\nTous doivent être utilisables de manière polymorphique"
+  },
+  {
+    "objectID": "exercices/poo-solid/exercices.html#solutions",
+    "href": "exercices/poo-solid/exercices.html#solutions",
+    "title": "Exercices POO et SOLID",
+    "section": "Solutions",
+    "text": "Solutions\n\n\n\n\n\n\nWarningVoir les solutions (essayez d’abord !)\n\n\n\n\n\nSolution Exercice 1\n\nfrom dataclasses import dataclass, field\nfrom datetime import datetime\nfrom typing import List\nimport logging\n\nlogging.basicConfig(level=logging.INFO)\n\n@dataclass\nclass Book:\n    title: str\n    author: str\n    isbn: str\n    available: bool = True\n\n@dataclass\nclass User:\n    name: str\n    email: str\n    borrowed_books: List[Book] = field(default_factory=list)\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: User\n    borrow_date: datetime\n    return_date: datetime = None\n\nclass BorrowManager:\n    def __init__(self):\n        self.borrows = []\n    \n    def borrow_book(self, book: Book, user: User) -&gt; Borrow:\n        if not book.available:\n            raise ValueError(f\"Le livre '{book.title}' n'est pas disponible\")\n        \n        book.available = False\n        user.borrowed_books.append(book)\n        borrow = Borrow(book, user, datetime.now())\n        self.borrows.append(borrow)\n        \n        logging.info(f\"{user.name} a emprunté '{book.title}'\")\n        return borrow\n    \n    def return_book(self, borrow: Borrow):\n        borrow.book.available = True\n        borrow.user.borrowed_books.remove(borrow.book)\n        borrow.return_date = datetime.now()\n        \n        logging.info(f\"{borrow.user.name} a retourné '{borrow.book.title}'\")\n\nclass EmailService:\n    def send_reminder(self, user: User, book: Book):\n        logging.info(f\"Email envoyé à {user.email} : rappel pour '{book.title}'\")\n\n# Test\nbook = Book(\"1984\", \"George Orwell\", \"978-0451524935\")\nuser = User(\"Alice\", \"alice@example.com\")\nmanager = BorrowManager()\nemail_service = EmailService()\n\nborrow = manager.borrow_book(book, user)\nemail_service.send_reminder(user, book)"
+  },
+  {
+    "objectID": "exercices/poo-solid/exercices.html#pour-aller-plus-loin",
+    "href": "exercices/poo-solid/exercices.html#pour-aller-plus-loin",
+    "title": "Exercices POO et SOLID",
+    "section": "Pour aller plus loin",
+    "text": "Pour aller plus loin\nEssayez d’intégrer ces exercices avec : - Des tests unitaires (pytest) - Une base de données (SQLite)\nRetour au cours"
+  }
+]

@@ -1,7 +1,52 @@
 ---
-title: "Pérégrinations pythonesques"
+title: "Learning Fridays – Progresser ensemble"
 ---
 
-This is a Quarto website.
+## Bienvenue
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Les **Learning Fridays** sont des sessions de formation courtes et pratiques, pensées pour progresser collectivement sur des sujets techniques essentiels au métier de la data.
+
+## L'objectif
+
+L'objectif est double :
+
+- **Renforcer les fondamentaux** nécessaires pour être plus efficace et autonome dans ses missions
+- **Développer une culture technique transverse**, utile au-delà du contexte immédiat du projet
+
+## Format des sessions
+
+Chaque session aborde un thème concret, illustré par des exemples réels, avec une attention particulière portée aux :
+
+- Bonnes pratiques de production
+- Qualité du code
+- Cas d'usage data modernes (LLM, recherche documentaire, RAG)
+
+## Projet fil rouge
+
+Un projet fil rouge autour du déploiement d'un **système RAG (Retrieval Augmented Generation)** permettra de mettre en pratique l'ensemble des notions abordées au fil des sessions (dans un second temps).
+
+---
+
+## Sessions disponibles
+
+### Programmation Orientée Objet et Principes SOLID
+
+La première session couvre les fondamentaux de la POO et les principes SOLID, essentiels pour écrire du code maintenable et évolutif.
+
+**Contenu :**
+
+- Concepts fondamentaux de la POO (classes, héritage, polymorphisme)
+- Dataclasses et méthodes magiques Python
+- Décorateurs (@property, @staticmethod, @classmethod, @abstractmethod)
+- Principes SOLID avec exemples pratiques
+- Exercices d'application
+
+[Accéder au cours POO et SOLID](cours/poo-solid/cours_poo_solid_complet.qmd){.btn .btn-primary}
+
+---
+
+::: {.callout-note}
+## Prochaines sessions
+
+D'autres sessions seront ajoutées progressivement pour couvrir l'ensemble des compétences nécessaires au développement de solutions data en production.
+:::
