@@ -1,0 +1,592 @@
+---
+title: "Exercice RAG Météo avec Mistral AI"
+subtitle: "Construction d'un système RAG pour interroger des données météorologiques"
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+jupyter: python3
+---
+
+# Introduction
+
+Dans cet exercice, vous allez construire un système RAG (Retrieval-Augmented Generation) qui permet d'interroger des données météorologiques en langage naturel.
+
+Le système fonctionnera en 3 étapes :
+1. **Récupération des données** : À partir d'une adresse, obtenir les coordonnées GPS puis les données météo
+2. **Contexte RAG** : Formater ces données pour les fournir à un LLM
+3. **Génération** : Utiliser Mistral AI pour répondre à des questions sur la météo
+
+## Objectifs pédagogiques
+
+- Comprendre et utiliser les **classes abstraites (ABC)**
+- Appliquer le **pattern Strategy** pour gérer différents types de prompts
+- Maîtriser les **dataclasses** Python
+- Gérer les **secrets et configurations**
+- Implémenter un **système RAG complet**
+- Écrire des **tests unitaires**
+
+---
+
+# Configuration préalable
+
+## Installation des dépendances
+
+```bash
+uv add mistralai geopy requests python-dotenv
+```
+
+## Variables d'environnement
+
+Créez un fichier `.env` à la racine du projet :
+
+```
+mistral_api_key=votre_clé_mistral
+weather_api_key=votre_clé_openweathermap
+```
+
+Pour obtenir les clés :
+- Mistral AI : https://console.mistral.ai/
+- OpenWeatherMap : https://openweathermap.org/api
+
+---
+
+# Partie 1 : Logger (Code fourni)
+
+Ce module configure le système de logging pour l'application.
+
+```{python}
+#| eval: false
+# src/logger.py
+import logging
+
+def setup_logging():
+    """Configure le système de logging"""
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+
+def main():
+    logger.info("Log depuis src")
+
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+# Partie 2 : Modèles de données (Code fourni)
+
+```{python}
+#| eval: false
+# src/models.py
+from dataclasses import dataclass
+
+@dataclass
+class UserQuery:
+    question: str 
+    language: str = 'French'
+
+    def __post_init__(self):
+        if self.question == "":
+            raise ValueError('Must have a question')
+
+@dataclass
+class RAGAnswer:
+    response: str
+    sources: dict
+
+@dataclass
+class Document:
+    address: dict
+    content: dict
+    metadata: dict
+```
+
+---
+
+# Partie 3 : API Météo (Code à analyser)
+
+Voici le code de l'API météo. **Attention** : ce code contient des problèmes de conception que vous devrez identifier.
+
+```{python}
+#| eval: false
+# src/weather_api.py
+import logging
+import dotenv
+import os
+import geopy
+import requests
+
+from dataclasses import dataclass
+from geopy.geocoders import Nominatim
+
+from src.logger import setup_logging
+from src.models import UserQuery
+
+setup_logging()
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+dotenv.load_dotenv()
+
+
+@dataclass
+class GeoData:
+    address: str
+    useragent: str = "my_geocoder"
+    timeout: int = 10
+    locator: Nominatim = None
+
+    def __post_init__(self):
+        if self.locator is None:
+            self.locator = Nominatim(user_agent=self.useragent, timeout=self.timeout)
+        if self.locator is None:
+            logging.error("Can't connect to weather agent")
+            raise 
+
+    def get_location(self):
+        locator = self.locator
+        location = locator.geocode(self.address)
+        return location.latitude, location.longitude
+
+
+@dataclass
+class WeatherAPI:
+    lat: float
+    lon: float
+    weather_api_key: str = None
+
+    def __post_init__(self):
+        if self.weather_api_key is None:
+            self.weather_api_key = os.getenv('weather_api_key') 
+            logging.info('Weather api key defined')
+        if self.weather_api_key is None:
+            raise ValueError('You need to defined a Weather api key')
+ 
+    @property
+    def url(self):
+        return f"https://api.openweathermap.org/data/2.5/weather?lat={self.lat}&lon={self.lon}&appid={self.weather_api_key}"
+
+    def get_weather(self):
+        try:
+            response = requests.get(self.url)
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logging.error(f'An exception occured {e}')
+            raise
+```
+
+## Question 1.1 : Analyse du code WeatherAPI
+
+**Identifiez le problème de conception majeur dans la classe `WeatherAPI`.**
+
+Indices :
+- Que se passe-t-il si vous voulez récupérer la météo pour 10 adresses différentes ?
+- Combien d'instances de la classe allez-vous créer ?
+- La clé API change-t-elle entre chaque requête ?
+
+**Réponse attendue** : ___________________________________________
+
+## Question 1.2 : Proposition de refactoring
+
+Proposez une nouvelle architecture pour séparer :
+- La **configuration** (clé API, timeout, etc.)
+- L'**exécution** de requêtes météo
+
+Écrivez le code refactoré ci-dessous :
+
+```{python}
+#| eval: false
+# Votre code ici
+```
+
+---
+
+# Partie 4 : Client Mistral AI - Pattern Strategy
+
+Vous allez maintenant implémenter le client Mistral AI en utilisant le **pattern Strategy** pour gérer différents types de prompts système.
+
+## Code de base fourni
+
+```{python}
+#| eval: false
+# src/mistral_api.py
+import logging
+import os 
+import dotenv
+
+from src.logger import setup_logging
+from mistralai import Mistral
+from dataclasses import dataclass
+from abc import ABC, abstractmethod
+from typing import Optional
+
+setup_logging()
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+dotenv.load_dotenv()
+
+
+@dataclass
+class MistralSecret:
+    mistral_api_key: str = None
+
+    def __post_init__(self):
+        if self.mistral_api_key is None:
+            self.mistral_api_key = os.getenv('mistral_api_key')
+            logging.info(f'Mistral Key loaded : len {len(self.mistral_api_key)}')
+        if self.mistral_api_key is None:
+            logging.error('You must set up mistral api key')
+
+
+@dataclass
+class MistralConfig:
+    temperature: float = 0
+    max_tokens: int = 500
+    model: str = "mistral-medium-latest"
+
+    def __post_init__(self):
+        if self.temperature < 0:
+            logging.error('Temperature must be >0')
+            raise ValueError('Temperature must be >0')
+        if self.max_tokens < 0:
+            logging.error('Max tokens must be >0')
+            raise ValueError('Max tokens must be >0')
+```
+
+## Question 2.1 : Classe abstraite Strategy
+
+Complétez la classe abstraite `MistralStrategy` (notez la correction de la faute de frappe "Srategy" → "Strategy").
+
+```{python}
+#| eval: false
+from abc import ABC, abstractmethod
+
+class MistralStrategy(ABC):
+    """Classe abstraite définissant le contrat pour les différentes stratégies de prompt"""
+    config: MistralConfig
+
+    @abstractmethod
+    def get_prompt(self):
+        """Retourne le prompt système pour cette stratégie"""
+        pass
+
+    def get_setup(self):
+        """Retourne la configuration Mistral"""
+        return {
+            "temperature": self.config.temperature,
+            "max_tokens": self.config.max_tokens,
+            "model": self.config.model
+        }
+```
+
+## Question 2.2 : Stratégie RAG
+
+La stratégie RAG est fournie :
+
+```{python}
+#| eval: false
+@dataclass
+class RAGStrategy(MistralStrategy):
+    content: str
+    config: Optional[MistralConfig] = None
+
+    def __post_init__(self):
+        if self.content == "":
+            raise ValueError("you must enter en content for using rag strategy")
+
+        if self.config is None:
+            self.config = MistralConfig(
+                temperature=0,
+                max_tokens=500,
+                model='mistral-medium-latest'
+            )
+
+    def get_prompt(self):
+        return f"You're a RAG system you will use the follow content {self.content} " \
+               "If the result is not from the content you must say it clearly"
+```
+
+## Question 2.3 : Implémentez une SimpleStrategy
+
+Créez une nouvelle stratégie `SimpleStrategy` qui permet de poser des questions simples sans contexte RAG.
+
+Spécifications :
+- Pas de contenu requis
+- Prompt système : "You are a helpful assistant. Answer questions clearly and concisely."
+- Même configuration par défaut que RAGStrategy
+
+```{python}
+#| eval: false
+# Votre code ici
+@dataclass
+class SimpleStrategy(MistralStrategy):
+    # À compléter
+    pass
+```
+
+## Question 2.4 : Classe MistralProvider
+
+Complétez la classe `MistralProvider` :
+
+```{python}
+#| eval: false
+@dataclass
+class MistralProvider:
+    mistralsecret: MistralSecret
+    mistralconfig: MistralConfig
+
+    def __post_init__(self):
+        self._client = None
+
+    @property
+    def client(self) -> Mistral:
+        """Initialise le client Mistral de manière lazy (singleton pattern)"""
+        if self._client is None:
+            try:
+                self._client = Mistral(api_key=self.mistralsecret.mistral_api_key)
+                logger.info('Mistral Client initialized')
+            except ValueError as e:
+                logger.error(f'Erreur: {e}')
+                raise ValueError('Mistral key is not defined')
+            except Exception as e:
+                raise ConnectionError(f'Error {e}')
+        return self._client
+    
+    def _create_message(self, prompt: str, strategy: MistralStrategy) -> list[dict]:
+        """Crée la liste de messages pour l'API Mistral"""
+        return [
+            {'role': 'system', "content": strategy.get_prompt()},
+            {'role': 'user', "content": prompt}
+        ]
+    
+    def ask_mistral(self, prompt: str, context: str = "", strategy: Optional[MistralStrategy] = None):
+        """
+        Envoie une requête à Mistral AI
+        
+        Args:
+            prompt: La question de l'utilisateur
+            context: Le contexte pour le RAG (optionnel)
+            strategy: La stratégie à utiliser (si None, utilise RAGStrategy avec le context)
+        
+        Returns:
+            La réponse de Mistral
+        """
+        # À compléter : 
+        # 1. Si strategy est None et context n'est pas vide, créer une RAGStrategy
+        # 2. Si strategy est None et context est vide, créer une SimpleStrategy
+        # 3. Logger la stratégie utilisée
+        # 4. Créer les messages
+        # 5. Récupérer la config
+        # 6. Appeler l'API Mistral
+        # 7. Gérer les erreurs
+        
+        pass
+```
+
+---
+
+# Partie 5 : Système RAG Météo
+
+## Code fourni
+
+```{python}
+#| eval: false
+# src/rag_weather.py
+import logging
+from dataclasses import dataclass
+
+from src.logger import setup_logging
+from src.models import UserQuery
+from src.weather_api import GeoData, WeatherAPI
+from src.mistral_api import MistralProvider, MistralSecret, MistralConfig, RAGStrategy
+
+setup_logging()
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+
+@dataclass
+class RAGWeather:
+    mistralprovider: MistralProvider
+
+    def _get_context(self, address: str) -> dict:
+        """Récupère les données météo pour une adresse donnée"""
+        logging.info(f'Search weather of {address}')
+        userquery = UserQuery(address)
+        geodata = GeoData(userquery.question)
+        lat, lon = geodata.get_location()
+        weather_api = WeatherAPI(lat, lon)
+        response = weather_api.get_weather()
+        return response
+    
+    def ask_weather_question(self, address: str, question: str) -> str:
+        """Pose une question sur la météo d'une adresse"""
+        weather_data = self._get_context(address)
+        context_text = self._format_weather_data(weather_data)
+        mistralragstrategy = RAGStrategy(content=context_text)
+        response = self.mistralprovider.ask_mistral(question, context_text, mistralragstrategy)
+        
+        return response.choices[0].message.content
+    
+    def _format_weather_data(self, data: dict) -> str:
+        """Formate les données JSON de l'API météo en texte lisible"""
+        try:
+            weather = data['weather'][0]
+            main = data['main']
+            wind = data['wind']
+            
+            context = f"""
+            Données météorologiques pour {data['name']}:
+            - Conditions: {weather['description']}
+            - Température: {main['temp'] - 273.15:.1f}°C (ressenti: {main['feels_like'] - 273.15:.1f}°C)
+            - Humidité: {main['humidity']}%
+            - Pression: {main['pressure']} hPa
+            - Vent: {wind['speed']} m/s
+            - Visibilité: {data.get('visibility', 'N/A')} mètres
+            """
+            return context
+        except KeyError as e:
+            logging.error(f'Error formatting weather data: {e}')
+            return str(data)
+```
+
+## Question 3.1 : Analyse de RAGWeather
+
+Identifiez comment `RAGWeather` utilise le problème de conception de `WeatherAPI` mentionné précédemment. Comment pourrait-on améliorer cela avec votre refactoring ?
+
+**Réponse** : ___________________________________________
+
+---
+
+# Partie 6 : Tests
+
+Créez un fichier de tests pour valider votre implémentation.
+
+## Question 4.1 : Tests pour MistralStrategy
+
+```{python}
+#| eval: false
+# tests/test_mistral_strategy.py
+import pytest
+from src.mistral_api import MistralConfig, RAGStrategy, SimpleStrategy
+
+def test_rag_strategy_with_empty_content():
+    """Test que RAGStrategy lève une erreur si content est vide"""
+    # Votre code ici
+    pass
+
+def test_rag_strategy_get_prompt():
+    """Test que le prompt RAG contient bien le contenu"""
+    # Votre code ici
+    pass
+
+def test_simple_strategy_initialization():
+    """Test l'initialisation de SimpleStrategy"""
+    # Votre code ici
+    pass
+
+def test_strategy_get_setup():
+    """Test que get_setup retourne la bonne configuration"""
+    # Votre code ici
+    pass
+```
+
+## Question 4.2 : Tests pour MistralProvider
+
+```{python}
+#| eval: false
+# tests/test_mistral_provider.py
+import pytest
+from unittest.mock import Mock, patch
+from src.mistral_api import MistralProvider, MistralSecret, MistralConfig, SimpleStrategy
+
+def test_create_message():
+    """Test la création des messages"""
+    # Votre code ici
+    pass
+
+def test_ask_mistral_with_simple_strategy():
+    """Test une requête simple sans contexte"""
+    # Votre code ici
+    # Utilisez mock pour simuler l'API Mistral
+    pass
+```
+
+## Question 4.3 : Tests d'intégration
+
+Créez des tests d'intégration qui vérifient le bon fonctionnement du système complet (vous pouvez utiliser des mocks pour les APIs externes).
+
+```{python}
+#| eval: false
+# tests/test_integration.py
+# Votre code ici
+```
+
+---
+
+# Partie 7 : Programme principal
+
+## Question 5.1 : Script de démonstration
+
+Créez un script `main.py` qui :
+1. Demande à l'utilisateur une adresse
+2. Demande une question sur la météo
+3. Affiche la réponse de manière formatée
+
+```{python}
+#| eval: false
+# main.py
+# Votre code ici
+```
+
+## Question 5.2 : Gestion des erreurs
+
+Ajoutez une gestion robuste des erreurs :
+- Adresse introuvable
+- API météo indisponible
+- Erreur Mistral API
+- Clés API manquantes
+
+---
+
+# Bonus : Extensions possibles
+
+1. **Stratégie Multilingue** : Créez une `MultilingualStrategy` qui adapte la langue de réponse
+2. **Cache** : Implémentez un système de cache pour éviter de refaire les mêmes requêtes météo
+3. **Historique** : Gardez un historique des conversations
+4. **Comparaison** : Permettre de comparer la météo de plusieurs villes
+5. **Prévisions** : Étendre le système pour gérer les prévisions météo (API différente)
+
+---
+
+# Critères d'évaluation
+
+- **Architecture** (30%) : Bonne utilisation des classes abstraites, séparation des responsabilités
+- **Code quality** (25%) : Respect des conventions Python, logging, gestion d'erreurs
+- **Tests** (25%) : Couverture des tests, cas limites
+- **Fonctionnalité** (20%) : Le système fonctionne correctement end-to-end
+
+---
+
+# Ressources
+
+- [Documentation Mistral AI](https://docs.mistral.ai/)
+- [Documentation OpenWeatherMap](https://openweathermap.org/api)
+- [Python ABC](https://docs.python.org/3/library/abc.html)
+- [Python Dataclasses](https://docs.python.org/3/library/dataclasses.html)
+- [Pattern Strategy](https://refactoring.guru/design-patterns/strategy/python/example)

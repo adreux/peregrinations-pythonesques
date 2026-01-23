@@ -304,7 +304,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">POO et Principes SOLID</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../exercices.qmd">
+    <a class="dropdown-item" href="../../exercices/poo-solid/exercice_rag_weather.html">
  <span class="dropdown-text">Exercices POO</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -329,7 +329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../cours/poo-solid/cours_poo_solid_complet.html">Cours complet</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../cours/poo-solid/cours_poo_solid_complet.html">Cours</a></li><li class="breadcrumb-item"><a href="../../cours/poo-solid/cours_poo_solid_complet.html">POO &amp; Principes SOLID</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -343,16 +343,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../cours/poo-solid/cours_poo_solid_complet.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Cours complet</span></a>
+  <a href="../../cours/poo-solid/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../exercices.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../../cours/poo-solid/cours_poo_solid_complet.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">POO &amp; Principes SOLID</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pratique</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../exercices/poo-solid/exercices.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Exercices</span></a>
   </div>
 </li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -421,7 +449,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../cours/poo-solid/cours_poo_solid_complet.html">Cours</a></li><li class="breadcrumb-item"><a href="../../cours/poo-solid/cours_poo_solid_complet.html">POO &amp; Principes SOLID</a></li></ol></nav>
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Programmation Orientée Objet et Principes SOLID en Python</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 <p class="subtitle lead">De la théorie à la pratique</p>
@@ -460,7 +488,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="pourquoi-la-poo">Pourquoi la POO ?</h2>
 <p><strong>Problème sans POO :</strong><br>
 Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions dispersées.</p>
-<div id="f382ca53" class="cell">
+<div id="384170fd" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>book1 <span class="op">=</span> {<span class="st">"titre"</span>: <span class="st">"1984"</span>, <span class="st">"auteur"</span>: <span class="st">"Orwell"</span>, <span class="st">"disponible"</span>: <span class="va">True</span>}</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>book2 <span class="op">=</span> {<span class="st">"titre"</span>: <span class="st">"Dune"</span>, <span class="st">"auteur"</span>: <span class="st">"Herbert"</span>, <span class="st">"disponible"</span>: <span class="va">False</span>}</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -500,7 +528,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <section id="classes-et-instances" class="level2">
 <h2 class="anchored" data-anchor-id="classes-et-instances">Classes et Instances</h2>
 <p>Une classe est un <strong>modèle</strong> pour créer des objets.</p>
-<div id="0862947c" class="cell">
+<div id="925c2e35" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>logging.basicConfig(</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    level<span class="op">=</span>logging.INFO,</span>
@@ -522,7 +550,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <section id="str__-représentation-lisible" class="level3">
 <h3 class="anchored" data-anchor-id="str__-représentation-lisible"><code>__str__</code> : Représentation lisible</h3>
 <p><code>__str__</code> définit comment un objet est affiché pour un humain (print, logs), au lieu d’une représentation technique inutile.</p>
-<div id="ac9881f0" class="cell">
+<div id="a62e7e80" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Book:</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, title, author):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.title <span class="op">=</span> title</span>
@@ -552,7 +580,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <section id="eq__-comparaison-dégalité" class="level3">
 <h3 class="anchored" data-anchor-id="eq__-comparaison-dégalité"><code>__eq__</code> : Comparaison d’égalité</h3>
 <p><code>__eq__</code> définit quand deux objets doivent être considérés égaux par leur contenu, et non par leur identité.</p>
-<div id="dba22d13" class="cell">
+<div id="51e11f00" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sans __eq__</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>book1 <span class="op">=</span> Book(<span class="st">'1984'</span>, <span class="st">'George Orwell'</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>book2 <span class="op">=</span> Book(<span class="st">'1984'</span>, <span class="st">'George Orwell'</span>)</span>
@@ -595,7 +623,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <section id="dataclasses-simplification-moderne" class="level2">
 <h2 class="anchored" data-anchor-id="dataclasses-simplification-moderne">Dataclasses : Simplification moderne</h2>
 <p>Les dataclasses automatisent la création de <code>__init__</code>, <code>__repr__</code>, <code>__eq__</code> et plus encore.</p>
-<div id="2064c93f" class="cell">
+<div id="cda65ec9" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
@@ -637,7 +665,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <section id="encapsulation" class="level2">
 <h2 class="anchored" data-anchor-id="encapsulation">Encapsulation</h2>
 <p>Protéger les données internes avec des attributs privés/protégés.</p>
-<div id="5c7b1d21" class="cell">
+<div id="d7563e02" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BankAccount:</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, initial_balance):</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__balance <span class="op">=</span> initial_balance  <span class="co"># Privé (__)</span></span>
@@ -660,7 +688,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <section id="héritage" class="level2">
 <h2 class="anchored" data-anchor-id="héritage">Héritage</h2>
 <p>Réutiliser du code en créant des sous-classes.</p>
-<div id="d3bffee7" class="cell">
+<div id="1179aa3b" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> User:</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name, email):</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.name <span class="op">=</span> name</span>
@@ -695,7 +723,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <section id="polymorphisme" class="level2">
 <h2 class="anchored" data-anchor-id="polymorphisme">Polymorphisme</h2>
 <p>Même interface, comportements différents.</p>
-<div id="34a16032" class="cell">
+<div id="cd8b77be" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Document:</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, title):</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.title <span class="op">=</span> title</span>
@@ -727,7 +755,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <section id="property---propriétés-gérées" class="level2">
 <h2 class="anchored" data-anchor-id="property---propriétés-gérées"><span class="citation" data-cites="property">@property</span> - Propriétés gérées</h2>
 <p>Transformer une méthode en attribut accessible avec validation.</p>
-<div id="1656d2e3" class="cell">
+<div id="25b8496f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Book:</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, title, price):</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._title <span class="op">=</span> title</span>
@@ -771,7 +799,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <section id="staticmethod---méthodes-utilitaires" class="level2">
 <h2 class="anchored" data-anchor-id="staticmethod---méthodes-utilitaires"><span class="citation" data-cites="staticmethod">@staticmethod</span> - Méthodes utilitaires</h2>
 <p>Méthodes sans accès à l’instance ou la classe.</p>
-<div id="fcf55137" class="cell">
+<div id="3392b085" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LibraryUtils:</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">@staticmethod</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> format_isbn(isbn):</span>
@@ -787,7 +815,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <section id="classmethod---méthodes-de-classe" class="level2">
 <h2 class="anchored" data-anchor-id="classmethod---méthodes-de-classe"><span class="citation" data-cites="classmethod">@classmethod</span> - Méthodes de classe</h2>
 <p>Méthodes avec accès à la classe (pas l’instance).</p>
-<div id="3b25ecf9" class="cell">
+<div id="e26c2867" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Book:</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    total_count <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -813,7 +841,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <section id="abstractmethod---classes-abstraites" class="level2">
 <h2 class="anchored" data-anchor-id="abstractmethod---classes-abstraites"><span class="citation" data-cites="abstractmethod">@abstractmethod</span> - Classes abstraites</h2>
 <p>Forcer l’implémentation dans les sous-classes.</p>
-<div id="700c2e1d" class="cell">
+<div id="2706dc3c" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> abc <span class="im">import</span> ABC, abstractmethod</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Borrowable(ABC):</span>
@@ -872,7 +900,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div id="fe8a8b62" class="cell">
+<div id="6d3be624" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -936,7 +964,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Problème : Ajouter un nouveau type = modifier cette classe</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-<div id="e883aa8c" class="cell">
+<div id="f26373b9" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> abc <span class="im">import</span> ABC, abstractmethod</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DiscountStrategy(ABC):</span>
@@ -993,7 +1021,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># PROBLÈME : Penguin ne peut pas remplacer Bird</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
-<div id="f63469a3" class="cell">
+<div id="79fccd83" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Document:</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, title):</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.title <span class="op">=</span> title</span>
@@ -1055,7 +1083,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">"Pas de fax!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
-<div id="073b9e35" class="cell">
+<div id="ca802748" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> abc <span class="im">import</span> ABC, abstractmethod</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Printable(ABC):</span>
@@ -1119,7 +1147,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 <span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Impossible de changer vers PostgreSQL facilement</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
-<div id="d4853e3f" class="cell">
+<div id="e2973a1a" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> abc <span class="im">import</span> ABC, abstractmethod</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1189,7 +1217,7 @@ Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions disper
 </section>
 <section id="avec-poo---debugging-structuré" class="level2">
 <h2 class="anchored" data-anchor-id="avec-poo---debugging-structuré">Avec POO - Debugging structuré</h2>
-<div id="5b01106c" class="cell">
+<div id="8e07b7a6" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>

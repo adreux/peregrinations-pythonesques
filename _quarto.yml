@@ -4,6 +4,7 @@ project:
   render:
     - "*.qmd"
     - "cours/**/*.qmd"
+    - "exercices/**/*.qmd"
     - "!notebook/"
     - "!notebooks/"
 
@@ -20,7 +21,7 @@ website:
           - text: "POO et Principes SOLID"
             href: cours/poo-solid/cours_poo_solid_complet.qmd
           - text: "Exercices POO"
-            href: exercices.qmd
+            href: exercices/poo-solid/exercice_rag_weather.qmd
           - text: "---"
           - text: "Prochaines sessions à venir..."
     right:
@@ -32,14 +33,20 @@ website:
       style: "docked"
       background: light
       contents:
-        - text: "Cours complet"
-          href: cours/poo-solid/cours_poo_solid_complet.qmd
-        - text: "Exercices"
-          href: exercices.qmd
+        - text: "Introduction"
+          href: cours/poo-solid/introduction.qmd
+        - section: "Cours"
+          contents:
+            - text: "POO & Principes SOLID"
+              href: cours/poo-solid/cours_poo_solid_complet.qmd
+        - section: "Pratique"
+          contents:
+            - text: "Exercices"
+              href: exercices/poo-solid/exercice_rag_weather.qmd
 
 format:
   html:
-    theme: 
+    theme:
       light: cosmo
       dark: darkly
     toc: true

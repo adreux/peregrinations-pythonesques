@@ -1,0 +1,25 @@
+---
+title: "Programmation Orientée Objet et Principes SOLID"
+---
+
+## Bienvenue 
+
+Cette session vous introduit aux concepts fondamentaux de la POO en Python et aux principes SOLID.
+
+## Contenu de la session
+
+### Cours complet
+Le cours couvre :       
+- Les bases de la **POO** (classes, objets, héritage)      
+- Les principes **SOLID** expliqués       
+- Des exemples pratiques en Python      
+ 
+[Accéder au cours →](cours_poo_solid_complet.qmd)
+
+### Exercices pratiques
+Des exercices pour mettre en pratique :       
+- Création de classes      
+- Application des principes **SOLID**      
+- Refactoring de code      
+
+[Accéder aux exercices →](../../exercices/poo-solid/exercices.qmd)
