@@ -17,10 +17,15 @@ venv/
 .venv/
 ENV/
 env/
+.env/
 
 # Jupyter
 .ipynb_checkpoints/
 *.ipynb_checkpoints/
+.github/workflows
+.jupyter_cache
+_freeze
+_site
 
 # IDE
 .vscode/

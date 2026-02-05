@@ -22,7 +22,6 @@ attrs==25.4.0
     # via
     #   jsonschema
     #   jupyter-cache
-    #   jupyter-cache
     #   referencing
 babel==2.17.0
     # via jupyterlab-server
@@ -39,8 +38,6 @@ cffi==2.0.0
     # via argon2-cffi-bindings
 charset-normalizer==3.4.4
     # via requests
-click==8.3.1
-    # via jupyter-cache
 click==8.3.1
     # via jupyter-cache
 comm==0.2.3
@@ -131,8 +128,6 @@ jupyter==1.1.1
     # via lesson (pyproject.toml)
 jupyter-cache==1.0.1
     # via lesson (pyproject.toml)
-jupyter-cache==1.0.1
-    # via lesson (pyproject.toml)
 jupyter-client==8.8.0
     # via
     #   ipykernel
@@ -198,16 +193,12 @@ nbclient==0.10.4
     # via
     #   jupyter-cache
     #   nbconvert
-    # via
-    #   jupyter-cache
-    #   nbconvert
 nbconvert==7.16.6
     # via
     #   jupyter
     #   jupyter-server
 nbformat==5.10.4
     # via
-    #   jupyter-cache
     #   jupyter-cache
     #   jupyter-server
     #   nbclient
@@ -309,7 +300,6 @@ pyyaml==6.0.3
     # via
     #   lesson (pyproject.toml)
     #   jupyter-cache
-    #   jupyter-cache
     #   jupyter-events
     #   mistralai
 pyzmq==27.1.0
@@ -356,12 +346,8 @@ soupsieve==2.8.3
     # via beautifulsoup4
 sqlalchemy==2.0.46
     # via jupyter-cache
-sqlalchemy==2.0.46
-    # via jupyter-cache
 stack-data==0.6.3
     # via ipython
-tabulate==0.9.0
-    # via jupyter-cache
 tabulate==0.9.0
     # via jupyter-cache
 terminado==0.18.1
@@ -436,7 +422,5 @@ websocket-client==1.9.0
     # via jupyter-server
 widgetsnbextension==4.0.15
     # via ipywidgets
-zipp==3.23.0
-    # via importlib-metadata
 zipp==3.23.0
     # via importlib-metadata
