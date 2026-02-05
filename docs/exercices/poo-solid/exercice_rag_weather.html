@@ -496,7 +496,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <section id="partie-1-logger-code-fourni" class="level1">
 <h1>Partie 1 : Logger (Code fourni)</h1>
 <p>Ce module configure le système de logging pour l’application.</p>
-<div id="2ad4b1b7" class="cell">
+<div id="95f7a8ee" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># src/logger.py</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -522,7 +522,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 </section>
 <section id="partie-2-modèles-de-données-code-fourni" class="level1">
 <h1>Partie 2 : Modèles de données (Code fourni)</h1>
-<div id="4296a479" class="cell">
+<div id="2a32adf7" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># src/models.py</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -551,7 +551,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <section id="partie-3-api-météo-code-à-analyser" class="level1">
 <h1>Partie 3 : API Météo (Code à analyser)</h1>
 <p>Voici le code de l’API météo. <strong>Attention</strong> : ce code contient des problèmes de conception que vous devrez identifier.</p>
-<div id="09946b9b" class="cell">
+<div id="8ba2921e" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># src/weather_api.py</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dotenv</span>
@@ -629,7 +629,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <h2 class="anchored" data-anchor-id="question-1.2-proposition-de-refactoring">Question 1.2 : Proposition de refactoring</h2>
 <p>Proposez une nouvelle architecture pour séparer : - La <strong>configuration</strong> (clé API, timeout, etc.) - L’<strong>exécution</strong> de requêtes météo</p>
 <p>Écrivez le code refactoré ci-dessous :</p>
-<div id="996a158d" class="cell">
+<div id="62e331d0" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre code ici</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
@@ -640,7 +640,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <p>Vous allez maintenant implémenter le client Mistral AI en utilisant le <strong>pattern Strategy</strong> pour gérer différents types de prompts système.</p>
 <section id="code-de-base-fourni" class="level2">
 <h2 class="anchored" data-anchor-id="code-de-base-fourni">Code de base fourni</h2>
-<div id="bc3092ad" class="cell">
+<div id="dc874e45" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># src/mistral_api.py</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os </span>
@@ -690,7 +690,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <section id="question-2.1-classe-abstraite-strategy" class="level2">
 <h2 class="anchored" data-anchor-id="question-2.1-classe-abstraite-strategy">Question 2.1 : Classe abstraite Strategy</h2>
 <p>Complétez la classe abstraite <code>MistralStrategy</code> (notez la correction de la faute de frappe “Srategy” → “Strategy”).</p>
-<div id="fe509241" class="cell">
+<div id="41844806" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> abc <span class="im">import</span> ABC, abstractmethod</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MistralStrategy(ABC):</span>
@@ -714,7 +714,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <section id="question-2.2-stratégie-rag" class="level2">
 <h2 class="anchored" data-anchor-id="question-2.2-stratégie-rag">Question 2.2 : Stratégie RAG</h2>
 <p>La stratégie RAG est fournie :</p>
-<div id="d278a583" class="cell">
+<div id="10b9579a" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> RAGStrategy(MistralStrategy):</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    content: <span class="bu">str</span></span>
@@ -740,7 +740,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <h2 class="anchored" data-anchor-id="question-2.3-implémentez-une-simplestrategy">Question 2.3 : Implémentez une SimpleStrategy</h2>
 <p>Créez une nouvelle stratégie <code>SimpleStrategy</code> qui permet de poser des questions simples sans contexte RAG.</p>
 <p>Spécifications : - Pas de contenu requis - Prompt système : “You are a helpful assistant. Answer questions clearly and concisely.” - Même configuration par défaut que RAGStrategy</p>
-<div id="25eb9458" class="cell">
+<div id="1c90e472" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre code ici</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SimpleStrategy(MistralStrategy):</span>
@@ -751,7 +751,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <section id="question-2.4-classe-mistralprovider" class="level2">
 <h2 class="anchored" data-anchor-id="question-2.4-classe-mistralprovider">Question 2.4 : Classe MistralProvider</h2>
 <p>Complétez la classe <code>MistralProvider</code> :</p>
-<div id="5d33c4a3" class="cell">
+<div id="9350d9c7" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MistralProvider:</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    mistralsecret: MistralSecret</span>
@@ -811,7 +811,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <h1>Partie 5 : Système RAG Météo</h1>
 <section id="code-fourni" class="level2">
 <h2 class="anchored" data-anchor-id="code-fourni">Code fourni</h2>
-<div id="d0113c19" class="cell">
+<div id="2a908454" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># src/rag_weather.py</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
@@ -884,7 +884,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <p>Créez un fichier de tests pour valider votre implémentation.</p>
 <section id="question-4.1-tests-pour-mistralstrategy" class="level2">
 <h2 class="anchored" data-anchor-id="question-4.1-tests-pour-mistralstrategy">Question 4.1 : Tests pour MistralStrategy</h2>
-<div id="98a24d8b" class="cell">
+<div id="173a7a4b" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tests/test_mistral_strategy.py</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.mistral_api <span class="im">import</span> MistralConfig, RAGStrategy, SimpleStrategy</span>
@@ -912,7 +912,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 </section>
 <section id="question-4.2-tests-pour-mistralprovider" class="level2">
 <h2 class="anchored" data-anchor-id="question-4.2-tests-pour-mistralprovider">Question 4.2 : Tests pour MistralProvider</h2>
-<div id="7d963cd9" class="cell">
+<div id="2ff2e584" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tests/test_mistral_provider.py</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> unittest.mock <span class="im">import</span> Mock, patch</span>
@@ -933,7 +933,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <section id="question-4.3-tests-dintégration" class="level2">
 <h2 class="anchored" data-anchor-id="question-4.3-tests-dintégration">Question 4.3 : Tests d’intégration</h2>
 <p>Créez des tests d’intégration qui vérifient le bon fonctionnement du système complet (vous pouvez utiliser des mocks pour les APIs externes).</p>
-<div id="935e59ef" class="cell">
+<div id="7837165f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tests/test_integration.py</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre code ici</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -945,7 +945,7 @@ weather_api_key=votre_clé_openweathermap</code></pre>
 <section id="question-5.1-script-de-démonstration" class="level2">
 <h2 class="anchored" data-anchor-id="question-5.1-script-de-démonstration">Question 5.1 : Script de démonstration</h2>
 <p>Créez un script <code>main.py</code> qui : 1. Demande à l’utilisateur une adresse 2. Demande une question sur la météo 3. Affiche la réponse de manière formatée</p>
-<div id="ef606ee2" class="cell">
+<div id="0f521510" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># main.py</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre code ici</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
