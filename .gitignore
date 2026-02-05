@@ -49,3 +49,10 @@ uv.lock
 *.tmp
 *.bak
 **/*.quarto_ipynb
+.env
+.env*
+
+# Cache directories
+.jupyter_cache/
+_freeze/
+_site/
