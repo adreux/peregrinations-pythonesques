@@ -35,3 +35,4 @@ env/
 Thumbs.db
 desktop.ini
 **/*.quarto_ipynb
+.env
