@@ -4,6 +4,7 @@ project:
   render:
     - "*.qmd"
     - "cours/**/*.qmd"
+    - "exercices/**/*.qmd"
     - "!notebook/"
     - "!notebooks/"
   output-dir: docs
@@ -28,28 +29,7 @@ website:
           - text: "POO et Principes SOLID"
             href: cours/poo-solid/cours_poo_solid_complet.qmd
           - text: "Exercices POO"
-            href: exercices.qmd
-          - text: "---"
-          - text: "Prochaines sessions à venir..."
-    right:
-      - text: "GitHub"
-        href: https://github.com/adreux/peregrinations-pythonesques
-
-  sidebar:
-    - title: "POO et SOLID"
-      style: "docked"
-      background: light
-      contents:
-        - text: "Cours complet"
-          href: cours/poo-solid/cours_poo_solid_complet.qmd
-        - text: "Exercices"
-          href: exercices.qmd
-      - text: "Accueil"
-        href: index.qmd
-      - text: "Sessions"
-        menu:
-          - text: "POO & Principes SOLID"
-            href: cours/poo-solid/introduction.qmd
+            href: exercices/poo-solid/exercice_rag_weather.qmd
           - text: "---"
           - text: "Prochaines sessions à venir..."
     right:
@@ -70,11 +50,11 @@ website:
         - section: "Pratique"
           contents:
             - text: "Exercices"
-              href: exercices/poo-solid/exercices.qmd
+              href: exercices/poo-solid/exercice_rag_weather.qmd
 
 format:
   html:
-    theme: 
+    theme:
       light: cosmo
       dark: darkly
     theme: 
@@ -92,10 +72,6 @@ format:
     code-copy: true
     link-external-newwindow: true
 
-execute:
-  freeze: false
-  cache: false
-  enabled: false
 execute:
   freeze: false
   cache: false

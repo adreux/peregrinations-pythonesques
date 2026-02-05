@@ -3,6 +3,7 @@
 /_site/
 *.quarto_ipynb
 .quarto_ipynb/
+_freeze/
 
 # NE PAS ignorer docs/ car c'est ce qui sera publié sur GitHub Pages
 # docs/
@@ -22,10 +23,10 @@ env/
 # Jupyter
 .ipynb_checkpoints/
 *.ipynb_checkpoints/
-.github/workflows
-.jupyter_cache
-_freeze
-_site
+.jupyter_cache/
+
+# Notebooks de travail (pas les cours finalisés)
+notebook/
 
 # IDE
 .vscode/
@@ -39,5 +40,19 @@ _site
 # Windows
 Thumbs.db
 desktop.ini
+
+# UV / Python packaging
+uv.lock
+.python-version
+
+# Fichiers temporaires
+*.tmp
+*.bak
 **/*.quarto_ipynb
 .env
+.env*
+
+# Cache directories
+.jupyter_cache/
+_freeze/
+_site/

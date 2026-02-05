@@ -48,7 +48,8 @@
     "section": "",
     "text": "TipVersion interactive\n\n\n\nOuvrir ce cours dans Binder",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -58,7 +59,8 @@
     "section": "Pourquoi la POO ?",
     "text": "Pourquoi la POO ?\nProblème sans POO :\nImaginez gérer une bibliothèque avec des dictionnaires et des fonctions dispersées.\n\nbook1 = {\"titre\": \"1984\", \"auteur\": \"Orwell\", \"disponible\": True}\nbook2 = {\"titre\": \"Dune\", \"auteur\": \"Herbert\", \"disponible\": False}\n\ndef borrow_book(book):\n    if book[\"disponible\"]:\n        book[\"disponible\"] = False\n        return True\n    return False\n\nprint(f\"Emprunt réussi : {borrow_book(book1)}\")\nprint(f\"Livre 1 : {book1}\")\n\n\n\n\n\n\n\nWarningProblèmes sans POO\n\n\n\n\nPas de validation des données\nCode dupliqué partout\nDifficile à maintenir et déboguer\nPas de cohérence entre les objets\nImpossible de tracer les modifications\n\n\n\nAvec la POO : - Encapsulation : données et comportements regroupés - Réutilisabilité : héritage et composition - Maintenabilité : modifications localisées - Debugging facilité : logs et tracés centralisés",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -68,7 +70,8 @@
     "section": "Classes et Instances",
     "text": "Classes et Instances\nUne classe est un modèle pour créer des objets.\n\nimport logging\nlogging.basicConfig(\n    level=logging.INFO,\n    format=\"%(asctime)s [%(levelname)s] - %(message)s\"\n)\n\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n\nbook = Book('1984', 'George Orwell')\nlogging.info(f\"Livre créé : {book}\")",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -78,7 +81,8 @@
     "section": "Méthodes magiques",
     "text": "Méthodes magiques\n\n__str__ : Représentation lisible\n__str__ définit comment un objet est affiché pour un humain (print, logs), au lieu d’une représentation technique inutile.\n\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n    \n    def __str__(self):\n        return f\"{self.title} – {self.author}\"\n\nbook = Book('1984', 'George Orwell')\nlogging.info(f\"Livre : {book}\")\n\n\n\n\n\n\n\nTipBonne pratique\n\n\n\nDéfinissez toujours __str__ pour faciliter le debugging et les logs.\n\n\n\n\n__eq__ : Comparaison d’égalité\n__eq__ définit quand deux objets doivent être considérés égaux par leur contenu, et non par leur identité.\n\n# Sans __eq__\nbook1 = Book('1984', 'George Orwell')\nbook2 = Book('1984', 'George Orwell')\nprint(f\"Égaux sans __eq__ ? {book1 == book2}\")  # False\n\n# Avec __eq__\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n    \n    def __str__(self):\n        return f\"{self.title} – {self.author}\"\n\n    def __eq__(self, other):\n        if not isinstance(other, Book):\n            return NotImplemented\n        return self.title == other.title and self.author == other.author\n\nbook1 = Book('1984', 'George Orwell')\nbook2 = Book('1984', 'George Orwell')\nprint(f\"Égaux avec __eq__ ? {book1 == book2}\")  # True\n\n\n\n\n\n\n\nImportantImportant\n\n\n\nSans __eq__, Python compare les identités (adresses mémoire), pas le contenu.",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -88,7 +92,8 @@
     "section": "Dataclasses : Simplification moderne",
     "text": "Dataclasses : Simplification moderne\nLes dataclasses automatisent la création de __init__, __repr__, __eq__ et plus encore.\n\nfrom dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    author: str\n    available: bool = True\n\nbook1 = Book('1984', 'George Orwell')\nbook2 = Book('1984', 'George Orwell')\n\nprint(book1)\nprint(f\"Égaux ? {book1 == book2}\")\n\n\n\n\n\n\n\nNoteAvantages des dataclasses\n\n\n\n\nMoins de code boilerplate\nType hints intégrés (meilleure documentation)\nValeurs par défaut simples\nReprésentation automatique lisible\n\n\n\n\nQuand utiliser les dataclasses ?\nUtilisez les dataclasses pour : - Classes “conteneurs” de données (DTO, modèles) - Configuration d’objets - Résultats de calculs\nÉvitez pour : - Classes avec beaucoup de logique métier - Héritage complexe - Besoin de contrôle fin sur __init__",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -98,7 +103,8 @@
     "section": "Encapsulation",
     "text": "Encapsulation\nProtéger les données internes avec des attributs privés/protégés.\n\nclass BankAccount:\n    def __init__(self, initial_balance):\n        self.__balance = initial_balance  # Privé (__)\n\n    def deposit(self, amount):\n        if amount &lt;= 0:\n            raise ValueError(\"Le montant à déposer doit être positif\")\n        self.__balance += amount\n        logging.info(f\"Dépôt de {amount}€. Nouveau solde : {self.__balance}€\")\n\n    def get_balance(self):\n        return self.__balance\n\naccount = BankAccount(100)\naccount.deposit(50)\nprint(f\"Solde : {account.get_balance()}€\")\n\nAvantages : - Contrôle des accès - Validation des modifications - Protection contre les erreurs",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -108,7 +114,8 @@
     "section": "Héritage",
     "text": "Héritage\nRéutiliser du code en créant des sous-classes.\n\nclass User:\n    def __init__(self, name, email):\n        self.name = name\n        self.email = email\n        logging.info(f\"Utilisateur créé : {name}\")\n\nclass Librarian(User):\n    def __init__(self, name, email, department):\n        super().__init__(name, email)  # Appelle le constructeur parent\n        self.department = department\n        self.permissions = [\"borrow\", \"add_book\", \"delete_book\"]\n        logging.info(f\"Bibliothécaire créé : département {department}\")\n\nlibrarian = Librarian(\"Marie\", \"marie@library.com\", \"Histoire\")\nprint(f\"Permissions : {librarian.permissions}\")\n\n\n\n\n\n\n\nNoteLe rôle de super()\n\n\n\nsuper().__init__() appelle le constructeur de la classe parente pour initialiser les attributs qu’elle gère, avant d’ajouter nos propres attributs spécifiques.\nQuand Librarian hérite de User, on doit d’abord initialiser les attributs communs (name, email) avec super().__init__(name, email), puis ajouter les attributs spécifiques au bibliothécaire (department). Sans super(), les attributs du parent ne seraient pas initialisés.",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -118,7 +125,8 @@
     "section": "Polymorphisme",
     "text": "Polymorphisme\nMême interface, comportements différents.\n\nclass Document:\n    def __init__(self, title):\n        self.title = title\n    \n    def display(self):\n        raise NotImplementedError\n\nclass Book(Document):\n    def display(self):\n        return f\"Livre: {self.title}\"\n\nclass Magazine(Document):\n    def display(self):\n        return f\"Magazine: {self.title}\"\n\n# Test polymorphique\ndocuments = [\n    Book(\"1984\"),\n    Magazine(\"National Geographic\")\n]\n\nfor doc in documents:\n    print(doc.display())",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -128,7 +136,8 @@
     "section": "@property - Propriétés gérées",
     "text": "@property - Propriétés gérées\nTransformer une méthode en attribut accessible avec validation.\n\nclass Book:\n    def __init__(self, title, price):\n        self._title = title\n        self._price = price\n\n    @property\n    def price(self):\n        \"\"\"Getter\"\"\"\n        logging.info(f\"[LOG] Accès au prix de '{self._title}'\")\n        return self._price\n\n    @price.setter\n    def price(self, new_price):\n        \"\"\"Setter avec validation\"\"\"\n        if new_price &lt; 0:\n            raise ValueError(\"Le prix ne peut pas être négatif\")\n        logging.info(f\"[LOG] Prix modifié: {self._price} → {new_price}\")\n        self._price = new_price\n\nbook = Book(\"1984\", 15.99)\nprint(f\"Prix initial : {book.price}€\")\nbook.price = 12.99\nprint(f\"Nouveau prix : {book.price}€\")\n\n\n\n\n\n\n\nTipPourquoi utiliser un setter ?\n\n\n\nLe setter permet d’ajouter de la validation et du contrôle quand on modifie un attribut, au lieu de laisser n’importe quelle valeur être assignée directement.\nSans setter, on pourrait écrire book.price = -50 et Python accepterait sans vérifier. Le setter intercepte toute modification de price pour : - Vérifier que la valeur est valide (pas négative) - Logger le changement pour le debugging - Garantir la cohérence des données\n\n\nAvantages pour le debugging : - Logs automatiques sur les accès - Validation centralisée - Traçabilité des modifications",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -138,7 +147,8 @@
     "section": "@staticmethod - Méthodes utilitaires",
     "text": "@staticmethod - Méthodes utilitaires\nMéthodes sans accès à l’instance ou la classe.\n\nclass LibraryUtils:\n    @staticmethod\n    def format_isbn(isbn):\n        \"\"\"Formatage ISBN sans besoin de l'instance\"\"\"\n        return f\"{isbn[:3]}-{isbn[3:4]}-{isbn[4:9]}-{isbn[9:12]}-{isbn[12]}\"\n\nisbn = \"9782070368228\"\nformatted = LibraryUtils.format_isbn(isbn)\nprint(f\"ISBN formaté : {formatted}\")\n\nQuand l’utiliser : - Fonctions utilitaires liées conceptuellement à la classe - Pas besoin de self ou cls",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -148,7 +158,8 @@
     "section": "@classmethod - Méthodes de classe",
     "text": "@classmethod - Méthodes de classe\nMéthodes avec accès à la classe (pas l’instance).\n\nclass Book:\n    total_count = 0\n\n    def __init__(self, title):\n        self.title = title\n        Book.total_count += 1\n\n    @classmethod\n    def from_dict(cls, data):\n        \"\"\"Factory method - constructeur alternatif\"\"\"\n        return cls(data['title'])\n\n    @classmethod\n    def get_total_count(cls):\n        return cls.total_count\n\nbook1 = Book(\"1984\")\nbook2 = Book.from_dict({'title': 'Dune'})\nprint(f\"Nombre total de livres : {Book.get_total_count()}\")\n\nAvantages : - Constructeurs alternatifs (factory methods) - Accès aux variables de classe - Utile pour le tracking",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -158,7 +169,8 @@
     "section": "@abstractmethod - Classes abstraites",
     "text": "@abstractmethod - Classes abstraites\nForcer l’implémentation dans les sous-classes.\n\nfrom abc import ABC, abstractmethod\n\nclass Borrowable(ABC):\n    @abstractmethod\n    def borrow(self):\n        pass\n\n    @abstractmethod\n    def return_item(self):\n        pass\n\nclass Book(Borrowable):\n    def __init__(self, title):\n        self.title = title\n        self.available = True\n\n    def borrow(self):\n        if not self.available:\n            raise Exception(f\"Le livre '{self.title}' n'est pas disponible\")\n        self.available = False\n        return f\"Livre '{self.title}' emprunté\"\n\n    def return_item(self):\n        self.available = True\n        return f\"Livre '{self.title}' retourné\"\n\nbook = Book(\"1984\")\nprint(book.borrow())\nprint(book.return_item())\n\nAvantages : - Contrat d’interface clair - Erreurs à la création, pas à l’exécution - Documentation du comportement attendu",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -168,7 +180,8 @@
     "section": "S - Single Responsibility Principle",
     "text": "S - Single Responsibility Principle\nPrincipe : Une classe = une responsabilité.\n\nMauvais exempleBon exemple\n\n\nclass Book:\n    def __init__(self, title):\n        self.title = title\n\n    def borrow(self):\n        pass\n\n    def send_reminder_email(self):\n        # PROBLÈME : Book ne devrait pas gérer les emails\n        pass\n\n    def save_to_db(self):\n        # PROBLÈME : Book ne devrait pas gérer la DB\n        pass\n\n\n\nfrom dataclasses import dataclass\nfrom datetime import datetime\n\n@dataclass\nclass Book:\n    \"\"\"Responsabilité : Représenter un livre\"\"\"\n    title: str\n    author: str\n    available: bool = True\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: str\n    borrow_date: datetime\n\nclass BorrowManager:\n    \"\"\"Responsabilité : Gérer les emprunts\"\"\"\n    def borrow_book(self, book, user):\n        if book.available:\n            book.available = False\n            borrow = Borrow(book, user, datetime.now())\n            logging.info(f\"Emprunt créé : {book.title} par {user}\")\n            return borrow\n        raise Exception(f\"Livre non disponible : {book.title}\")\n\nclass EmailService:\n    \"\"\"Responsabilité : Envoyer des emails\"\"\"\n    def send_reminder(self, borrow):\n        logging.info(f\"Email envoyé pour : {borrow.book.title}\")\n\n# Test\nbook = Book(\"1984\", \"George Orwell\")\nmanager = BorrowManager()\nemail_service = EmailService()\n\nborrow = manager.borrow_book(book, \"Alice\")\nemail_service.send_reminder(borrow)\n\n\n\n\nAvantages debugging : - Erreur d’email ? Chercher dans EmailService uniquement - Problème de BDD ? Chercher dans BookRepository - Logs plus clairs et ciblés",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -178,7 +191,8 @@
     "section": "O - Open/Closed Principle",
     "text": "O - Open/Closed Principle\nPrincipe : Ouvert à l’extension, fermé à la modification.\n\nMauvais exempleBon exemple\n\n\nclass DiscountCalculator:\n    def calculate(self, user_type, amount):\n        if user_type == \"student\":\n            return amount * 0.9\n        elif user_type == \"senior\":\n            return amount * 0.85\n        elif user_type == \"vip\":\n            return amount * 0.8\n        return amount\n        # Problème : Ajouter un nouveau type = modifier cette classe\n\n\n\nfrom abc import ABC, abstractmethod\n\nclass DiscountStrategy(ABC):\n    @abstractmethod\n    def apply(self, amount):\n        pass\n\nclass StudentDiscount(DiscountStrategy):\n    def apply(self, amount):\n        return amount * 0.9\n\nclass SeniorDiscount(DiscountStrategy):\n    def apply(self, amount):\n        return amount * 0.85\n\nclass VIPDiscount(DiscountStrategy):\n    def apply(self, amount):\n        return amount * 0.8\n\nclass User:\n    def __init__(self, name, discount_strategy):\n        self.name = name\n        self.discount_strategy = discount_strategy\n\n    def calculate_price(self, amount):\n        return self.discount_strategy.apply(amount)\n\n# Test\nstudent = User(\"Alice\", StudentDiscount())\nsenior = User(\"Bob\", SeniorDiscount())\n\nprint(f\"Prix étudiant : {student.calculate_price(100)}€\")\nprint(f\"Prix senior : {senior.calculate_price(100)}€\")\n\n\n\n\nAvantages : - Ajouter une nouvelle remise = créer une nouvelle classe - Code existant non modifié = moins de bugs - Tests unitaires isolés",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -188,7 +202,8 @@
     "section": "L - Liskov Substitution Principle",
     "text": "L - Liskov Substitution Principle\nPrincipe : Les sous-classes doivent pouvoir remplacer leurs classes parentes.\n\nMauvais exempleBon exemple\n\n\nclass Bird:\n    def fly(self):\n        return \"Je vole\"\n\nclass Penguin(Bird):\n    def fly(self):\n        raise Exception(\"Je ne peux pas voler!\")\n        # PROBLÈME : Penguin ne peut pas remplacer Bird\n\n\n\nclass Document:\n    def __init__(self, title):\n        self.title = title\n\n    def can_be_borrowed(self):\n        return True\n\nclass Book(Document):\n    def can_be_borrowed(self):\n        return True  # Cohérent avec Document\n\nclass ArchiveDocument(Document):\n    def can_be_borrowed(self):\n        return False  # Cohérent, juste une réponse différente\n\ndef display_availability(document: Document):\n    status = \"disponible\" if document.can_be_borrowed() else \"archivé\"\n    print(f\"{document.title}: {status}\")\n\n# Test\nbook = Book(\"1984\")\narchive = ArchiveDocument(\"Manuscrit ancien\")\n\ndisplay_availability(book)\ndisplay_availability(archive)",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -198,7 +213,8 @@
     "section": "I - Interface Segregation Principle",
     "text": "I - Interface Segregation Principle\nPrincipe : Interfaces spécifiques plutôt qu’une interface générale.\n\nMauvais exempleBon exemple\n\n\nclass Printable(ABC):\n    @abstractmethod\n    def print(self):\n        pass\n\n    @abstractmethod\n    def scan(self):\n        pass\n\n    @abstractmethod\n    def fax(self):\n        pass\n\nclass SimplePrinter(Printable):\n    def print(self):\n        return \"Impression...\"\n\n    def scan(self):\n        raise NotImplementedError(\"Pas de scanner!\")\n\n    def fax(self):\n        raise NotImplementedError(\"Pas de fax!\")\n\n\n\nfrom abc import ABC, abstractmethod\n\nclass Printable(ABC):\n    @abstractmethod\n    def print(self):\n        pass\n\nclass Scannable(ABC):\n    @abstractmethod\n    def scan(self):\n        pass\n\nclass Faxable(ABC):\n    @abstractmethod\n    def fax(self):\n        pass\n\nclass SimplePrinter(Printable):\n    def print(self):\n        return \"Impression...\"\n\nclass MultifunctionPrinter(Printable, Scannable, Faxable):\n    def print(self):\n        return \"Impression...\"\n\n    def scan(self):\n        return \"Scan...\"\n\n    def fax(self):\n        return \"Fax...\"\n\n# Test\nsimple = SimplePrinter()\nmultifunction = MultifunctionPrinter()\n\nprint(simple.print())\nprint(multifunction.scan())",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -208,7 +224,8 @@
     "section": "D - Dependency Inversion Principle",
     "text": "D - Dependency Inversion Principle\nPrincipe : Dépendre d’abstractions, pas d’implémentations concrètes.\n\nMauvais exempleBon exemple\n\n\nclass MySQLDatabase:\n    def save(self, data):\n        print(\"Sauvegarde dans MySQL\")\n\nclass BorrowManager:\n    def __init__(self):\n        self.db = MySQLDatabase()  # Dépendance forte !\n\n    def record_borrow(self, borrow):\n        self.db.save(borrow)\n        # Impossible de tester avec une fausse DB\n        # Impossible de changer vers PostgreSQL facilement\n\n\n\nfrom abc import ABC, abstractmethod\nfrom dataclasses import dataclass\n\nclass DatabaseInterface(ABC):\n    @abstractmethod\n    def save(self, data):\n        pass\n\nclass MySQLDatabase(DatabaseInterface):\n    def save(self, data):\n        logging.info(f\"[MySQL] Sauvegarde: {data}\")\n\nclass PostgreSQLDatabase(DatabaseInterface):\n    def save(self, data):\n        logging.info(f\"[PostgreSQL] Sauvegarde: {data}\")\n\nclass FakeDatabase(DatabaseInterface):\n    \"\"\"Pour les tests\"\"\"\n    def save(self, data):\n        logging.info(f\"[FAKE] Sauvegarde: {data}\")\n\nclass BorrowManager:\n    def __init__(self, database: DatabaseInterface):\n        self.db = database  # Injection de dépendance\n\n    def record_borrow(self, borrow):\n        self.db.save(borrow)\n\n# Utilisation\n@dataclass\nclass Book:\n    title: str\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: str\n\ndb_prod = MySQLDatabase()\nmanager_prod = BorrowManager(db_prod)\n\ndb_test = FakeDatabase()\nmanager_test = BorrowManager(db_test)\n\nborrow = Borrow(Book(\"1984\"), \"Alice\")\nmanager_prod.record_borrow(borrow)\nmanager_test.record_borrow(borrow)\n\n\n\n\nAvantages pour le debugging : - Tests isolés avec fausses dépendances - Logs différents selon l’environnement - Changement de DB sans toucher au code métier",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -218,7 +235,8 @@
     "section": "Sans POO - Cauchemar du debugging",
     "text": "Sans POO - Cauchemar du debugging\ndef borrow_book(books, book_id, user_id):\n    book = books[book_id]\n    if book[\"available\"]:\n        book[\"available\"] = False\n        # Où logger ? Quelle fonction a causé l'erreur ?\n        return True\n    return False\nProblèmes : - Pas de traçabilité - Erreurs silencieuses - Impossible de savoir qui a modifié quoi",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -228,7 +246,8 @@
     "section": "Avec POO - Debugging structuré",
     "text": "Avec POO - Debugging structuré\n\nfrom datetime import datetime\nfrom dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    _available: bool = True\n    \n    @property\n    def available(self):\n        return self._available\n\n    @available.setter\n    def available(self, value):\n        logging.info(\n            f\"'{self.title}' - Disponibilité: {self._available} → {value}\"\n        )\n        self._available = value\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: str\n    borrow_date: datetime = None\n    \n    def __post_init__(self):\n        if self.borrow_date is None:\n            self.borrow_date = datetime.now()\n        logging.info(\n            f\"Emprunt créé: '{self.book.title}' par {self.user} \"\n            f\"à {self.borrow_date}\"\n        )\n\n# Test\nbook = Book(\"1984\")\nbook.available = False\nborrow = Borrow(book, \"Alice\")\n\nAvantages : - Logs automatiques et structurés - Traçabilité complète - Facile de retrouver l’origine d’une erreur",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -238,7 +257,8 @@
     "section": "Avantages de la POO",
     "text": "Avantages de la POO\n\nMaintenance\n\nCode organisé et modulaire\nModifications localisées\nRéutilisation par héritage/composition\n\n\n\nDebugging\n\nLogs centralisés par classe\nTraçabilité via @property\nErreurs plus précises\n\n\n\nÉvolutivité\n\nSOLID garantit l’extensibilité\nTests unitaires isolés\nNouveaux features sans casser l’existant\n\n\n\nCollaboration\n\nInterfaces claires\nResponsabilités définies\nDocumentation naturelle via les classes",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -248,7 +268,8 @@
     "section": "Conclusion",
     "text": "Conclusion\n\n\n\n\n\n\nNotePoints clés\n\n\n\nLa POO n’est pas juste une façon d’organiser du code, c’est un outil pour : - Penser en termes de responsabilités - Debugger efficacement avec des logs structurés - Faire évoluer le code sans tout casser - Collaborer avec des interfaces claires\nLes principes SOLID sont des garde-fous qui vous éviteront des heures de debugging et de refactoring.\n\n\n\n\n\n\n\n\nTipConseil final\n\n\n\nCommencez simple, refactorisez quand la complexité augmente, et testez chaque classe individuellement.",
     "crumbs": [
-      "Cours complet"
+      "Cours",
+      "POO & Principes SOLID"
     ]
   },
   {
@@ -284,48 +305,274 @@
     "href": "exercices/poo-solid/exercices.html",
     "title": "Exercices POO et SOLID",
     "section": "",
-    "text": "TipVersion interactive\n\n\n\nOuvrir ce cours dans Binder"
+    "text": "TipVersion interactive\n\n\n\nOuvrir ce cours dans Binder",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
   },
   {
     "objectID": "exercices/poo-solid/exercices.html#exercices-pratiques",
     "href": "exercices/poo-solid/exercices.html#exercices-pratiques",
     "title": "Exercices POO et SOLID",
     "section": "Exercices pratiques",
-    "text": "Exercices pratiques\nMettez en pratique vos connaissances avec ces exercices."
+    "text": "Exercices pratiques\nMettez en pratique vos connaissances avec ces exercices.",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
   },
   {
     "objectID": "exercices/poo-solid/exercices.html#exercice-1-système-de-bibliothèque",
     "href": "exercices/poo-solid/exercices.html#exercice-1-système-de-bibliothèque",
     "title": "Exercices POO et SOLID",
     "section": "Exercice 1 : Système de bibliothèque",
-    "text": "Exercice 1 : Système de bibliothèque\n\nContexte\nCréez un système de gestion de bibliothèque en respectant les principes SOLID.\n\n\nConsignes\n\nCréez une classe Book avec les attributs : titre, auteur, ISBN, disponibilité\nCréez une classe User avec : nom, email, livres empruntés\nImplémentez un BorrowManager pour gérer les emprunts\nAjoutez un système de notifications par email (utilisez le principe SRP)\n\n\n\n\n\n\n\nNoteConseils\n\n\n\n\nUtilisez des dataclasses pour les modèles simples\nPensez à ajouter des logs avec logging\nRespectez le principe de responsabilité unique\n\n\n\n\n\nSquelette de départ\n\nfrom dataclasses import dataclass\nfrom datetime import datetime\nimport logging\n\n@dataclass\nclass Book:\n    title: str\n    author: str\n    isbn: str\n    available: bool = True\n\n# À compléter..."
+    "text": "Exercice 1 : Système de bibliothèque\n\nContexte\nCréez un système de gestion de bibliothèque en respectant les principes SOLID.\n\n\nConsignes\n\nCréez une classe Book avec les attributs : titre, auteur, ISBN, disponibilité\nCréez une classe User avec : nom, email, livres empruntés\nImplémentez un BorrowManager pour gérer les emprunts\nAjoutez un système de notifications par email (utilisez le principe SRP)\n\n\n\n\n\n\n\nNoteConseils\n\n\n\n\nUtilisez des dataclasses pour les modèles simples\nPensez à ajouter des logs avec logging\nRespectez le principe de responsabilité unique\n\n\n\n\n\nSquelette de départ\n\nfrom dataclasses import dataclass\nfrom datetime import datetime\nimport logging\n\n@dataclass\nclass Book:\n    title: str\n    author: str\n    isbn: str\n    available: bool = True\n\n# À compléter...",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
   },
   {
     "objectID": "exercices/poo-solid/exercices.html#exercice-2-système-de-réductions",
     "href": "exercices/poo-solid/exercices.html#exercice-2-système-de-réductions",
     "title": "Exercices POO et SOLID",
     "section": "Exercice 2 : Système de réductions",
-    "text": "Exercice 2 : Système de réductions\n\nContexte\nImplémentez différentes stratégies de réduction en utilisant le pattern Strategy (principe OCP).\n\n\nConsignes\n\nCréez une interface DiscountStrategy\nImplémentez au moins 3 stratégies différentes :\n\nRéduction étudiant (10%)\nRéduction senior (15%)\nRéduction fidélité (20%)\n\nCréez une classe Order qui utilise une stratégie de réduction\n\n\n\n\n\n\n\nTipBonus\n\n\n\nAjoutez une stratégie “Sans réduction” et une stratégie “Black Friday” (50%)."
+    "text": "Exercice 2 : Système de réductions\n\nContexte\nImplémentez différentes stratégies de réduction en utilisant le pattern Strategy (principe OCP).\n\n\nConsignes\n\nCréez une interface DiscountStrategy\nImplémentez au moins 3 stratégies différentes :\n\nRéduction étudiant (10%)\nRéduction senior (15%)\nRéduction fidélité (20%)\n\nCréez une classe Order qui utilise une stratégie de réduction\n\n\n\n\n\n\n\nTipBonus\n\n\n\nAjoutez une stratégie “Sans réduction” et une stratégie “Black Friday” (50%).",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
   },
   {
     "objectID": "exercices/poo-solid/exercices.html#exercice-3-système-de-documents",
     "href": "exercices/poo-solid/exercices.html#exercice-3-système-de-documents",
     "title": "Exercices POO et SOLID",
     "section": "Exercice 3 : Système de documents",
-    "text": "Exercice 3 : Système de documents\n\nContexte\nCréez une hiérarchie de documents en respectant le principe LSP.\n\n\nConsignes\n\nCréez une classe abstraite Document\nImplémentez au moins 3 types de documents :\n\nBook (empruntable)\nMagazine (empruntable pour 7 jours max)\nArchiveDocument (non empruntable, consultation sur place)\n\nTous doivent être utilisables de manière polymorphique"
+    "text": "Exercice 3 : Système de documents\n\nContexte\nCréez une hiérarchie de documents en respectant le principe LSP.\n\n\nConsignes\n\nCréez une classe abstraite Document\nImplémentez au moins 3 types de documents :\n\nBook (empruntable)\nMagazine (empruntable pour 7 jours max)\nArchiveDocument (non empruntable, consultation sur place)\n\nTous doivent être utilisables de manière polymorphique",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
   },
   {
     "objectID": "exercices/poo-solid/exercices.html#solutions",
     "href": "exercices/poo-solid/exercices.html#solutions",
     "title": "Exercices POO et SOLID",
     "section": "Solutions",
-    "text": "Solutions\n\n\n\n\n\n\nWarningVoir les solutions (essayez d’abord !)\n\n\n\n\n\nSolution Exercice 1\n\nfrom dataclasses import dataclass, field\nfrom datetime import datetime\nfrom typing import List\nimport logging\n\nlogging.basicConfig(level=logging.INFO)\n\n@dataclass\nclass Book:\n    title: str\n    author: str\n    isbn: str\n    available: bool = True\n\n@dataclass\nclass User:\n    name: str\n    email: str\n    borrowed_books: List[Book] = field(default_factory=list)\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: User\n    borrow_date: datetime\n    return_date: datetime = None\n\nclass BorrowManager:\n    def __init__(self):\n        self.borrows = []\n    \n    def borrow_book(self, book: Book, user: User) -&gt; Borrow:\n        if not book.available:\n            raise ValueError(f\"Le livre '{book.title}' n'est pas disponible\")\n        \n        book.available = False\n        user.borrowed_books.append(book)\n        borrow = Borrow(book, user, datetime.now())\n        self.borrows.append(borrow)\n        \n        logging.info(f\"{user.name} a emprunté '{book.title}'\")\n        return borrow\n    \n    def return_book(self, borrow: Borrow):\n        borrow.book.available = True\n        borrow.user.borrowed_books.remove(borrow.book)\n        borrow.return_date = datetime.now()\n        \n        logging.info(f\"{borrow.user.name} a retourné '{borrow.book.title}'\")\n\nclass EmailService:\n    def send_reminder(self, user: User, book: Book):\n        logging.info(f\"Email envoyé à {user.email} : rappel pour '{book.title}'\")\n\n# Test\nbook = Book(\"1984\", \"George Orwell\", \"978-0451524935\")\nuser = User(\"Alice\", \"alice@example.com\")\nmanager = BorrowManager()\nemail_service = EmailService()\n\nborrow = manager.borrow_book(book, user)\nemail_service.send_reminder(user, book)"
+    "text": "Solutions\n\n\n\n\n\n\nWarningVoir les solutions (essayez d’abord !)\n\n\n\n\n\nSolution Exercice 1\n\nfrom dataclasses import dataclass, field\nfrom datetime import datetime\nfrom typing import List\nimport logging\n\nlogging.basicConfig(level=logging.INFO)\n\n@dataclass\nclass Book:\n    title: str\n    author: str\n    isbn: str\n    available: bool = True\n\n@dataclass\nclass User:\n    name: str\n    email: str\n    borrowed_books: List[Book] = field(default_factory=list)\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: User\n    borrow_date: datetime\n    return_date: datetime = None\n\nclass BorrowManager:\n    def __init__(self):\n        self.borrows = []\n    \n    def borrow_book(self, book: Book, user: User) -&gt; Borrow:\n        if not book.available:\n            raise ValueError(f\"Le livre '{book.title}' n'est pas disponible\")\n        \n        book.available = False\n        user.borrowed_books.append(book)\n        borrow = Borrow(book, user, datetime.now())\n        self.borrows.append(borrow)\n        \n        logging.info(f\"{user.name} a emprunté '{book.title}'\")\n        return borrow\n    \n    def return_book(self, borrow: Borrow):\n        borrow.book.available = True\n        borrow.user.borrowed_books.remove(borrow.book)\n        borrow.return_date = datetime.now()\n        \n        logging.info(f\"{borrow.user.name} a retourné '{borrow.book.title}'\")\n\nclass EmailService:\n    def send_reminder(self, user: User, book: Book):\n        logging.info(f\"Email envoyé à {user.email} : rappel pour '{book.title}'\")\n\n# Test\nbook = Book(\"1984\", \"George Orwell\", \"978-0451524935\")\nuser = User(\"Alice\", \"alice@example.com\")\nmanager = BorrowManager()\nemail_service = EmailService()\n\nborrow = manager.borrow_book(book, user)\nemail_service.send_reminder(user, book)",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
   },
   {
     "objectID": "exercices/poo-solid/exercices.html#pour-aller-plus-loin",
     "href": "exercices/poo-solid/exercices.html#pour-aller-plus-loin",
     "title": "Exercices POO et SOLID",
     "section": "Pour aller plus loin",
-    "text": "Pour aller plus loin\nEssayez d’intégrer ces exercices avec : - Des tests unitaires (pytest) - Une base de données (SQLite)\nRetour au cours"
+    "text": "Pour aller plus loin\nEssayez d’intégrer ces exercices avec : - Des tests unitaires (pytest) - Une base de données (SQLite)\nRetour au cours",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html",
+    "href": "exercices/poo-solid/exercice_rag_weather.html",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "",
+    "text": "Dans cet exercice, vous allez construire un système RAG (Retrieval-Augmented Generation) qui permet d’interroger des données météorologiques en langage naturel.\nLe système fonctionnera en 3 étapes : 1. Récupération des données : À partir d’une adresse, obtenir les coordonnées GPS puis les données météo 2. Contexte RAG : Formater ces données pour les fournir à un LLM 3. Génération : Utiliser Mistral AI pour répondre à des questions sur la météo\n\n\n\nComprendre et utiliser les classes abstraites (ABC)\nAppliquer le pattern Strategy pour gérer différents types de prompts\nMaîtriser les dataclasses Python\nGérer les secrets et configurations\nImplémenter un système RAG complet\nÉcrire des tests unitaires",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#objectifs-pédagogiques",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#objectifs-pédagogiques",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "",
+    "text": "Comprendre et utiliser les classes abstraites (ABC)\nAppliquer le pattern Strategy pour gérer différents types de prompts\nMaîtriser les dataclasses Python\nGérer les secrets et configurations\nImplémenter un système RAG complet\nÉcrire des tests unitaires",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#installation-des-dépendances",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#installation-des-dépendances",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Installation des dépendances",
+    "text": "Installation des dépendances\nuv add mistralai geopy requests python-dotenv",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#variables-denvironnement",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#variables-denvironnement",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Variables d’environnement",
+    "text": "Variables d’environnement\nCréez un fichier .env à la racine du projet :\nmistral_api_key=votre_clé_mistral\nweather_api_key=votre_clé_openweathermap\nPour obtenir les clés : - Mistral AI : https://console.mistral.ai/ - OpenWeatherMap : https://openweathermap.org/api",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-1.1-analyse-du-code-weatherapi",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-1.1-analyse-du-code-weatherapi",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 1.1 : Analyse du code WeatherAPI",
+    "text": "Question 1.1 : Analyse du code WeatherAPI\nIdentifiez le problème de conception majeur dans la classe WeatherAPI.\nIndices : - Que se passe-t-il si vous voulez récupérer la météo pour 10 adresses différentes ? - Combien d’instances de la classe allez-vous créer ? - La clé API change-t-elle entre chaque requête ?\nRéponse attendue : ___________________________________________",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-1.2-proposition-de-refactoring",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-1.2-proposition-de-refactoring",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 1.2 : Proposition de refactoring",
+    "text": "Question 1.2 : Proposition de refactoring\nProposez une nouvelle architecture pour séparer : - La configuration (clé API, timeout, etc.) - L’exécution de requêtes météo\nÉcrivez le code refactoré ci-dessous :\n\n# Votre code ici",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#code-de-base-fourni",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#code-de-base-fourni",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Code de base fourni",
+    "text": "Code de base fourni\n\n# src/mistral_api.py\nimport logging\nimport os \nimport dotenv\n\nfrom src.logger import setup_logging\nfrom mistralai import Mistral\nfrom dataclasses import dataclass\nfrom abc import ABC, abstractmethod\nfrom typing import Optional\n\nsetup_logging()\n\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.DEBUG)\n\ndotenv.load_dotenv()\n\n\n@dataclass\nclass MistralSecret:\n    mistral_api_key: str = None\n\n    def __post_init__(self):\n        if self.mistral_api_key is None:\n            self.mistral_api_key = os.getenv('mistral_api_key')\n            logging.info(f'Mistral Key loaded : len {len(self.mistral_api_key)}')\n        if self.mistral_api_key is None:\n            logging.error('You must set up mistral api key')\n\n\n@dataclass\nclass MistralConfig:\n    temperature: float = 0\n    max_tokens: int = 500\n    model: str = \"mistral-medium-latest\"\n\n    def __post_init__(self):\n        if self.temperature &lt; 0:\n            logging.error('Temperature must be &gt;0')\n            raise ValueError('Temperature must be &gt;0')\n        if self.max_tokens &lt; 0:\n            logging.error('Max tokens must be &gt;0')\n            raise ValueError('Max tokens must be &gt;0')",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.1-classe-abstraite-strategy",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.1-classe-abstraite-strategy",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 2.1 : Classe abstraite Strategy",
+    "text": "Question 2.1 : Classe abstraite Strategy\nComplétez la classe abstraite MistralStrategy (notez la correction de la faute de frappe “Srategy” → “Strategy”).\n\nfrom abc import ABC, abstractmethod\n\nclass MistralStrategy(ABC):\n    \"\"\"Classe abstraite définissant le contrat pour les différentes stratégies de prompt\"\"\"\n    config: MistralConfig\n\n    @abstractmethod\n    def get_prompt(self):\n        \"\"\"Retourne le prompt système pour cette stratégie\"\"\"\n        pass\n\n    def get_setup(self):\n        \"\"\"Retourne la configuration Mistral\"\"\"\n        return {\n            \"temperature\": self.config.temperature,\n            \"max_tokens\": self.config.max_tokens,\n            \"model\": self.config.model\n        }",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.2-stratégie-rag",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.2-stratégie-rag",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 2.2 : Stratégie RAG",
+    "text": "Question 2.2 : Stratégie RAG\nLa stratégie RAG est fournie :\n\n@dataclass\nclass RAGStrategy(MistralStrategy):\n    content: str\n    config: Optional[MistralConfig] = None\n\n    def __post_init__(self):\n        if self.content == \"\":\n            raise ValueError(\"you must enter en content for using rag strategy\")\n\n        if self.config is None:\n            self.config = MistralConfig(\n                temperature=0,\n                max_tokens=500,\n                model='mistral-medium-latest'\n            )\n\n    def get_prompt(self):\n        return f\"You're a RAG system you will use the follow content {self.content} \" \\\n               \"If the result is not from the content you must say it clearly\"",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.3-implémentez-une-simplestrategy",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.3-implémentez-une-simplestrategy",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 2.3 : Implémentez une SimpleStrategy",
+    "text": "Question 2.3 : Implémentez une SimpleStrategy\nCréez une nouvelle stratégie SimpleStrategy qui permet de poser des questions simples sans contexte RAG.\nSpécifications : - Pas de contenu requis - Prompt système : “You are a helpful assistant. Answer questions clearly and concisely.” - Même configuration par défaut que RAGStrategy\n\n# Votre code ici\n@dataclass\nclass SimpleStrategy(MistralStrategy):\n    # À compléter\n    pass",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.4-classe-mistralprovider",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.4-classe-mistralprovider",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 2.4 : Classe MistralProvider",
+    "text": "Question 2.4 : Classe MistralProvider\nComplétez la classe MistralProvider :\n\n@dataclass\nclass MistralProvider:\n    mistralsecret: MistralSecret\n    mistralconfig: MistralConfig\n\n    def __post_init__(self):\n        self._client = None\n\n    @property\n    def client(self) -&gt; Mistral:\n        \"\"\"Initialise le client Mistral de manière lazy (singleton pattern)\"\"\"\n        if self._client is None:\n            try:\n                self._client = Mistral(api_key=self.mistralsecret.mistral_api_key)\n                logger.info('Mistral Client initialized')\n            except ValueError as e:\n                logger.error(f'Erreur: {e}')\n                raise ValueError('Mistral key is not defined')\n            except Exception as e:\n                raise ConnectionError(f'Error {e}')\n        return self._client\n    \n    def _create_message(self, prompt: str, strategy: MistralStrategy) -&gt; list[dict]:\n        \"\"\"Crée la liste de messages pour l'API Mistral\"\"\"\n        return [\n            {'role': 'system', \"content\": strategy.get_prompt()},\n            {'role': 'user', \"content\": prompt}\n        ]\n    \n    def ask_mistral(self, prompt: str, context: str = \"\", strategy: Optional[MistralStrategy] = None):\n        \"\"\"\n        Envoie une requête à Mistral AI\n        \n        Args:\n            prompt: La question de l'utilisateur\n            context: Le contexte pour le RAG (optionnel)\n            strategy: La stratégie à utiliser (si None, utilise RAGStrategy avec le context)\n        \n        Returns:\n            La réponse de Mistral\n        \"\"\"\n        # À compléter : \n        # 1. Si strategy est None et context n'est pas vide, créer une RAGStrategy\n        # 2. Si strategy est None et context est vide, créer une SimpleStrategy\n        # 3. Logger la stratégie utilisée\n        # 4. Créer les messages\n        # 5. Récupérer la config\n        # 6. Appeler l'API Mistral\n        # 7. Gérer les erreurs\n        \n        pass",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#code-fourni",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#code-fourni",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Code fourni",
+    "text": "Code fourni\n\n# src/rag_weather.py\nimport logging\nfrom dataclasses import dataclass\n\nfrom src.logger import setup_logging\nfrom src.models import UserQuery\nfrom src.weather_api import GeoData, WeatherAPI\nfrom src.mistral_api import MistralProvider, MistralSecret, MistralConfig, RAGStrategy\n\nsetup_logging()\n\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.DEBUG)\n\n\n@dataclass\nclass RAGWeather:\n    mistralprovider: MistralProvider\n\n    def _get_context(self, address: str) -&gt; dict:\n        \"\"\"Récupère les données météo pour une adresse donnée\"\"\"\n        logging.info(f'Search weather of {address}')\n        userquery = UserQuery(address)\n        geodata = GeoData(userquery.question)\n        lat, lon = geodata.get_location()\n        weather_api = WeatherAPI(lat, lon)\n        response = weather_api.get_weather()\n        return response\n    \n    def ask_weather_question(self, address: str, question: str) -&gt; str:\n        \"\"\"Pose une question sur la météo d'une adresse\"\"\"\n        weather_data = self._get_context(address)\n        context_text = self._format_weather_data(weather_data)\n        mistralragstrategy = RAGStrategy(content=context_text)\n        response = self.mistralprovider.ask_mistral(question, context_text, mistralragstrategy)\n        \n        return response.choices[0].message.content\n    \n    def _format_weather_data(self, data: dict) -&gt; str:\n        \"\"\"Formate les données JSON de l'API météo en texte lisible\"\"\"\n        try:\n            weather = data['weather'][0]\n            main = data['main']\n            wind = data['wind']\n            \n            context = f\"\"\"\n            Données météorologiques pour {data['name']}:\n            - Conditions: {weather['description']}\n            - Température: {main['temp'] - 273.15:.1f}°C (ressenti: {main['feels_like'] - 273.15:.1f}°C)\n            - Humidité: {main['humidity']}%\n            - Pression: {main['pressure']} hPa\n            - Vent: {wind['speed']} m/s\n            - Visibilité: {data.get('visibility', 'N/A')} mètres\n            \"\"\"\n            return context\n        except KeyError as e:\n            logging.error(f'Error formatting weather data: {e}')\n            return str(data)",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-3.1-analyse-de-ragweather",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-3.1-analyse-de-ragweather",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 3.1 : Analyse de RAGWeather",
+    "text": "Question 3.1 : Analyse de RAGWeather\nIdentifiez comment RAGWeather utilise le problème de conception de WeatherAPI mentionné précédemment. Comment pourrait-on améliorer cela avec votre refactoring ?\nRéponse : ___________________________________________",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-4.1-tests-pour-mistralstrategy",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-4.1-tests-pour-mistralstrategy",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 4.1 : Tests pour MistralStrategy",
+    "text": "Question 4.1 : Tests pour MistralStrategy\n\n# tests/test_mistral_strategy.py\nimport pytest\nfrom src.mistral_api import MistralConfig, RAGStrategy, SimpleStrategy\n\ndef test_rag_strategy_with_empty_content():\n    \"\"\"Test que RAGStrategy lève une erreur si content est vide\"\"\"\n    # Votre code ici\n    pass\n\ndef test_rag_strategy_get_prompt():\n    \"\"\"Test que le prompt RAG contient bien le contenu\"\"\"\n    # Votre code ici\n    pass\n\ndef test_simple_strategy_initialization():\n    \"\"\"Test l'initialisation de SimpleStrategy\"\"\"\n    # Votre code ici\n    pass\n\ndef test_strategy_get_setup():\n    \"\"\"Test que get_setup retourne la bonne configuration\"\"\"\n    # Votre code ici\n    pass",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-4.2-tests-pour-mistralprovider",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-4.2-tests-pour-mistralprovider",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 4.2 : Tests pour MistralProvider",
+    "text": "Question 4.2 : Tests pour MistralProvider\n\n# tests/test_mistral_provider.py\nimport pytest\nfrom unittest.mock import Mock, patch\nfrom src.mistral_api import MistralProvider, MistralSecret, MistralConfig, SimpleStrategy\n\ndef test_create_message():\n    \"\"\"Test la création des messages\"\"\"\n    # Votre code ici\n    pass\n\ndef test_ask_mistral_with_simple_strategy():\n    \"\"\"Test une requête simple sans contexte\"\"\"\n    # Votre code ici\n    # Utilisez mock pour simuler l'API Mistral\n    pass",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-4.3-tests-dintégration",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-4.3-tests-dintégration",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 4.3 : Tests d’intégration",
+    "text": "Question 4.3 : Tests d’intégration\nCréez des tests d’intégration qui vérifient le bon fonctionnement du système complet (vous pouvez utiliser des mocks pour les APIs externes).\n\n# tests/test_integration.py\n# Votre code ici",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-5.1-script-de-démonstration",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-5.1-script-de-démonstration",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 5.1 : Script de démonstration",
+    "text": "Question 5.1 : Script de démonstration\nCréez un script main.py qui : 1. Demande à l’utilisateur une adresse 2. Demande une question sur la météo 3. Affiche la réponse de manière formatée\n\n# main.py\n# Votre code ici",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-5.2-gestion-des-erreurs",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-5.2-gestion-des-erreurs",
+    "title": "Exercice RAG Météo avec Mistral AI",
+    "section": "Question 5.2 : Gestion des erreurs",
+    "text": "Question 5.2 : Gestion des erreurs\nAjoutez une gestion robuste des erreurs : - Adresse introuvable - API météo indisponible - Erreur Mistral API - Clés API manquantes",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
   }
 ]
