@@ -42,6 +42,43 @@
     "text": "Sessions disponibles\n\nProgrammation Orientée Objet et Principes SOLID\nLa première session couvre les fondamentaux de la POO et les principes SOLID, essentiels pour écrire du code maintenable et évolutif.\nContenu :\n\nConcepts fondamentaux de la POO (classes, héritage, polymorphisme)\nDataclasses et méthodes magiques Python\nDécorateurs (@property, @staticmethod, @classmethod, @abstractmethod)\nPrincipes SOLID avec exemples pratiques\nExercices d’application\n\nAccéder au cours POO et SOLID\n\n\n\n\n\n\n\nNoteProchaines sessions\n\n\n\nD’autres sessions seront ajoutées progressivement pour couvrir l’ensemble des compétences nécessaires au développement de solutions data en production."
   },
   {
+    "objectID": "cours/poo-solid/introduction.html",
+    "href": "cours/poo-solid/introduction.html",
+    "title": "Programmation Orientée Objet et Principes SOLID",
+    "section": "",
+    "text": "Cette session vous introduit aux concepts fondamentaux de la POO en Python et aux principes SOLID.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/introduction.html#bienvenue",
+    "href": "cours/poo-solid/introduction.html#bienvenue",
+    "title": "Programmation Orientée Objet et Principes SOLID",
+    "section": "",
+    "text": "Cette session vous introduit aux concepts fondamentaux de la POO en Python et aux principes SOLID.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/introduction.html#contenu-de-la-session",
+    "href": "cours/poo-solid/introduction.html#contenu-de-la-session",
+    "title": "Programmation Orientée Objet et Principes SOLID",
+    "section": "Contenu de la session",
+    "text": "Contenu de la session\n\nCours complet\nLe cours couvre :\n- Les bases de la POO (classes, objets, héritage)\n- Les principes SOLID expliqués\n- Des exemples pratiques en Python\nAccéder au cours →\n\n\nExercices pratiques\nDes exercices pour mettre en pratique :\n- Création de classes\n- Application des principes SOLID\n- Refactoring de code\nAccéder aux exercices →",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
     "objectID": "cours/poo-solid/cours_poo_solid_complet.html",
     "href": "cours/poo-solid/cours_poo_solid_complet.html",
     "title": "Programmation Orientée Objet et Principes SOLID en Python",
@@ -273,116 +310,11 @@
     ]
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
-  },
-  {
-    "objectID": "cours/poo-solid/cours_poo_solid.html",
-    "href": "cours/poo-solid/cours_poo_solid.html",
-    "title": "Programmation Orientée Objet – Introduction",
-    "section": "",
-    "text": "Tip\n\n\n\nVersion interactive\nOuvrir ce cours dans Binder"
-  },
-  {
-    "objectID": "cours/poo-solid/cours_poo_solid.html#introduction",
-    "href": "cours/poo-solid/cours_poo_solid.html#introduction",
-    "title": "Programmation Orientée Objet – Introduction",
-    "section": "Introduction",
-    "text": "Introduction\n\nPourquoi la POO ?\nProblème sans POO :\nImaginez gérer une bibliothèque avec des dictionnaires et des fonctions dispersées.\n\nbook1 = {\"titre\": \"1984\", \"auteur\": \"Orwell\", \"disponible\": True}\nbook2 = {\"titre\": \"Dune\", \"auteur\": \"Herbert\", \"disponible\": False}\n\ndef borrow_book(book):\n    if book[\"disponible\"]:\n        book[\"disponible\"] = False\n        return True\n    return False\n\nborrow_book(book2)\n\nFalse"
-  },
-  {
-    "objectID": "cours/poo-solid/cours_poo_solid.html#première-classe-book",
-    "href": "cours/poo-solid/cours_poo_solid.html#première-classe-book",
-    "title": "Programmation Orientée Objet – Introduction",
-    "section": "Première classe : Book",
-    "text": "Première classe : Book\n\nDéclaration de la classe\n\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n\n    def __repr__(self):\n        return f\"{self.title} – {self.author}\""
-  },
-  {
-    "objectID": "exercices/poo-solid/exercices.html",
-    "href": "exercices/poo-solid/exercices.html",
-    "title": "Exercices POO et SOLID",
-    "section": "",
-    "text": "TipVersion interactive\n\n\n\nOuvrir ce cours dans Binder",
-    "crumbs": [
-      "Pratique",
-      "Exercices"
-    ]
-  },
-  {
-    "objectID": "exercices/poo-solid/exercices.html#exercices-pratiques",
-    "href": "exercices/poo-solid/exercices.html#exercices-pratiques",
-    "title": "Exercices POO et SOLID",
-    "section": "Exercices pratiques",
-    "text": "Exercices pratiques\nMettez en pratique vos connaissances avec ces exercices.",
-    "crumbs": [
-      "Pratique",
-      "Exercices"
-    ]
-  },
-  {
-    "objectID": "exercices/poo-solid/exercices.html#exercice-1-système-de-bibliothèque",
-    "href": "exercices/poo-solid/exercices.html#exercice-1-système-de-bibliothèque",
-    "title": "Exercices POO et SOLID",
-    "section": "Exercice 1 : Système de bibliothèque",
-    "text": "Exercice 1 : Système de bibliothèque\n\nContexte\nCréez un système de gestion de bibliothèque en respectant les principes SOLID.\n\n\nConsignes\n\nCréez une classe Book avec les attributs : titre, auteur, ISBN, disponibilité\nCréez une classe User avec : nom, email, livres empruntés\nImplémentez un BorrowManager pour gérer les emprunts\nAjoutez un système de notifications par email (utilisez le principe SRP)\n\n\n\n\n\n\n\nNoteConseils\n\n\n\n\nUtilisez des dataclasses pour les modèles simples\nPensez à ajouter des logs avec logging\nRespectez le principe de responsabilité unique\n\n\n\n\n\nSquelette de départ\n\nfrom dataclasses import dataclass\nfrom datetime import datetime\nimport logging\n\n@dataclass\nclass Book:\n    title: str\n    author: str\n    isbn: str\n    available: bool = True\n\n# À compléter...",
-    "crumbs": [
-      "Pratique",
-      "Exercices"
-    ]
-  },
-  {
-    "objectID": "exercices/poo-solid/exercices.html#exercice-2-système-de-réductions",
-    "href": "exercices/poo-solid/exercices.html#exercice-2-système-de-réductions",
-    "title": "Exercices POO et SOLID",
-    "section": "Exercice 2 : Système de réductions",
-    "text": "Exercice 2 : Système de réductions\n\nContexte\nImplémentez différentes stratégies de réduction en utilisant le pattern Strategy (principe OCP).\n\n\nConsignes\n\nCréez une interface DiscountStrategy\nImplémentez au moins 3 stratégies différentes :\n\nRéduction étudiant (10%)\nRéduction senior (15%)\nRéduction fidélité (20%)\n\nCréez une classe Order qui utilise une stratégie de réduction\n\n\n\n\n\n\n\nTipBonus\n\n\n\nAjoutez une stratégie “Sans réduction” et une stratégie “Black Friday” (50%).",
-    "crumbs": [
-      "Pratique",
-      "Exercices"
-    ]
-  },
-  {
-    "objectID": "exercices/poo-solid/exercices.html#exercice-3-système-de-documents",
-    "href": "exercices/poo-solid/exercices.html#exercice-3-système-de-documents",
-    "title": "Exercices POO et SOLID",
-    "section": "Exercice 3 : Système de documents",
-    "text": "Exercice 3 : Système de documents\n\nContexte\nCréez une hiérarchie de documents en respectant le principe LSP.\n\n\nConsignes\n\nCréez une classe abstraite Document\nImplémentez au moins 3 types de documents :\n\nBook (empruntable)\nMagazine (empruntable pour 7 jours max)\nArchiveDocument (non empruntable, consultation sur place)\n\nTous doivent être utilisables de manière polymorphique",
-    "crumbs": [
-      "Pratique",
-      "Exercices"
-    ]
-  },
-  {
-    "objectID": "exercices/poo-solid/exercices.html#solutions",
-    "href": "exercices/poo-solid/exercices.html#solutions",
-    "title": "Exercices POO et SOLID",
-    "section": "Solutions",
-    "text": "Solutions\n\n\n\n\n\n\nWarningVoir les solutions (essayez d’abord !)\n\n\n\n\n\nSolution Exercice 1\n\nfrom dataclasses import dataclass, field\nfrom datetime import datetime\nfrom typing import List\nimport logging\n\nlogging.basicConfig(level=logging.INFO)\n\n@dataclass\nclass Book:\n    title: str\n    author: str\n    isbn: str\n    available: bool = True\n\n@dataclass\nclass User:\n    name: str\n    email: str\n    borrowed_books: List[Book] = field(default_factory=list)\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: User\n    borrow_date: datetime\n    return_date: datetime = None\n\nclass BorrowManager:\n    def __init__(self):\n        self.borrows = []\n    \n    def borrow_book(self, book: Book, user: User) -&gt; Borrow:\n        if not book.available:\n            raise ValueError(f\"Le livre '{book.title}' n'est pas disponible\")\n        \n        book.available = False\n        user.borrowed_books.append(book)\n        borrow = Borrow(book, user, datetime.now())\n        self.borrows.append(borrow)\n        \n        logging.info(f\"{user.name} a emprunté '{book.title}'\")\n        return borrow\n    \n    def return_book(self, borrow: Borrow):\n        borrow.book.available = True\n        borrow.user.borrowed_books.remove(borrow.book)\n        borrow.return_date = datetime.now()\n        \n        logging.info(f\"{borrow.user.name} a retourné '{borrow.book.title}'\")\n\nclass EmailService:\n    def send_reminder(self, user: User, book: Book):\n        logging.info(f\"Email envoyé à {user.email} : rappel pour '{book.title}'\")\n\n# Test\nbook = Book(\"1984\", \"George Orwell\", \"978-0451524935\")\nuser = User(\"Alice\", \"alice@example.com\")\nmanager = BorrowManager()\nemail_service = EmailService()\n\nborrow = manager.borrow_book(book, user)\nemail_service.send_reminder(user, book)",
-    "crumbs": [
-      "Pratique",
-      "Exercices"
-    ]
-  },
-  {
-    "objectID": "exercices/poo-solid/exercices.html#pour-aller-plus-loin",
-    "href": "exercices/poo-solid/exercices.html#pour-aller-plus-loin",
-    "title": "Exercices POO et SOLID",
-    "section": "Pour aller plus loin",
-    "text": "Pour aller plus loin\nEssayez d’intégrer ces exercices avec : - Des tests unitaires (pytest) - Une base de données (SQLite)\nRetour au cours",
-    "crumbs": [
-      "Pratique",
-      "Exercices"
-    ]
-  },
-  {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html",
     "href": "exercices/poo-solid/exercice_rag_weather.html",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "",
-    "text": "Dans cet exercice, vous allez construire un système RAG (Retrieval-Augmented Generation) qui permet d’interroger des données météorologiques en langage naturel.\nLe système fonctionnera en 3 étapes : 1. Récupération des données : À partir d’une adresse, obtenir les coordonnées GPS puis les données météo 2. Contexte RAG : Formater ces données pour les fournir à un LLM 3. Génération : Utiliser Mistral AI pour répondre à des questions sur la météo\n\n\n\nComprendre et utiliser les classes abstraites (ABC)\nAppliquer le pattern Strategy pour gérer différents types de prompts\nMaîtriser les dataclasses Python\nGérer les secrets et configurations\nImplémenter un système RAG complet\nÉcrire des tests unitaires",
+    "text": "TipVersion interactive\n\n\n\nFaites cet exercice dans Binder",
     "crumbs": [
       "Pratique",
       "Exercices"
@@ -391,9 +323,9 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#objectifs-pédagogiques",
     "href": "exercices/poo-solid/exercice_rag_weather.html#objectifs-pédagogiques",
-    "title": "Exercice RAG Météo avec Mistral AI",
-    "section": "",
-    "text": "Comprendre et utiliser les classes abstraites (ABC)\nAppliquer le pattern Strategy pour gérer différents types de prompts\nMaîtriser les dataclasses Python\nGérer les secrets et configurations\nImplémenter un système RAG complet\nÉcrire des tests unitaires",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Objectifs pédagogiques",
+    "text": "Objectifs pédagogiques\n\nComprendre et utiliser les classes abstraites (ABC)\nAppliquer le pattern Strategy pour gérer différents types de prompts\n\nMaîtriser les dataclasses Python\n\nGérer les secrets et configurations\n\nImplémenter un système agentique complet\n\nÉcrire des tests unitaires",
     "crumbs": [
       "Pratique",
       "Exercices"
@@ -402,7 +334,7 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#installation-des-dépendances",
     "href": "exercices/poo-solid/exercice_rag_weather.html#installation-des-dépendances",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Installation des dépendances",
     "text": "Installation des dépendances\nuv add mistralai geopy requests python-dotenv",
     "crumbs": [
@@ -413,7 +345,7 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#variables-denvironnement",
     "href": "exercices/poo-solid/exercice_rag_weather.html#variables-denvironnement",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Variables d’environnement",
     "text": "Variables d’environnement\nCréez un fichier .env à la racine du projet :\nmistral_api_key=votre_clé_mistral\nweather_api_key=votre_clé_openweathermap\nPour obtenir les clés : - Mistral AI : https://console.mistral.ai/ - OpenWeatherMap : https://openweathermap.org/api",
     "crumbs": [
@@ -424,7 +356,7 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-1.1-analyse-du-code-weatherapi",
     "href": "exercices/poo-solid/exercice_rag_weather.html#question-1.1-analyse-du-code-weatherapi",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Question 1.1 : Analyse du code WeatherAPI",
     "text": "Question 1.1 : Analyse du code WeatherAPI\nIdentifiez le problème de conception majeur dans la classe WeatherAPI.\nIndices : - Que se passe-t-il si vous voulez récupérer la météo pour 10 adresses différentes ? - Combien d’instances de la classe allez-vous créer ? - La clé API change-t-elle entre chaque requête ?\nRéponse attendue : ___________________________________________",
     "crumbs": [
@@ -435,7 +367,7 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-1.2-proposition-de-refactoring",
     "href": "exercices/poo-solid/exercice_rag_weather.html#question-1.2-proposition-de-refactoring",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Question 1.2 : Proposition de refactoring",
     "text": "Question 1.2 : Proposition de refactoring\nProposez une nouvelle architecture pour séparer : - La configuration (clé API, timeout, etc.) - L’exécution de requêtes météo\nÉcrivez le code refactoré ci-dessous :\n\n# Votre code ici",
     "crumbs": [
@@ -446,7 +378,7 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#code-de-base-fourni",
     "href": "exercices/poo-solid/exercice_rag_weather.html#code-de-base-fourni",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Code de base fourni",
     "text": "Code de base fourni\n\n# src/mistral_api.py\nimport logging\nimport os \nimport dotenv\n\nfrom src.logger import setup_logging\nfrom mistralai import Mistral\nfrom dataclasses import dataclass\nfrom abc import ABC, abstractmethod\nfrom typing import Optional\n\nsetup_logging()\n\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.DEBUG)\n\ndotenv.load_dotenv()\n\n\n@dataclass\nclass MistralSecret:\n    mistral_api_key: str = None\n\n    def __post_init__(self):\n        if self.mistral_api_key is None:\n            self.mistral_api_key = os.getenv('mistral_api_key')\n            logging.info(f'Mistral Key loaded : len {len(self.mistral_api_key)}')\n        if self.mistral_api_key is None:\n            logging.error('You must set up mistral api key')\n\n\n@dataclass\nclass MistralConfig:\n    temperature: float = 0\n    max_tokens: int = 500\n    model: str = \"mistral-medium-latest\"\n\n    def __post_init__(self):\n        if self.temperature &lt; 0:\n            logging.error('Temperature must be &gt;0')\n            raise ValueError('Temperature must be &gt;0')\n        if self.max_tokens &lt; 0:\n            logging.error('Max tokens must be &gt;0')\n            raise ValueError('Max tokens must be &gt;0')",
     "crumbs": [
@@ -457,7 +389,7 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.1-classe-abstraite-strategy",
     "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.1-classe-abstraite-strategy",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Question 2.1 : Classe abstraite Strategy",
     "text": "Question 2.1 : Classe abstraite Strategy\nComplétez la classe abstraite MistralStrategy (notez la correction de la faute de frappe “Srategy” → “Strategy”).\n\nfrom abc import ABC, abstractmethod\n\nclass MistralStrategy(ABC):\n    \"\"\"Classe abstraite définissant le contrat pour les différentes stratégies de prompt\"\"\"\n    config: MistralConfig\n\n    @abstractmethod\n    def get_prompt(self):\n        \"\"\"Retourne le prompt système pour cette stratégie\"\"\"\n        pass\n\n    def get_setup(self):\n        \"\"\"Retourne la configuration Mistral\"\"\"\n        return {\n            \"temperature\": self.config.temperature,\n            \"max_tokens\": self.config.max_tokens,\n            \"model\": self.config.model\n        }",
     "crumbs": [
@@ -466,11 +398,11 @@
     ]
   },
   {
-    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.2-stratégie-rag",
-    "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.2-stratégie-rag",
-    "title": "Exercice RAG Météo avec Mistral AI",
-    "section": "Question 2.2 : Stratégie RAG",
-    "text": "Question 2.2 : Stratégie RAG\nLa stratégie RAG est fournie :\n\n@dataclass\nclass RAGStrategy(MistralStrategy):\n    content: str\n    config: Optional[MistralConfig] = None\n\n    def __post_init__(self):\n        if self.content == \"\":\n            raise ValueError(\"you must enter en content for using rag strategy\")\n\n        if self.config is None:\n            self.config = MistralConfig(\n                temperature=0,\n                max_tokens=500,\n                model='mistral-medium-latest'\n            )\n\n    def get_prompt(self):\n        return f\"You're a RAG system you will use the follow content {self.content} \" \\\n               \"If the result is not from the content you must say it clearly\"",
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.2-stratégie-agentique",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.2-stratégie-agentique",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 2.2 : Stratégie Agentique",
+    "text": "Question 2.2 : Stratégie Agentique\nLa stratégie Agentique est fournie :\n\n@dataclass\nclass AgenticStrategy(MistralStrategy):\n    content: str\n    config: Optional[MistralConfig] = None\n\n    def __post_init__(self):\n        if self.content == \"\":\n            raise ValueError(\"you must enter en content for using Agentique strategy\")\n\n        if self.config is None:\n            self.config = MistralConfig(\n                temperature=0,\n                max_tokens=500,\n                model='mistral-medium-latest'\n            )\n\n    def get_prompt(self):\n        return f\"You're a Agentique system you will use the follow content {self.content} \" \\\n               \"If the result is not from the content you must say it clearly\"",
     "crumbs": [
       "Pratique",
       "Exercices"
@@ -479,9 +411,9 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.3-implémentez-une-simplestrategy",
     "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.3-implémentez-une-simplestrategy",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Question 2.3 : Implémentez une SimpleStrategy",
-    "text": "Question 2.3 : Implémentez une SimpleStrategy\nCréez une nouvelle stratégie SimpleStrategy qui permet de poser des questions simples sans contexte RAG.\nSpécifications : - Pas de contenu requis - Prompt système : “You are a helpful assistant. Answer questions clearly and concisely.” - Même configuration par défaut que RAGStrategy\n\n# Votre code ici\n@dataclass\nclass SimpleStrategy(MistralStrategy):\n    # À compléter\n    pass",
+    "text": "Question 2.3 : Implémentez une SimpleStrategy\nCréez une nouvelle stratégie SimpleStrategy qui permet de poser des questions simples sans contexte Agentique.\nSpécifications : - Pas de contenu requis - Prompt système : “You are a helpful assistant. Answer questions clearly and concisely.” - Même configuration par défaut que AgenticStrategy\n\n# Votre code ici\n@dataclass\nclass SimpleStrategy(MistralStrategy):\n    # À compléter\n    pass",
     "crumbs": [
       "Pratique",
       "Exercices"
@@ -490,9 +422,9 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.4-classe-mistralprovider",
     "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.4-classe-mistralprovider",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Question 2.4 : Classe MistralProvider",
-    "text": "Question 2.4 : Classe MistralProvider\nComplétez la classe MistralProvider :\n\n@dataclass\nclass MistralProvider:\n    mistralsecret: MistralSecret\n    mistralconfig: MistralConfig\n\n    def __post_init__(self):\n        self._client = None\n\n    @property\n    def client(self) -&gt; Mistral:\n        \"\"\"Initialise le client Mistral de manière lazy (singleton pattern)\"\"\"\n        if self._client is None:\n            try:\n                self._client = Mistral(api_key=self.mistralsecret.mistral_api_key)\n                logger.info('Mistral Client initialized')\n            except ValueError as e:\n                logger.error(f'Erreur: {e}')\n                raise ValueError('Mistral key is not defined')\n            except Exception as e:\n                raise ConnectionError(f'Error {e}')\n        return self._client\n    \n    def _create_message(self, prompt: str, strategy: MistralStrategy) -&gt; list[dict]:\n        \"\"\"Crée la liste de messages pour l'API Mistral\"\"\"\n        return [\n            {'role': 'system', \"content\": strategy.get_prompt()},\n            {'role': 'user', \"content\": prompt}\n        ]\n    \n    def ask_mistral(self, prompt: str, context: str = \"\", strategy: Optional[MistralStrategy] = None):\n        \"\"\"\n        Envoie une requête à Mistral AI\n        \n        Args:\n            prompt: La question de l'utilisateur\n            context: Le contexte pour le RAG (optionnel)\n            strategy: La stratégie à utiliser (si None, utilise RAGStrategy avec le context)\n        \n        Returns:\n            La réponse de Mistral\n        \"\"\"\n        # À compléter : \n        # 1. Si strategy est None et context n'est pas vide, créer une RAGStrategy\n        # 2. Si strategy est None et context est vide, créer une SimpleStrategy\n        # 3. Logger la stratégie utilisée\n        # 4. Créer les messages\n        # 5. Récupérer la config\n        # 6. Appeler l'API Mistral\n        # 7. Gérer les erreurs\n        \n        pass",
+    "text": "Question 2.4 : Classe MistralProvider\nComplétez la classe MistralProvider :\n\n@dataclass\nclass MistralProvider:\n    mistralsecret: MistralSecret\n    mistralconfig: MistralConfig\n\n    def __post_init__(self):\n        self._client = None\n\n    @property\n    def client(self) -&gt; Mistral:\n        \"\"\"Initialise le client Mistral de manière lazy (singleton pattern)\"\"\"\n        if self._client is None:\n            try:\n                self._client = Mistral(api_key=self.mistralsecret.mistral_api_key)\n                logger.info('Mistral Client initialized')\n            except ValueError as e:\n                logger.error(f'Erreur: {e}')\n                raise ValueError('Mistral key is not defined')\n            except Exception as e:\n                raise ConnectionError(f'Error {e}')\n        return self._client\n    \n    def _create_message(self, prompt: str, strategy: MistralStrategy) -&gt; list[dict]:\n        \"\"\"Crée la liste de messages pour l'API Mistral\"\"\"\n        return [\n            {'role': 'system', \"content\": strategy.get_prompt()},\n            {'role': 'user', \"content\": prompt}\n        ]\n    \n    def ask_mistral(self, prompt: str, context: str = \"\", strategy: Optional[MistralStrategy] = None):\n        \"\"\"\n        Envoie une requête à Mistral AI\n        \n        Args:\n            prompt: La question de l'utilisateur\n            context: Le contexte pour l'agent (optionnel)\n            strategy: La stratégie à utiliser (si None, utilise AgenticStrategy avec le context)\n        \n        Returns:\n            La réponse de Mistral\n        \"\"\"\n        # À compléter : \n        # 1. Si strategy est None et context n'est pas vide, créer une AgenticStrategy\n        # 2. Si strategy est None et context est vide, créer une SimpleStrategy\n        # 3. Logger la stratégie utilisée\n        # 4. Créer les messages\n        # 5. Récupérer la config\n        # 6. Appeler l'API Mistral\n        # 7. Gérer les erreurs\n        \n        pass",
     "crumbs": [
       "Pratique",
       "Exercices"
@@ -501,20 +433,20 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#code-fourni",
     "href": "exercices/poo-solid/exercice_rag_weather.html#code-fourni",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Code fourni",
-    "text": "Code fourni\n\n# src/rag_weather.py\nimport logging\nfrom dataclasses import dataclass\n\nfrom src.logger import setup_logging\nfrom src.models import UserQuery\nfrom src.weather_api import GeoData, WeatherAPI\nfrom src.mistral_api import MistralProvider, MistralSecret, MistralConfig, RAGStrategy\n\nsetup_logging()\n\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.DEBUG)\n\n\n@dataclass\nclass RAGWeather:\n    mistralprovider: MistralProvider\n\n    def _get_context(self, address: str) -&gt; dict:\n        \"\"\"Récupère les données météo pour une adresse donnée\"\"\"\n        logging.info(f'Search weather of {address}')\n        userquery = UserQuery(address)\n        geodata = GeoData(userquery.question)\n        lat, lon = geodata.get_location()\n        weather_api = WeatherAPI(lat, lon)\n        response = weather_api.get_weather()\n        return response\n    \n    def ask_weather_question(self, address: str, question: str) -&gt; str:\n        \"\"\"Pose une question sur la météo d'une adresse\"\"\"\n        weather_data = self._get_context(address)\n        context_text = self._format_weather_data(weather_data)\n        mistralragstrategy = RAGStrategy(content=context_text)\n        response = self.mistralprovider.ask_mistral(question, context_text, mistralragstrategy)\n        \n        return response.choices[0].message.content\n    \n    def _format_weather_data(self, data: dict) -&gt; str:\n        \"\"\"Formate les données JSON de l'API météo en texte lisible\"\"\"\n        try:\n            weather = data['weather'][0]\n            main = data['main']\n            wind = data['wind']\n            \n            context = f\"\"\"\n            Données météorologiques pour {data['name']}:\n            - Conditions: {weather['description']}\n            - Température: {main['temp'] - 273.15:.1f}°C (ressenti: {main['feels_like'] - 273.15:.1f}°C)\n            - Humidité: {main['humidity']}%\n            - Pression: {main['pressure']} hPa\n            - Vent: {wind['speed']} m/s\n            - Visibilité: {data.get('visibility', 'N/A')} mètres\n            \"\"\"\n            return context\n        except KeyError as e:\n            logging.error(f'Error formatting weather data: {e}')\n            return str(data)",
+    "text": "Code fourni\n\n# src/agentic_weather.py\nimport logging\nfrom dataclasses import dataclass\n\nfrom src.logger import setup_logging\nfrom src.models import UserQuery\nfrom src.weather_api import GeoData, WeatherAPI\nfrom src.mistral_api import MistralProvider, MistralSecret, MistralConfig, AgenticStrategy\n\nsetup_logging()\n\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.DEBUG)\n\n\n@dataclass\nclass AgenticWeather:\n    mistralprovider: MistralProvider\n\n    def _get_context(self, address: str) -&gt; dict:\n        \"\"\"Récupère les données météo pour une adresse donnée\"\"\"\n        logging.info(f'Search weather of {address}')\n        userquery = UserQuery(address)\n        geodata = GeoData(userquery.question)\n        lat, lon = geodata.get_location()\n        weather_api = WeatherAPI(lat, lon)\n        response = weather_api.get_weather()\n        return response\n    \n    def ask_weather_question(self, address: str, question: str) -&gt; str:\n        \"\"\"Pose une question sur la météo d'une adresse\"\"\"\n        weather_data = self._get_context(address)\n        context_text = self._format_weather_data(weather_data)\n        mistralagenticstrategy = AgenticStrategy(content=context_text)\n        response = self.mistralprovider.ask_mistral(question, context_text, mistralagenticstrategy)\n        \n        return response.choices[0].message.content\n    \n    def _format_weather_data(self, data: dict) -&gt; str:\n        \"\"\"Formate les données JSON de l'API météo en texte lisible\"\"\"\n        try:\n            weather = data['weather'][0]\n            main = data['main']\n            wind = data['wind']\n            \n            context = f\"\"\"\n            Données météorologiques pour {data['name']}:\n            - Conditions: {weather['description']}\n            - Température: {main['temp'] - 273.15:.1f}°C (ressenti: {main['feels_like'] - 273.15:.1f}°C)\n            - Humidité: {main['humidity']}%\n            - Pression: {main['pressure']} hPa\n            - Vent: {wind['speed']} m/s\n            - Visibilité: {data.get('visibility', 'N/A')} mètres\n            \"\"\"\n            return context\n        except KeyError as e:\n            logging.error(f'Error formatting weather data: {e}')\n            return str(data)",
     "crumbs": [
       "Pratique",
       "Exercices"
     ]
   },
   {
-    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-3.1-analyse-de-ragweather",
-    "href": "exercices/poo-solid/exercice_rag_weather.html#question-3.1-analyse-de-ragweather",
-    "title": "Exercice RAG Météo avec Mistral AI",
-    "section": "Question 3.1 : Analyse de RAGWeather",
-    "text": "Question 3.1 : Analyse de RAGWeather\nIdentifiez comment RAGWeather utilise le problème de conception de WeatherAPI mentionné précédemment. Comment pourrait-on améliorer cela avec votre refactoring ?\nRéponse : ___________________________________________",
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-3.1-analyse-de-agenticweather",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-3.1-analyse-de-agenticweather",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 3.1 : Analyse de AgenticWeather",
+    "text": "Question 3.1 : Analyse de AgenticWeather\nIdentifiez comment AgenticWeather utilise le problème de conception de WeatherAPI mentionné précédemment. Comment pourrait-on améliorer cela avec votre refactoring ?\nRéponse : ___________________________________________",
     "crumbs": [
       "Pratique",
       "Exercices"
@@ -523,9 +455,9 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-4.1-tests-pour-mistralstrategy",
     "href": "exercices/poo-solid/exercice_rag_weather.html#question-4.1-tests-pour-mistralstrategy",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Question 4.1 : Tests pour MistralStrategy",
-    "text": "Question 4.1 : Tests pour MistralStrategy\n\n# tests/test_mistral_strategy.py\nimport pytest\nfrom src.mistral_api import MistralConfig, RAGStrategy, SimpleStrategy\n\ndef test_rag_strategy_with_empty_content():\n    \"\"\"Test que RAGStrategy lève une erreur si content est vide\"\"\"\n    # Votre code ici\n    pass\n\ndef test_rag_strategy_get_prompt():\n    \"\"\"Test que le prompt RAG contient bien le contenu\"\"\"\n    # Votre code ici\n    pass\n\ndef test_simple_strategy_initialization():\n    \"\"\"Test l'initialisation de SimpleStrategy\"\"\"\n    # Votre code ici\n    pass\n\ndef test_strategy_get_setup():\n    \"\"\"Test que get_setup retourne la bonne configuration\"\"\"\n    # Votre code ici\n    pass",
+    "text": "Question 4.1 : Tests pour MistralStrategy\n\n# tests/test_mistral_strategy.py\nimport pytest\nfrom src.mistral_api import MistralConfig, AgenticStrategy, SimpleStrategy\n\ndef test_agentic_strategy_with_empty_content():\n    \"\"\"Test que AgenticStrategy lève une erreur si content est vide\"\"\"\n    # Votre code ici\n    pass\n\ndef test_agentic_strategy_get_prompt():\n    \"\"\"Test que le prompt Agentique contient bien le contenu\"\"\"\n    # Votre code ici\n    pass\n\ndef test_simple_strategy_initialization():\n    \"\"\"Test l'initialisation de SimpleStrategy\"\"\"\n    # Votre code ici\n    pass\n\ndef test_strategy_get_setup():\n    \"\"\"Test que get_setup retourne la bonne configuration\"\"\"\n    # Votre code ici\n    pass",
     "crumbs": [
       "Pratique",
       "Exercices"
@@ -534,7 +466,7 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-4.2-tests-pour-mistralprovider",
     "href": "exercices/poo-solid/exercice_rag_weather.html#question-4.2-tests-pour-mistralprovider",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Question 4.2 : Tests pour MistralProvider",
     "text": "Question 4.2 : Tests pour MistralProvider\n\n# tests/test_mistral_provider.py\nimport pytest\nfrom unittest.mock import Mock, patch\nfrom src.mistral_api import MistralProvider, MistralSecret, MistralConfig, SimpleStrategy\n\ndef test_create_message():\n    \"\"\"Test la création des messages\"\"\"\n    # Votre code ici\n    pass\n\ndef test_ask_mistral_with_simple_strategy():\n    \"\"\"Test une requête simple sans contexte\"\"\"\n    # Votre code ici\n    # Utilisez mock pour simuler l'API Mistral\n    pass",
     "crumbs": [
@@ -545,7 +477,7 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-4.3-tests-dintégration",
     "href": "exercices/poo-solid/exercice_rag_weather.html#question-4.3-tests-dintégration",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Question 4.3 : Tests d’intégration",
     "text": "Question 4.3 : Tests d’intégration\nCréez des tests d’intégration qui vérifient le bon fonctionnement du système complet (vous pouvez utiliser des mocks pour les APIs externes).\n\n# tests/test_integration.py\n# Votre code ici",
     "crumbs": [
@@ -556,7 +488,7 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-5.1-script-de-démonstration",
     "href": "exercices/poo-solid/exercice_rag_weather.html#question-5.1-script-de-démonstration",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Question 5.1 : Script de démonstration",
     "text": "Question 5.1 : Script de démonstration\nCréez un script main.py qui : 1. Demande à l’utilisateur une adresse 2. Demande une question sur la météo 3. Affiche la réponse de manière formatée\n\n# main.py\n# Votre code ici",
     "crumbs": [
@@ -567,7 +499,7 @@
   {
     "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-5.2-gestion-des-erreurs",
     "href": "exercices/poo-solid/exercice_rag_weather.html#question-5.2-gestion-des-erreurs",
-    "title": "Exercice RAG Météo avec Mistral AI",
+    "title": "Exercice Agentique Météo avec Mistral AI",
     "section": "Question 5.2 : Gestion des erreurs",
     "text": "Question 5.2 : Gestion des erreurs\nAjoutez une gestion robuste des erreurs : - Adresse introuvable - API météo indisponible - Erreur Mistral API - Clés API manquantes",
     "crumbs": [

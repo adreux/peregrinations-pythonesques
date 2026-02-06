@@ -1,6 +1,6 @@
 ---
-title: "Exercice RAG Météo avec Mistral AI"
-subtitle: "Construction d'un système RAG pour interroger des données météorologiques"
+title: "Exercice Agentique Météo avec Mistral AI"
+subtitle: "Construction d'un système Agentique pour interroger des données météorologiques"
 format: 
   html:
     toc: true
@@ -9,24 +9,29 @@ format:
     code-tools: true
 jupyter: python3
 ---
+::: {.callout-tip}
+## Version interactive
+[Faites cet exercice dans Binder](https://mybinder.org/v2/gh/adreux/peregrinations-pythonesques/HEAD)
+:::
+
 
 # Introduction
 
-Dans cet exercice, vous allez construire un système RAG (Retrieval-Augmented Generation) qui permet d'interroger des données météorologiques en langage naturel.
+Dans cet exercice, vous allez construire un système Agentique qui permet d'interroger des données météorologiques en langage naturel.
 
-Le système fonctionnera en 3 étapes :
-1. **Récupération des données** : À partir d'une adresse, obtenir les coordonnées GPS puis les données météo
-2. **Contexte RAG** : Formater ces données pour les fournir à un LLM
-3. **Génération** : Utiliser Mistral AI pour répondre à des questions sur la météo
+Le système fonctionnera en 3 étapes :     
+1. **Récupération des données** : À partir d'une adresse, obtenir les coordonnées GPS puis les données météo     
+2. **Contexte Agentique** : Formater ces données pour les fournir à un LLM     
+3. **Génération** : Utiliser Mistral AI pour répondre à des questions sur la météo     
 
 ## Objectifs pédagogiques
 
 - Comprendre et utiliser les **classes abstraites (ABC)**
-- Appliquer le **pattern Strategy** pour gérer différents types de prompts
-- Maîtriser les **dataclasses** Python
-- Gérer les **secrets et configurations**
-- Implémenter un **système RAG complet**
-- Écrire des **tests unitaires**
+- Appliquer le **pattern Strategy** pour gérer différents types de prompts    
+- Maîtriser les **dataclasses** Python    
+- Gérer les **secrets et configurations**     
+- Implémenter un **système agentique complet**     
+- Écrire des **tests unitaires**     
 
 ---
 
@@ -100,7 +105,7 @@ class UserQuery:
             raise ValueError('Must have a question')
 
 @dataclass
-class RAGAnswer:
+class AgentiqueAnswer:
     response: str
     sources: dict
 
@@ -293,20 +298,20 @@ class MistralStrategy(ABC):
         }
 ```
 
-## Question 2.2 : Stratégie RAG
+## Question 2.2 : Stratégie Agentique
 
-La stratégie RAG est fournie :
+La stratégie Agentique est fournie :
 
 ```{python}
 #| eval: false
 @dataclass
-class RAGStrategy(MistralStrategy):
+class AgenticStrategy(MistralStrategy):
     content: str
     config: Optional[MistralConfig] = None
 
     def __post_init__(self):
         if self.content == "":
-            raise ValueError("you must enter en content for using rag strategy")
+            raise ValueError("you must enter en content for using Agentique strategy")
 
         if self.config is None:
             self.config = MistralConfig(
@@ -316,18 +321,18 @@ class RAGStrategy(MistralStrategy):
             )
 
     def get_prompt(self):
-        return f"You're a RAG system you will use the follow content {self.content} " \
+        return f"You're a Agentique system you will use the follow content {self.content} " \
                "If the result is not from the content you must say it clearly"
 ```
 
 ## Question 2.3 : Implémentez une SimpleStrategy
 
-Créez une nouvelle stratégie `SimpleStrategy` qui permet de poser des questions simples sans contexte RAG.
+Créez une nouvelle stratégie `SimpleStrategy` qui permet de poser des questions simples sans contexte Agentique.
 
 Spécifications :
 - Pas de contenu requis
 - Prompt système : "You are a helpful assistant. Answer questions clearly and concisely."
-- Même configuration par défaut que RAGStrategy
+- Même configuration par défaut que AgenticStrategy
 
 ```{python}
 #| eval: false
@@ -379,14 +384,14 @@ class MistralProvider:
         
         Args:
             prompt: La question de l'utilisateur
-            context: Le contexte pour le RAG (optionnel)
-            strategy: La stratégie à utiliser (si None, utilise RAGStrategy avec le context)
+            context: Le contexte pour l'agent (optionnel)
+            strategy: La stratégie à utiliser (si None, utilise AgenticStrategy avec le context)
         
         Returns:
             La réponse de Mistral
         """
         # À compléter : 
-        # 1. Si strategy est None et context n'est pas vide, créer une RAGStrategy
+        # 1. Si strategy est None et context n'est pas vide, créer une AgenticStrategy
         # 2. Si strategy est None et context est vide, créer une SimpleStrategy
         # 3. Logger la stratégie utilisée
         # 4. Créer les messages
@@ -399,20 +404,20 @@ class MistralProvider:
 
 ---
 
-# Partie 5 : Système RAG Météo
+# Partie 5 : Système Agentique Météo
 
 ## Code fourni
 
 ```{python}
 #| eval: false
-# src/rag_weather.py
+# src/agentic_weather.py
 import logging
 from dataclasses import dataclass
 
 from src.logger import setup_logging
 from src.models import UserQuery
 from src.weather_api import GeoData, WeatherAPI
-from src.mistral_api import MistralProvider, MistralSecret, MistralConfig, RAGStrategy
+from src.mistral_api import MistralProvider, MistralSecret, MistralConfig, AgenticStrategy
 
 setup_logging()
 
@@ -421,7 +426,7 @@ logger.setLevel(logging.DEBUG)
 
 
 @dataclass
-class RAGWeather:
+class AgenticWeather:
     mistralprovider: MistralProvider
 
     def _get_context(self, address: str) -> dict:
@@ -438,8 +443,8 @@ class RAGWeather:
         """Pose une question sur la météo d'une adresse"""
         weather_data = self._get_context(address)
         context_text = self._format_weather_data(weather_data)
-        mistralragstrategy = RAGStrategy(content=context_text)
-        response = self.mistralprovider.ask_mistral(question, context_text, mistralragstrategy)
+        mistralagenticstrategy = AgenticStrategy(content=context_text)
+        response = self.mistralprovider.ask_mistral(question, context_text, mistralagenticstrategy)
         
         return response.choices[0].message.content
     
@@ -465,9 +470,9 @@ class RAGWeather:
             return str(data)
 ```
 
-## Question 3.1 : Analyse de RAGWeather
+## Question 3.1 : Analyse de AgenticWeather
 
-Identifiez comment `RAGWeather` utilise le problème de conception de `WeatherAPI` mentionné précédemment. Comment pourrait-on améliorer cela avec votre refactoring ?
+Identifiez comment `AgenticWeather` utilise le problème de conception de `WeatherAPI` mentionné précédemment. Comment pourrait-on améliorer cela avec votre refactoring ?
 
 **Réponse** : ___________________________________________
 
@@ -483,15 +488,15 @@ Créez un fichier de tests pour valider votre implémentation.
 #| eval: false
 # tests/test_mistral_strategy.py
 import pytest
-from src.mistral_api import MistralConfig, RAGStrategy, SimpleStrategy
+from src.mistral_api import MistralConfig, AgenticStrategy, SimpleStrategy
 
-def test_rag_strategy_with_empty_content():
-    """Test que RAGStrategy lève une erreur si content est vide"""
+def test_agentic_strategy_with_empty_content():
+    """Test que AgenticStrategy lève une erreur si content est vide"""
     # Votre code ici
     pass
 
-def test_rag_strategy_get_prompt():
-    """Test que le prompt RAG contient bien le contenu"""
+def test_agentic_strategy_get_prompt():
+    """Test que le prompt Agentique contient bien le contenu"""
     # Votre code ici
     pass
 
@@ -571,15 +576,6 @@ Ajoutez une gestion robuste des erreurs :
 3. **Historique** : Gardez un historique des conversations
 4. **Comparaison** : Permettre de comparer la météo de plusieurs villes
 5. **Prévisions** : Étendre le système pour gérer les prévisions météo (API différente)
-
----
-
-# Critères d'évaluation
-
-- **Architecture** (30%) : Bonne utilisation des classes abstraites, séparation des responsabilités
-- **Code quality** (25%) : Respect des conventions Python, logging, gestion d'erreurs
-- **Tests** (25%) : Couverture des tests, cas limites
-- **Fonctionnalité** (20%) : Le système fonctionne correctement end-to-end
 
 ---
 
