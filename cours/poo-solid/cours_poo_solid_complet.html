@@ -496,7 +496,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="pourquoi-la-poo">Pourquoi la POO ?</h2>
 <p><strong>Problème sans POO :</strong><br>
 Imaginez gérer une bibliothèque avec des dictionnaires et des fonctions dispersées.</p>
-<div id="469f754f" class="cell" data-execution_count="1">
+<div id="9dd04005" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>book1 <span class="op">=</span> {<span class="st">"titre"</span>: <span class="st">"1984"</span>, <span class="st">"auteur"</span>: <span class="st">"Orwell"</span>, <span class="st">"disponible"</span>: <span class="va">True</span>}</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>book2 <span class="op">=</span> {<span class="st">"titre"</span>: <span class="st">"Dune"</span>, <span class="st">"auteur"</span>: <span class="st">"Herbert"</span>, <span class="st">"disponible"</span>: <span class="va">False</span>}</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -540,7 +540,7 @@ Livre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}</code></pre
 <section id="classes-et-instances" class="level2">
 <h2 class="anchored" data-anchor-id="classes-et-instances">Classes et Instances</h2>
 <p>Une classe est un <strong>modèle</strong> pour créer des objets.</p>
-<div id="ccc11cd7" class="cell" data-execution_count="2">
+<div id="76d76e06" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>logging.basicConfig(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    level<span class="op">=</span>logging.INFO,</span>
@@ -556,7 +556,7 @@ Livre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}</code></pre
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>book <span class="op">=</span> Book(<span class="st">'1984'</span>, <span class="st">'George Orwell'</span>)</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>logging.info(<span class="ss">f"Livre créé : </span><span class="sc">{</span>book<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>2026-03-13 16:02:16,209 [INFO] - Livre créé : &lt;__main__.Book object at 0x7fe9545bfa90&gt;</code></pre>
+<pre><code>2026-03-13 16:13:55,860 [INFO] - Livre créé : &lt;__main__.Book object at 0x7f23ece20040&gt;</code></pre>
 </div>
 </div>
 </section>
@@ -565,7 +565,7 @@ Livre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}</code></pre
 <section id="str__-représentation-lisible" class="level3">
 <h3 class="anchored" data-anchor-id="str__-représentation-lisible"><code>__str__</code> : Représentation lisible</h3>
 <p><code>__str__</code> définit comment un objet est affiché pour un humain (print, logs), au lieu d’une représentation technique inutile.</p>
-<div id="2f706b10" class="cell" data-execution_count="3">
+<div id="1d1d9ae3" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Book:</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, title, author):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.title <span class="op">=</span> title</span>
@@ -578,7 +578,7 @@ Livre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}</code></pre
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>book <span class="op">=</span> Book(<span class="st">'1984'</span>, <span class="st">'George Orwell'</span>)</span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>logging.info(<span class="ss">f"Livre : </span><span class="sc">{</span>book<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>2026-03-13 16:02:16,217 [INFO] - Livre : 1984 – George Orwell</code></pre>
+<pre><code>2026-03-13 16:13:55,867 [INFO] - Livre : 1984 – George Orwell</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -598,7 +598,7 @@ Livre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}</code></pre
 <section id="eq__-comparaison-dégalité" class="level3">
 <h3 class="anchored" data-anchor-id="eq__-comparaison-dégalité"><code>__eq__</code> : Comparaison d’égalité</h3>
 <p><code>__eq__</code> définit quand deux objets doivent être considérés égaux par leur contenu, et non par leur identité.</p>
-<div id="af56a98c" class="cell" data-execution_count="4">
+<div id="1a214ced" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sans __eq__</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>book1 <span class="op">=</span> Book(<span class="st">'1984'</span>, <span class="st">'George Orwell'</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>book2 <span class="op">=</span> Book(<span class="st">'1984'</span>, <span class="st">'George Orwell'</span>)</span>
@@ -645,7 +645,7 @@ Livre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}</code></pre
 <section id="dataclasses-simplification-moderne" class="level2">
 <h2 class="anchored" data-anchor-id="dataclasses-simplification-moderne">Dataclasses : Simplification moderne</h2>
 <p>Les dataclasses automatisent la création de <code>__init__</code>, <code>__repr__</code>, <code>__eq__</code> et plus encore.</p>
-<div id="df615919" class="cell" data-execution_count="5">
+<div id="0377ed94" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
@@ -691,7 +691,7 @@ Livre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}</code></pre
 <section id="encapsulation" class="level2">
 <h2 class="anchored" data-anchor-id="encapsulation">Encapsulation</h2>
 <p>Protéger les données internes avec des attributs privés/protégés.</p>
-<div id="78580a31" class="cell" data-execution_count="6">
+<div id="e2d6cbe2" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BankAccount:</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, initial_balance):</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.__balance <span class="op">=</span> initial_balance  <span class="co"># Privé (__)</span></span>
@@ -709,7 +709,7 @@ Livre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}</code></pre
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>account.deposit(<span class="dv">50</span>)</span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Solde : </span><span class="sc">{</span>account<span class="sc">.</span>get_balance()<span class="sc">}</span><span class="ss">€"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>2026-03-13 16:02:16,242 [INFO] - Dépôt de 50€. Nouveau solde : 150€</code></pre>
+<pre><code>2026-03-13 16:13:55,891 [INFO] - Dépôt de 50€. Nouveau solde : 150€</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Solde : 150€</code></pre>
@@ -720,7 +720,7 @@ Livre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}</code></pre
 <section id="héritage" class="level2">
 <h2 class="anchored" data-anchor-id="héritage">Héritage</h2>
 <p>Réutiliser du code en créant des sous-classes.</p>
-<div id="328e41e7" class="cell" data-execution_count="7">
+<div id="a1605bc8" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> User:</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name, email):</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.name <span class="op">=</span> name</span>
@@ -737,8 +737,8 @@ Livre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}</code></pre
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>librarian <span class="op">=</span> Librarian(<span class="st">"Marie"</span>, <span class="st">"marie@library.com"</span>, <span class="st">"Histoire"</span>)</span>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Permissions : </span><span class="sc">{</span>librarian<span class="sc">.</span>permissions<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>2026-03-13 16:02:16,251 [INFO] - Utilisateur créé : Marie
-2026-03-13 16:02:16,252 [INFO] - Bibliothécaire créé : département Histoire</code></pre>
+<pre><code>2026-03-13 16:13:55,901 [INFO] - Utilisateur créé : Marie
+2026-03-13 16:13:55,901 [INFO] - Bibliothécaire créé : département Histoire</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Permissions : ['borrow', 'add_book', 'delete_book']</code></pre>
@@ -762,7 +762,7 @@ Livre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}</code></pre
 <section id="polymorphisme" class="level2">
 <h2 class="anchored" data-anchor-id="polymorphisme">Polymorphisme</h2>
 <p>Même interface, comportements différents.</p>
-<div id="821ae4e2" class="cell" data-execution_count="8">
+<div id="78d3912a" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Document:</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, title):</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.title <span class="op">=</span> title</span>
@@ -798,7 +798,7 @@ Magazine: National Geographic</code></pre>
 <section id="property---propriétés-gérées" class="level2">
 <h2 class="anchored" data-anchor-id="property---propriétés-gérées"><span class="citation" data-cites="property">@property</span> - Propriétés gérées</h2>
 <p>Transformer une méthode en attribut accessible avec validation.</p>
-<div id="3479cf81" class="cell" data-execution_count="9">
+<div id="68dfbf16" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Book:</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, title, price):</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._title <span class="op">=</span> title</span>
@@ -823,9 +823,9 @@ Magazine: National Geographic</code></pre>
 <span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>book.price <span class="op">=</span> <span class="fl">12.99</span></span>
 <span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Nouveau prix : </span><span class="sc">{</span>book<span class="sc">.</span>price<span class="sc">}</span><span class="ss">€"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>2026-03-13 16:02:16,270 [INFO] - [LOG] Accès au prix de '1984'
-2026-03-13 16:02:16,271 [INFO] - [LOG] Prix modifié: 15.99 → 12.99
-2026-03-13 16:02:16,272 [INFO] - [LOG] Accès au prix de '1984'</code></pre>
+<pre><code>2026-03-13 16:13:55,920 [INFO] - [LOG] Accès au prix de '1984'
+2026-03-13 16:13:55,921 [INFO] - [LOG] Prix modifié: 15.99 → 12.99
+2026-03-13 16:13:55,922 [INFO] - [LOG] Accès au prix de '1984'</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Prix initial : 15.99€
@@ -851,7 +851,7 @@ Nouveau prix : 12.99€</code></pre>
 <section id="staticmethod---méthodes-utilitaires" class="level2">
 <h2 class="anchored" data-anchor-id="staticmethod---méthodes-utilitaires"><span class="citation" data-cites="staticmethod">@staticmethod</span> - Méthodes utilitaires</h2>
 <p>Méthodes sans accès à l’instance ou la classe.</p>
-<div id="bf2210f5" class="cell" data-execution_count="10">
+<div id="db05bf0d" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LibraryUtils:</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">@staticmethod</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> format_isbn(isbn):</span>
@@ -870,7 +870,7 @@ Nouveau prix : 12.99€</code></pre>
 <section id="classmethod---méthodes-de-classe" class="level2">
 <h2 class="anchored" data-anchor-id="classmethod---méthodes-de-classe"><span class="citation" data-cites="classmethod">@classmethod</span> - Méthodes de classe</h2>
 <p>Méthodes avec accès à la classe (pas l’instance).</p>
-<div id="d9bcabbe" class="cell" data-execution_count="11">
+<div id="0877b9c5" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Book:</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    total_count <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -899,7 +899,7 @@ Nouveau prix : 12.99€</code></pre>
 <section id="abstractmethod---classes-abstraites" class="level2">
 <h2 class="anchored" data-anchor-id="abstractmethod---classes-abstraites"><span class="citation" data-cites="abstractmethod">@abstractmethod</span> - Classes abstraites</h2>
 <p>Forcer l’implémentation dans les sous-classes.</p>
-<div id="37e22801" class="cell" data-execution_count="12">
+<div id="b6e5f4a4" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> abc <span class="im">import</span> ABC, abstractmethod</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Borrowable(ABC):</span>
@@ -962,7 +962,7 @@ Livre '1984' retourné</code></pre>
 <span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div id="6a7e9a83" class="cell" data-execution_count="13">
+<div id="c3f76a6c" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1002,8 +1002,8 @@ Livre '1984' retourné</code></pre>
 <span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>borrow <span class="op">=</span> manager.borrow_book(book, <span class="st">"Alice"</span>)</span>
 <span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a>email_service.send_reminder(borrow)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>2026-03-13 16:02:16,307 [INFO] - Emprunt créé : 1984 par Alice
-2026-03-13 16:02:16,308 [INFO] - Email envoyé pour : 1984</code></pre>
+<pre><code>2026-03-13 16:13:55,954 [INFO] - Emprunt créé : 1984 par Alice
+2026-03-13 16:13:55,955 [INFO] - Email envoyé pour : 1984</code></pre>
 </div>
 </div>
 </div>
@@ -1030,7 +1030,7 @@ Livre '1984' retourné</code></pre>
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Problème : Ajouter un nouveau type = modifier cette classe</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-<div id="ac69c735" class="cell" data-execution_count="14">
+<div id="7ae79e1d" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> abc <span class="im">import</span> ABC, abstractmethod</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DiscountStrategy(ABC):</span>
@@ -1091,7 +1091,7 @@ Prix senior : 85.0€</code></pre>
 <span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># PROBLÈME : Penguin ne peut pas remplacer Bird</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
-<div id="a7446678" class="cell" data-execution_count="15">
+<div id="8b0c646b" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Document:</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, title):</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.title <span class="op">=</span> title</span>
@@ -1157,7 +1157,7 @@ Manuscrit ancien: archivé</code></pre>
 <span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">"Pas de fax!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
-<div id="6cc4cc76" class="cell" data-execution_count="16">
+<div id="9cf4fd27" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> abc <span class="im">import</span> ABC, abstractmethod</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Printable(ABC):</span>
@@ -1225,7 +1225,7 @@ Scan...</code></pre>
 <span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Impossible de changer vers PostgreSQL facilement</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
-<div id="b035ce51" class="cell" data-execution_count="17">
+<div id="4b315046" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> abc <span class="im">import</span> ABC, abstractmethod</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1274,8 +1274,8 @@ Scan...</code></pre>
 <span id="cb41-46"><a href="#cb41-46" aria-hidden="true" tabindex="-1"></a>manager_prod.record_borrow(borrow)</span>
 <span id="cb41-47"><a href="#cb41-47" aria-hidden="true" tabindex="-1"></a>manager_test.record_borrow(borrow)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>2026-03-13 16:02:16,347 [INFO] - [MySQL] Sauvegarde: Borrow(book=Book(title='1984'), user='Alice')
-2026-03-13 16:02:16,347 [INFO] - [FAKE] Sauvegarde: Borrow(book=Book(title='1984'), user='Alice')</code></pre>
+<pre><code>2026-03-13 16:13:55,993 [INFO] - [MySQL] Sauvegarde: Borrow(book=Book(title='1984'), user='Alice')
+2026-03-13 16:13:55,994 [INFO] - [FAKE] Sauvegarde: Borrow(book=Book(title='1984'), user='Alice')</code></pre>
 </div>
 </div>
 </div>
@@ -1299,7 +1299,7 @@ Scan...</code></pre>
 </section>
 <section id="avec-poo---debugging-structuré" class="level2">
 <h2 class="anchored" data-anchor-id="avec-poo---debugging-structuré">Avec POO - Debugging structuré</h2>
-<div id="30fdb26d" class="cell" data-execution_count="18">
+<div id="bf647a22" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1338,8 +1338,8 @@ Scan...</code></pre>
 <span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a>book.available <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a>borrow <span class="op">=</span> Borrow(book, <span class="st">"Alice"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>2026-03-13 16:02:16,358 [INFO] - '1984' - Disponibilité: True → False
-2026-03-13 16:02:16,359 [INFO] - Emprunt créé: '1984' par Alice à 2026-03-13 16:02:16.359181</code></pre>
+<pre><code>2026-03-13 16:13:56,006 [INFO] - '1984' - Disponibilité: True → False
+2026-03-13 16:13:56,006 [INFO] - Emprunt créé: '1984' par Alice à 2026-03-13 16:13:56.006812</code></pre>
 </div>
 </div>
 <p><strong>Avantages :</strong> - Logs automatiques et structurés - Traçabilité complète - Facile de retrouver l’origine d’une erreur</p>
