@@ -1,0 +1,2358 @@
+---
+title: "Maîtriser les APIs Web : Guide Complet"
+subtitle: "De la théorie à la pratique"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "Table des matières"
+    code-fold: false
+    code-tools: true
+    theme: cosmo
+    number-sections: true
+    css: styles.css
+jupyter: python3
+---
+
+# Introduction au cours
+
+## Objectifs pédagogiques
+
+Les notions abordées au sein du cours seront :
+
+- **Comprendre** les concepts fondamentaux des APIs (focus REST)
+- **Utiliser** les méthodes HTTP et interpréter les codes de statut
+- **Authentifier** vos applications avec OAuth 2.0
+- **Interagir** avec une API réelle (eBay) de manière professionnelle
+- **Gérer** les erreurs, la pagination et les limites de taux
+- **Concevoir** des intégrations API robustes et sécurisées
+
+
+## Structure du cours
+
+```
+┌─────────────────────────────────────────────────┐
+│  Module 1: Fondamentaux API                     │
+│  → Définitions, REST, HTTP                      │
+├─────────────────────────────────────────────────┤
+│  Module 2: Authentification et Sécurité         │
+│  → OAuth 2.0, Tokens, Headers                   │
+├─────────────────────────────────────────────────┤
+│  Module 3: Interaction avec les APIs            │
+│  → Requêtes, Erreurs, Pagination                │
+├─────────────────────────────────────────────────┤
+│  Module 4: Architecture et Bonnes Pratiques     │
+│  → Design, Tests, Monitoring                    │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+# Module 1 : Fondamentaux des APIs
+
+## 1.1 Qu'est-ce qu'une API ?
+
+### Définition
+
+Une **API** (Application Programming Interface) est un **contrat** qui définit comment des logiciels communiquent entre eux. 
+C'est une interface qui expose des fonctionnalités d'un système à d'autres systèmes.
+
+**Analogie** : Imaginez un restaurant. Le menu (API) liste les plats disponibles (endpoints). Le serveur (protocole HTTP) transmet votre commande (requête) à la cuisine (serveur) et vous rapporte le plat (réponse).
+
+Définition technique
+
+Une **API** est définie par un contrat qui précise :      
+- Les endpoints disponibles (ex : /users, /orders/{id}, /buy/browse/v1/item_summary/search)     
+- Les méthodes HTTP autorisées (ex : GET, POST, PUT, DELETE)     
+- Le format d’échange des données (ex : JSON, XML, Protocol Buffers)     
+- Les règles de sécurité (ex : OAuth2, API Key, Authorization: Bearer <token>)     
+- Le schéma des requêtes et réponses (ex : { "email": "string", "password": "string" })     
+- Les codes de retour (ex : 200, 201, 400, 401, 404, 500)     
+- Le versioning (ex : /api/v1/users, /api/v2/users)         
+
+On peut voir une API comme une couche d’abstraction qui expose des fonctionnalités d’un système via une interface stable et documentée.
+
+#### Focus sur le contrat
+Le **contrat d’API** — Définition globale
+
+Le contrat d’API est la description formelle et stable de tout ce qu’un client doit savoir pour interagir correctement avec une API.      
+Il définit ce qui est observable et garanti entre le client et le serveur.    
+
+##### Ce que contient un contrat d’API
+
+##### Endpoints
+
+Les points d’entrée accessibles via une URL.
+
+Exemple :
+```{python}
+GET /users  
+POST /orders  
+DELETE /users/{id}
+```
+Ils définissent **où appeler l’API**.
+
+---
+
+##### Méthodes HTTP
+
+Les actions autorisées sur chaque endpoint :
+```{python}
+- GET → Lire
+- POST → Créer
+- PUT / PATCH → Modifier
+- DELETE → Supprimer
+- PATCH -> Modification partielle 
+- HEAD -> Metadatas liées à la requête
+```
+Elles définissent **quelle opération est permise**.
+
+---
+
+##### Format d’échange
+
+Le format des données envoyées et reçues :
+
+- JSON
+- XML
+- Protocol Buffers
+
+Il définit **comment les données sont structurées**.
+
+---
+
+##### Schéma des données
+
+La structure précise des objets :
+
+- Nom des champs
+- Types (string, number, boolean…)
+- Champs obligatoires ou optionnels
+- Contraintes (format email, min/max…)
+
+Il définit **quoi envoyer et quoi recevoir exactement**.
+
+---
+
+##### Paramètres
+
+Les paramètres acceptés :
+
+- Path parameters (`/users/{id}`)
+- Query parameters (`?limit=10`)
+- Body (JSON)
+
+Ils définissent **comment personnaliser une requête**.
+
+---
+
+##### Authentification & Sécurité
+
+Les règles pour accéder à l’API :
+
+- Bearer Token
+- API Key
+- OAuth2
+
+Elles définissent **comment prouver son identité**.
+
+---
+
+##### Codes de retour HTTP
+
+Les statuts renvoyés selon le résultat :
+
+- 200 → Succès
+- 201 → Créé
+- 400 → Requête invalide
+- 401 → Non authentifié
+- 404 → Ressource introuvable
+- 500 → Erreur serveur
+
+Ils définissent **comment interpréter la réponse**.
+
+---
+
+##### Structure des erreurs
+
+Exemple :
+
+```json
+{
+  "error": {
+    "code": "INVALID_EMAIL",
+    "message": "Email format is invalid"
+  }
+}
+```
+Elle définit comment **comprendre les échecs**.
+
+---
+
+##### Versioning
+
+Permet de faire évoluer l’API sans casser les clients :
+
+```{python}
+/api/v1/users
+/api/v2/users
+```
+
+Il garantit la stabilité dans le temps.
+
+### Vue architecturelle
+
+---
+
+Dans une architecture distribuée moderne :
+```json
+Client → API → Service → Base de données
+```
+L’API joue le rôle de façade :     
+- Elle valide les entrées    
+- Elle orchestre la logique métier    
+- Elle formate la réponse    
+- Elle gère la sécurité    
+
+---
+
+## 1.2 REST vs Autres Architectures
+
+### Architecture REST (Representational State Transfer)
+
+REST est un **style d'architecture** pour les systèmes distribués, basé sur 6 principes :
+
+1. **Client-Serveur** : Séparation des préoccupations
+2. **Sans état (Stateless)** : Chaque requête contient toutes les informations nécessaires
+3. **Cacheable** : Les réponses doivent indiquer si elles peuvent être mises en cache
+4. **Interface uniforme** : URLs standard, méthodes HTTP
+5. **Système en couches** : Architecture modulaire
+6. **Code à la demande** (optionnel) : Le serveur peut envoyer du code exécutable
+
+---
+
+Précisons ces points !      
+**Stateless** (REST)      
+Le serveur ne conserve aucun état de session entre deux requêtes.      
+Chaque requête doit contenir :
+- l’identification (ex: JWT)     
+- le contexte nécessaire     
+- toutes les données utiles     
+
+**Stateful** (l’inverse)     
+Le serveur stocke un état en mémoire ou en base.           
+Exemple classique :     
+- Login     
+- Serveur crée une session     
+
+---
+
+**Cacheable** (REST)     
+Dans REST, **cacheable** signifie que les réponses HTTP doivent indiquer clairement si elles peuvent être stockées temporairement afin de :     
+- Réduire la charge serveur     
+- Diminuer la latence    
+- Économiser la bande passante    
+- Améliorer la scalabilité    
+
+On ne met pas en cache "une API", mais **la réponse HTTP complète** :     
+- Status code    
+- Headers    
+- Body (ex: JSON)    
+
+Quelles requêtes sont concernées ?     
+Principalement : 
+```html    
+- `GET`    
+- `HEAD`    
+```
+
+Pas concernées :     
+```html
+- `POST`    
+- `PUT`    
+- `PATCH`    
+- `DELETE`     
+``` 
+(car elles modifient l’état)
+
+**Deux mécanismes principaux**    
+**Cache par durée**    
+```http
+Cache-Control: max-age=3600
+```
+→ La réponse est valide pendant 1 heure.
+Le client ne recontacte pas le serveur durant ce délai.
+
+**Cache conditionnel (ETag)**
+```http
+ETag: v1
+```
+
+Lors d’une nouvelle requête : If-None-Match: v1
+Si la ressource n’a pas changé : 304 Not Modified     
+→ Pas de renvoi du JSON.
+
+ETag = **identifiant de version de la ressource.**
+
+Où le cache est-il stocké ?    
+Navigateur     
+Proxy    
+API Gateway    
+CDN (Content Delivery Network) *Réseau de serveurs stockant des copies de ressources.*    
+
+Directives importantes
+```http
+Cache-Control: public   # Cache possible par CDN
+Cache-Control: private  # Cache navigateur uniquement
+Cache-Control: no-store # Aucun stockage
+````
+
+Pourquoi c’est crucial ?    
+Dans un système distribué :    
+Le réseau est lent    
+Les serveurs coûtent cher    
+La latence est critique    
+Un bon cache peut diviser la charge backend par 10 ou plus.    
+
+---
+
+**Interface uniforme**       
+L’interface uniforme est le **principe REST** selon lequel toutes **les ressources sont manipulées de la même manière**, en utilisant des règles standardisées.      
+Concrètement :      
+Les ressources sont identifiées par des **URI** (/users/42)      
+Les actions sont exprimées via les **méthodes HTTP** (GET, POST, PUT, DELETE, PATCH)      
+Les échanges utilisent des **représentations standard** (souvent JSON)      
+Les messages sont **auto-descriptifs** (headers HTTP explicites)      
+
+---
+
+**Layered System** (système en couches)    
+Dans une API REST, une architecture en couches signifie que :    
+Le système est composé de plusieurs niveaux intermédiaires, le client ne sait pas avec quelle couche il communique réellement.    
+Chaque couche a une responsabilité spécifique.    
+
+Concrètement, cela veut dire quoi ?    
+Une requête peut traverser plusieurs composants :    
+Client    
+→ Cache    
+→ Proxy    
+→ API Gateway    
+→ Service d’authentification    
+→ Service métier    
+→ Base de données    
+
+Le client ne voit qu’un seul point d’entrée : **https://api.example.com**    
+Il ignore totalement :    
+s’il y a un cache    
+s’il y a plusieurs microservices    
+
+Cette séparation permet :    
+**Scalabilité**      
+On peut ajouter ou modifier une couche sans impacter le client.
+
+**Sécurité**    
+On peut insérer :    
+un firewall    
+une couche d’authentification    
+un système de rate limiting    
+
+**Maintenabilité**        
+Chaque couche a une responsabilité unique :    
+Auth    
+Logging    
+Cache    
+Business logic    
+
+L’inverse (non modulaire)    
+Client → Serveur unique → Base      
+Pas d’intermédiaire, tout est centralisé dans un seul composant.
+
+### Comparaison avec d'autres architectures
+
+| Architecture | Protocole | Format | Cas d'usage |
+|--------------|-----------|--------|-------------|
+| **REST** | HTTP/HTTPS | JSON, XML | APIs web modernes |
+| **SOAP** | HTTP, SMTP | XML uniquement | Systèmes legacy, transactions complexes |
+| **GraphQL** | HTTP | JSON | Requêtes flexibles, mobile |
+| **gRPC** | HTTP/2 | Protocol Buffers | Microservices, performance critique |
+
+**eBay utilise REST** pour ses APIs modernes (Buy, Sell, Commerce) et SOAP pour ses APIs traditionnelles (Trading, Shopping).
+
+## 1.3 HTTP et ses Méthodes
+
+### Le protocole HTTP
+
+HTTP (HyperText Transfer Protocol) est le protocole de communication du web. Une transaction HTTP se compose de :
+
+```
+CLIENT                           SERVEUR
+  │                                 │
+  ├──── Requête HTTP ──────────────>│
+  │     (Méthode, URL, Headers)     │
+  │                                 │
+  │<──── Réponse HTTP ──────────────┤
+        (Status, Headers, Body)     │
+```
+
+### Les méthodes HTTP principales
+
+| Méthode | Usage | Idempotent | Safe | eBay Example |
+|---------|-------|------------|------|--------------|
+| **GET** | Récupérer une ressource | ✅ | ✅ | Obtenir les détails d'un produit |
+| **POST** | Créer une ressource | ❌ | ❌ | Créer un listing |
+| **PUT** | Remplacer une ressource | ✅ | ❌ | Mettre à jour entièrement un listing |
+| **PATCH** | Modifier partiellement | ❌ | ❌ | Modifier le prix d'un listing |
+| **DELETE** | Supprimer une ressource | ✅ | ❌ | Supprimer un listing |
+
+**Idempotent** : Une opération peut être répétée sans effets de bord supplémentaires.  
+**Safe** : L'opération ne modifie pas l'état du serveur.
+
+### Exemple concret avec l'API eBay Browse
+
+```python
+# GET : Rechercher des produits sur eBay
+# Endpoint : /buy/browse/v1/item_summary/search
+GET https://api.ebay.com/buy/browse/v1/item_summary/search?q=iphone&limit=5
+
+# POST : Créer un listing (Sell API)
+# Endpoint : /sell/inventory/v1/offer
+POST https://api.ebay.com/sell/inventory/v1/offer
+Body: { "sku": "ABC123", "marketplaceId": "EBAY_US", ... }
+
+# PUT : Mettre à jour un listing complètement
+PUT https://api.ebay.com/sell/inventory/v1/offer/12345
+Body: { "sku": "ABC123", "quantity": 10, ... }
+
+# DELETE : Retirer un listing
+DELETE https://api.ebay.com/sell/inventory/v1/offer/12345
+```
+
+## 1.4 Structure des Requêtes et Réponses
+
+### Anatomie d'une requête HTTP
+
+```http
+POST /sell/inventory/v1/offer HTTP/1.1
+Host: api.ebay.com
+Authorization: Bearer v^1.1#i^1#...
+Content-Type: application/json
+X-EBAY-C-MARKETPLACE-ID: EBAY_US
+
+{
+  "sku": "LAPTOP-001",
+  "marketplaceId": "EBAY_US",
+  "format": "FIXED_PRICE",
+  "availableQuantity": 5,
+  "pricingSummary": {
+    "price": {
+      "value": "999.99",
+      "currency": "USD"
+    }
+  }
+}
+```
+
+**Composants** :    
+1. **Ligne de requête** : Méthode + URL + Version HTTP    
+2. **Headers** : Métadonnées (autorisation, type de contenu)    
+3. **Body** : Données (pour POST/PUT/PATCH)    
+
+### Anatomie d'une réponse HTTP
+
+```http
+HTTP/1.1 201 Created
+Content-Type: application/json
+Date: Mon, 09 Feb 2026 10:30:00 GMT
+
+{
+  "offerId": "1234567890",
+  "status": "PUBLISHED",
+  "listingPolicies": {
+    "fulfillmentPolicyId": "6789012345",
+    "paymentPolicyId": "3456789012"
+  }
+}
+```
+
+**Composants** :    
+1. **Ligne de statut** : Version HTTP + Code de statut + Message        
+2. **Headers** : Métadonnées de réponse        
+3. **Body** : Données retournées (généralement JSON)        
+
+### Codes de statut HTTP
+
+| Code | Signification | Exemple eBay |
+|------|---------------|--------------|
+| **2xx** | **Succès** | |
+| 200 | OK | Requête réussie |
+| 201 | Created | Listing créé |
+| 204 | No Content | Suppression réussie |
+| **3xx** | **Redirection** | |
+| 301 | Moved Permanently | URL changée définitivement |
+| **4xx** | **Erreur client** | |
+| 400 | Bad Request | Données invalides |
+| 401 | Unauthorized | Token manquant ou expiré |
+| 403 | Forbidden | Accès refusé (permissions) |
+| 404 | Not Found | Ressource inexistante |
+| 429 | Too Many Requests | Limite de taux dépassée |
+| **5xx** | **Erreur serveur** | |
+| 500 | Internal Server Error | Erreur interne eBay |
+| 503 | Service Unavailable | Maintenance |
+
+## 1.5 Formats de Données : JSON vs XML
+
+### JSON (JavaScript Object Notation)
+
+Format **léger** et **lisible** par l'homme, standard pour les APIs REST modernes.
+
+```json
+{
+  "itemId": "v1|110547012345|0",
+  "title": "Apple iPhone 14 Pro Max - 256GB",
+  "price": {
+    "value": "1099.00",
+    "currency": "USD"
+  },
+  "condition": "NEW",
+  "seller": {
+    "username": "apple_store",
+    "feedbackScore": 98765
+  },
+  "itemLocation": {
+    "city": "Cupertino",
+    "country": "US"
+  }
+}
+```
+
+**Avantages** :    
+- ✅ Léger et rapide à parser    
+- ✅ Lisible par l'homme    
+- ✅ Support natif en JavaScript    
+- ✅ Utilisé par toutes les APIs eBay modernes (REST)    
+
+### XML (eXtensible Markup Language)
+
+Format **verbeux** mais **strictement typé**, utilisé par les APIs SOAP.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<GetItemResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+  <Timestamp>2026-02-09T10:30:00.000Z</Timestamp>
+  <Ack>Success</Ack>
+  <Item>
+    <ItemID>110547012345</ItemID>
+    <Title>Apple iPhone 14 Pro Max - 256GB</Title>
+    <SellingStatus>
+      <CurrentPrice currencyID="USD">1099.00</CurrentPrice>
+    </SellingStatus>
+    <Seller>
+      <UserID>apple_store</UserID>
+      <FeedbackScore>98765</FeedbackScore>
+    </Seller>
+  </Item>
+</GetItemResponse>
+```
+
+**Avantages** :    
+-  Validation stricte avec schémas (XSD)    
+-  Support des namespaces    
+-  Utilisé par les APIs eBay traditionnelles (Trading, Shopping)    
+
+**Documentation eBay** : Les APIs REST eBay utilisent exclusivement JSON. Les APIs traditionnelles (SOAP) utilisent XML.
+
+---
+
+## 🎓 Quiz Module 1
+
+**Question 1** : Quelle méthode HTTP utiliseriez-vous pour modifier uniquement le prix d'un listing eBay ?
+
+a) GET  
+b) POST  
+c) PUT  
+d) PATCH
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : d) PATCH**  
+PATCH permet de modifier partiellement une ressource. PUT remplacerait toute la ressource.
+</details>
+
+**Question 2** : Quel code de statut HTTP indique que votre token d'authentification a expiré ?
+
+a) 400  
+b) 401  
+c) 403  
+d) 404
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : b) 401 Unauthorized**  
+401 signifie que l'authentification est requise ou a échoué. 403 signifierait que vous êtes authentifié mais n'avez pas les permissions.
+</details>
+
+**Question 3** : Quel format de données est utilisé par les APIs eBay REST modernes ?
+
+a) XML uniquement  
+b) JSON uniquement  
+c) JSON ou XML au choix  
+d) Protocol Buffers
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : b) JSON uniquement**  
+Toutes les APIs REST eBay (Buy, Sell, Commerce) utilisent exclusivement JSON.
+</details>
+
+---
+
+### Les APIs dans l'écosystème eBay
+
+eBay expose plusieurs catégories d'APIs :
+
+| Catégorie | Usage | Exemple |
+|-----------|-------|---------|
+| **Sell APIs** | Vendre sur eBay | Créer des listings, gérer l'inventaire |
+| **Buy APIs** | Acheter sur eBay | Rechercher des produits, passer commande |
+| **Commerce APIs** | Opérations transversales | Taxonomie, métadonnées |
+| **Developer APIs** | Gestion développeur | Insights sur l'utilisation |
+
+**Documentation eBay** : Toutes les APIs eBay sont documentées sur [developer.ebay.com](https://developer.ebay.com/develop).
+
+# Module 2 : Authentification et Sécurité
+
+## 2.1 Pourquoi l'Authentification ?
+
+L'authentification garantit :
+
+1. **Identification** : Qui fait la requête ?
+2. **Autorisation** : A-t-il le droit de le faire ?
+3. **Traçabilité** : Audit et logs
+4. **Limitation** : Rate limiting par utilisateur
+5. **Facturation** : Suivi de la consommation
+
+**eBay utilise OAuth 2.0** pour toutes ses APIs modernes.
+
+## 2.2 Les Application Keysets eBay
+
+Avant de faire des appels API, vous devez créer un **keyset** (jeu de clés) sur le portail développeur eBay.
+
+### Composants d'un Keyset
+
+| Composant | Description | Exemple | Confidentialité |
+|-----------|-------------|---------|-----------------|
+| **App ID (Client ID)** | Identifiant unique de votre app | `MyApp-MyComp-PRD-abc123456` | 🟢 Public |
+| **Dev ID** | Identifiant développeur | `a1b2c3d4-e5f6-7890-abcd-ef1234567890` | 🟢 Public |
+| **Cert ID (Client Secret)** | Mot de passe de l'app | `PRD-abc123456-789a-bcde...` | 🔴 SECRET |
+
+**Documentation eBay** : Créez vos keysets sur [developer.ebay.com/my/keys](https://developer.ebay.com/my/keys).
+
+### Environnements : Sandbox vs Production
+
+| Environnement | Usage | URL API | Données |
+|---------------|-------|---------|---------|
+| **Sandbox** | Tests | `api.sandbox.ebay.com` | Fictives |
+| **Production** | Live | `api.ebay.com` | Réelles |
+
+**Important** : Créez des keysets **séparés** pour chaque environnement !
+
+## 2.3 OAuth 2.0 : Le Standard d'Authentification
+
+### Qu'est-ce qu'OAuth 2.0 ?
+
+OAuth 2.0 est un **protocole d'autorisation** qui permet à une application d'accéder aux ressources d'un utilisateur **sans connaître son mot de passe**.
+
+### Deux types de tokens OAuth eBay
+
+#### 1. Application Access Token (App Token)
+
+- **Usage** : Accès aux données publiques (recherche, browse)
+- **Durée** : 2 heures
+- **Pas de consentement utilisateur** requis
+
+**Flux Client Credentials** :
+
+```
+┌─────────────┐                                ┌─────────────┐
+│             │  1. POST /identity/v1/oauth2/  │             │
+│   Votre App │────────────token──────────────>│  eBay Auth  │
+│             │  (Client ID + Client Secret)   │   Server    │
+│             │                                │             │
+│             │<─────── 2. Access Token ───────┤             │
+│             │    (expires_in: 7200)          │             │
+└─────────────┘                                └─────────────┘
+       │
+       │ 3. Appels API avec token
+       │
+       ▼
+┌─────────────┐
+│  eBay API   │
+│  (Browse,   │
+│   Search)   │
+└─────────────┘
+```
+
+#### 2. User Access Token (User Token)
+
+- **Usage** : Accès aux données privées de l'utilisateur (listings, ordres)
+- **Durée** : Varie selon les scopes
+- **Consentement utilisateur** obligatoire
+
+**Flux Authorization Code** :
+
+```
+┌──────────┐                                           ┌──────────┐
+│          │  1. Redirection vers eBay login page      │          │
+│  User    │──────────────────────────────────────────>│  eBay    │
+│ (Browser)│                                           │  Login   │
+│          │                                           │          │
+│          │<─────── 2. Enter credentials ─────────────┤          │
+└──────────┘                                           └──────────┘
+     │                                                       │
+     │ 3. Consent screen (scopes)                            │
+     │<──────────────────────────────────────────────────────┤
+     │                                                       │
+     │ 4. Approve                                            │
+     ├──────────────────────────────────────────────────────>│
+     │                                                       │
+     │ 5. Redirect to Your App with CODE                     │
+     │<──────────────────────────────────────────────────────┤
+     │                                                       │
+     ▼                                                       │
+┌──────────┐                                           ┌──────────┐
+│  Your    │  6. Exchange CODE for Token               │  eBay    │
+│  App     │──────────────────────────────────────────>│  Auth    │
+│  Server  │  POST /identity/v1/oauth2/token           │  Server  │
+│          │                                           │          │
+│          │<─────── 7. Access + Refresh Tokens ───────┤          │
+│          │                                           │          │
+└──────────┘                                           └──────────┘
+     │
+     │ 8. API calls with Access Token
+     │
+     ▼
+┌──────────┐
+│  eBay    │
+│  Sell    │
+│  API     │
+└──────────┘
+```
+
+### Scopes (Permissions)
+
+Les **scopes** définissent les permissions demandées. Exemples eBay :
+
+| Scope | Description | API |
+|-------|-------------|-----|
+| `https://api.ebay.com/oauth/api_scope` | Accès général (legacy) | Toutes |
+| `https://api.ebay.com/oauth/api_scope/sell.inventory` | Gérer l'inventaire | Sell Inventory |
+| `https://api.ebay.com/oauth/api_scope/sell.marketing` | Marketing & promotions | Sell Marketing |
+| `https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly` | Lire le catalogue | Commerce |
+
+**Documentation eBay** : Liste complète des scopes : [developer.ebay.com/api-docs/static/oauth-scopes.html](https://developer.ebay.com/api-docs/static/oauth-scopes.html)
+
+## 2.4 Implémentation OAuth avec Python
+
+### Configuration des credentials
+
+```{python}
+#| eval: false
+#| code-fold: false
+
+# Installation des dépendances
+# pip install requests python-dotenv
+
+import os
+from dotenv import load_dotenv
+import requests
+import base64
+from datetime import datetime, timedelta
+
+# Charger les variables d'environnement depuis un fichier .env
+load_dotenv()
+
+# IMPORTANT : Remplacez ces valeurs par vos propres credentials
+# Créez un fichier .env avec :
+# EBAY_CLIENT_ID=votre_app_id
+# EBAY_CLIENT_SECRET=votre_cert_id
+# EBAY_ENVIRONMENT=sandbox  # ou 'production'
+
+CLIENT_ID = os.getenv('EBAY_CLIENT_ID')
+CLIENT_SECRET = os.getenv('EBAY_CLIENT_SECRET')
+ENVIRONMENT = os.getenv('EBAY_ENVIRONMENT', 'sandbox')
+
+# URLs des APIs selon l'environnement
+API_URLS = {
+    'sandbox': {
+        'oauth': 'https://api.sandbox.ebay.com/identity/v1/oauth2/token',
+        'api': 'https://api.sandbox.ebay.com'
+    },
+    'production': {
+        'oauth': 'https://api.ebay.com/identity/v1/oauth2/token',
+        'api': 'https://api.ebay.com'
+    }
+}
+
+print(f" Configuration chargée pour l'environnement : {ENVIRONMENT}")
+print(f"   Client ID : {CLIENT_ID[:20]}..." if CLIENT_ID else "CLIENT_ID manquant !")
+```
+
+### Obtenir un Application Access Token
+
+```{python}
+#| eval: false
+
+def get_application_token(client_id, client_secret, environment='sandbox'):
+    """
+    Obtient un Application Access Token via le flux Client Credentials.
+    
+    Ce token permet d'accéder aux APIs publiques (Browse, Search) sans
+    nécessiter de consentement utilisateur.
+    
+    Args:
+        client_id (str): L'App ID de votre keyset eBay
+        client_secret (str): Le Cert ID de votre keyset eBay
+        environment (str): 'sandbox' ou 'production'
+    
+    Returns:
+        dict: Contient 'access_token', 'token_type', 'expires_in', 'expires_at'
+    
+    Raises:
+        requests.exceptions.RequestException: En cas d'erreur HTTP
+    """
+    
+    # 1. Encoder les credentials en Base64
+    # Format : "Client_ID:Client_Secret" encodé en base64
+    credentials = f"{client_id}:{client_secret}"
+    encoded_credentials = base64.b64encode(credentials.encode()).decode()
+    
+    # 2. Construire les headers HTTP
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': f'Basic {encoded_credentials}'
+    }
+    
+    # 3. Corps de la requête : grant_type et scopes
+    data = {
+        'grant_type': 'client_credentials',
+        'scope': 'https://api.ebay.com/oauth/api_scope'
+    }
+    
+    # 4. URL du endpoint OAuth selon l'environnement
+    token_url = API_URLS[environment]['oauth']
+    
+    print(f"Demande de token à : {token_url}")
+    
+    # 5. Envoyer la requête POST
+    try:
+        response = requests.post(
+            token_url,
+            headers=headers,
+            data=data,
+            timeout=10  # Timeout de 10 secondes
+        )
+        
+        # 6. Vérifier le code de statut HTTP
+        response.raise_for_status()  # Lève une exception si status >= 400
+        
+        # 7. Parser la réponse JSON
+        token_data = response.json()
+        
+        # 8. Calculer la date d'expiration
+        expires_in = token_data.get('expires_in', 7200)  # Par défaut 2h
+        expires_at = datetime.now() + timedelta(seconds=expires_in)
+        
+        # 9. Ajouter les métadonnées
+        token_data['expires_at'] = expires_at.isoformat()
+        token_data['environment'] = environment
+        
+        print(f"Token obtenu avec succès !")
+        print(f"   Type : {token_data.get('token_type')}")
+        print(f"   Expire dans : {expires_in} secondes ({expires_in//3600}h)")
+        print(f"   Expiration : {expires_at.strftime('%Y-%m-%d %H:%M:%S')}")
+        
+        return token_data
+        
+    except requests.exceptions.HTTPError as e:
+        print(f"Erreur HTTP {e.response.status_code} : {e.response.text}")
+        raise
+    except requests.exceptions.RequestException as e:
+        print(f"Erreur de requête : {str(e)}")
+        raise
+
+# Exemple d'utilisation
+if CLIENT_ID and CLIENT_SECRET:
+    app_token = get_application_token(CLIENT_ID, CLIENT_SECRET, ENVIRONMENT)
+    print(f"\nAccess Token (premiers 50 caractères) : {app_token['access_token'][:50]}...")
+else:
+    print("Credentials manquants. Créez un fichier .env avec EBAY_CLIENT_ID et EBAY_CLIENT_SECRET")
+```
+
+### Obtenir un User Access Token (Flux complet)
+
+```{python}
+#| eval: false
+
+import urllib.parse
+import secrets
+
+def generate_authorization_url(client_id, redirect_uri, scopes, environment='sandbox'):
+    """
+    Génère l'URL de consentement eBay pour le flux Authorization Code.
+    
+    L'utilisateur doit être redirigé vers cette URL pour approuver les scopes.
+    
+    Args:
+        client_id (str): L'App ID de votre keyset
+        redirect_uri (str): URL de redirection après consentement (doit être configurée dans votre app)
+        scopes (list): Liste des scopes demandés
+        environment (str): 'sandbox' ou 'production'
+    
+    Returns:
+        tuple: (authorization_url, state)
+    """
+    
+    # Base URL selon l'environnement
+    auth_base_urls = {
+        'sandbox': 'https://auth.sandbox.ebay.com/oauth2/authorize',
+        'production': 'https://auth.ebay.com/oauth2/authorize'
+    }
+    
+    # Générer un état aléatoire pour prévenir les attaques CSRF
+    state = secrets.token_urlsafe(32)
+    
+    # Construire les paramètres de la requête
+    params = {
+        'client_id': client_id,
+        'redirect_uri': redirect_uri,
+        'response_type': 'code',
+        'scope': ' '.join(scopes),
+        'state': state
+    }
+    
+    # Encoder l'URL
+    authorization_url = f"{auth_base_urls[environment]}?{urllib.parse.urlencode(params)}"
+    
+    print(f"🔗 URL de consentement générée :")
+    print(f"   {authorization_url}")
+    print(f"\n State (à vérifier lors du callback) : {state}")
+    
+    return authorization_url, state
+
+
+def exchange_code_for_token(client_id, client_secret, code, redirect_uri, environment='sandbox'):
+    """
+    Échange le code d'autorisation contre un User Access Token.
+    
+    Cette fonction est appelée après que l'utilisateur a approuvé les scopes
+    et a été redirigé vers votre redirect_uri avec un code d'autorisation.
+    
+    Args:
+        client_id (str): L'App ID
+        client_secret (str): Le Cert ID
+        code (str): Le code d'autorisation reçu dans l'URL de callback
+        redirect_uri (str): Le même redirect_uri utilisé lors de l'autorisation
+        environment (str): 'sandbox' ou 'production'
+    
+    Returns:
+        dict: Contient 'access_token', 'refresh_token', 'expires_in', etc.
+    """
+    
+    # Encoder les credentials
+    credentials = f"{client_id}:{client_secret}"
+    encoded_credentials = base64.b64encode(credentials.encode()).decode()
+    
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': f'Basic {encoded_credentials}'
+    }
+    
+    # Corps de la requête
+    data = {
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': redirect_uri
+    }
+    
+    token_url = API_URLS[environment]['oauth']
+    
+    print(f" Échange du code d'autorisation contre un token...")
+    
+    try:
+        response = requests.post(token_url, headers=headers, data=data, timeout=10)
+        response.raise_for_status()
+        
+        token_data = response.json()
+        
+        # Calculer l'expiration
+        expires_in = token_data.get('expires_in', 7200)
+        expires_at = datetime.now() + timedelta(seconds=expires_in)
+        token_data['expires_at'] = expires_at.isoformat()
+        
+        print(f"User Token obtenu avec succès !")
+        print(f"   Access Token : {token_data['access_token'][:30]}...")
+        print(f"   Refresh Token : {token_data.get('refresh_token', 'N/A')[:30]}...")
+        print(f"   Expire dans : {expires_in} secondes")
+        
+        return token_data
+        
+    except requests.exceptions.HTTPError as e:
+        print(f"Erreur lors de l'échange : {e.response.text}")
+        raise
+
+# Exemple d'utilisation (simulation)
+# Dans une vraie application, vous devez :
+# 1. Rediriger l'utilisateur vers authorization_url
+# 2. Récupérer le code depuis l'URL de callback
+# 3. L'échanger contre un token
+
+if CLIENT_ID:
+    # Scopes pour gérer l'inventaire et le marketing
+    scopes = [
+        'https://api.ebay.com/oauth/api_scope/sell.inventory',
+        'https://api.ebay.com/oauth/api_scope/sell.marketing'
+    ]
+    
+    # URL de redirection (doit être configurée dans votre app eBay)
+    redirect_uri = 'https://votre-app.com/oauth/callback'
+    
+    auth_url, state = generate_authorization_url(
+        CLIENT_ID, 
+        redirect_uri, 
+        scopes, 
+        ENVIRONMENT
+    )
+    
+    print("\n Étapes suivantes :")
+    print("   1. Ouvrez l'URL ci-dessus dans un navigateur")
+    print("   2. Connectez-vous avec un compte eBay Sandbox")
+    print("   3. Approuvez les permissions")
+    print("   4. Récupérez le 'code' depuis l'URL de redirection")
+    print("   5. Utilisez exchange_code_for_token() pour obtenir le token")
+```
+
+## 2.5 Headers HTTP et Authentification
+
+### Headers essentiels pour les APIs eBay
+
+```{python}
+#| eval: false
+
+def build_ebay_headers(access_token, marketplace_id='EBAY_US', content_type='application/json'):
+    """
+    Construit les headers HTTP requis pour les appels eBay API.
+    
+    Args:
+        access_token (str): Le token OAuth (app ou user)
+        marketplace_id (str): ID du marketplace (EBAY_US, EBAY_FR, etc.)
+        content_type (str): Type de contenu (application/json par défaut)
+    
+    Returns:
+        dict: Headers HTTP prêts à l'emploi
+    """
+    
+    headers = {
+        # 1. Authentification OAuth 2.0
+        'Authorization': f'Bearer {access_token}',
+        
+        # 2. Type de contenu (pour POST/PUT/PATCH)
+        'Content-Type': content_type,
+        
+        # 3. Marketplace cible (requis pour la plupart des APIs)
+        'X-EBAY-C-MARKETPLACE-ID': marketplace_id,
+        
+        # 4. Accept (format de réponse souhaité)
+        'Accept': 'application/json',
+        
+        # 5. User-Agent (bonne pratique)
+        'User-Agent': 'MonApp/1.0 (Formation API)'
+    }
+    
+    return headers
+
+# Exemple d'utilisation
+if 'app_token' in locals():
+    headers = build_ebay_headers(app_token['access_token'], 'EBAY_FR')
+    
+    print("📋 Headers HTTP générés :")
+    for key, value in headers.items():
+        # Masquer le token pour des raisons de sécurité
+        if key == 'Authorization':
+            print(f"   {key}: Bearer {value.split(' ')[1][:20]}...")
+        else:
+            print(f"   {key}: {value}")
+```
+
+### Marketplace IDs eBay
+
+| Marketplace | ID | Devise | Langue |
+|-------------|-----|--------|--------|
+| États-Unis | `EBAY_US` | USD | en-US |
+| Royaume-Uni | `EBAY_GB` | GBP | en-GB |
+| Allemagne | `EBAY_DE` | EUR | de-DE |
+| France | `EBAY_FR` | EUR | fr-FR |
+| Australie | `EBAY_AU` | AUD | en-AU |
+| Canada (anglais) | `EBAY_ENCA` | CAD | en-CA |
+| Canada (français) | `EBAY_FRCA` | CAD | fr-CA |
+
+**Documentation eBay** : Liste complète sur [developer.ebay.com/api-docs/static/rest-request-components.html](https://developer.ebay.com/api-docs/static/rest-request-components.html)
+
+## 2.6 Bonnes Pratiques de Sécurité
+
+### ✅ À FAIRE
+
+1. **Ne jamais hardcoder les credentials**
+   ```python
+   # MAL
+   CLIENT_SECRET = "PRD-abc123456-789a-bcde-fghi-jklm"
+   
+   # BIEN
+   CLIENT_SECRET = os.getenv('EBAY_CLIENT_SECRET')
+   ```
+
+2. **Utiliser HTTPS uniquement**
+   ```python
+   # Toutes les URLs eBay utilisent HTTPS
+   url = "https://api.ebay.com/..."  # ✅
+   url = "http://api.ebay.com/..."   # ❌ JAMAIS !
+   ```
+
+3. **Stocker les tokens en sécurité**
+   - ✅ Variables d'environnement
+   - ✅ Gestionnaires de secrets (AWS Secrets Manager, Azure Key Vault)
+   - ✅ Bases de données chiffrées
+   - ❌ Fichiers texte, code source, logs
+
+4. **Gérer l'expiration des tokens**
+   ```python
+   def is_token_expired(token_data):
+       """Vérifie si un token a expiré."""
+       expires_at = datetime.fromisoformat(token_data['expires_at'])
+       # Ajouter une marge de 5 minutes
+       return datetime.now() >= (expires_at - timedelta(minutes=5))
+   
+   if is_token_expired(app_token):
+       app_token = get_application_token(CLIENT_ID, CLIENT_SECRET)
+   ```
+
+5. **Utiliser le principe du moindre privilège**
+   - Demandez uniquement les scopes nécessaires
+   - Séparez les applications selon leur usage
+
+6. **Révoquer les tokens compromis**
+   - Si un token est compromis, contactez le support eBay
+   - Regénérez votre Cert ID si nécessaire
+
+### ❌ À ÉVITER
+
+1. Commit les tokens dans Git
+2. Logger les tokens complets
+3. Partager les keysets entre applications
+4. Utiliser des tokens de production dans le code de test
+
+### Schéma ASCII : Cycle de vie d'un token
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    CYCLE DE VIE D'UN TOKEN                   │
+└──────────────────────────────────────────────────────────────┘
+
+1. GÉNÉRATION
+   ┌─────────────┐
+   │ Demande de  │
+   │   token     │──────────┐
+   └─────────────┘          │
+                            ▼
+                    ┌───────────────┐
+                    │ Token valide  │
+                    │ expires_in:   │
+                    │    7200s      │
+                    └───────────────┘
+                            │
+                            │ Utilisation
+                            ▼
+2. UTILISATION          ┌───────────────┐
+   ┌─────────────┐      │ Appels API    │
+   │ API calls   │◄─────┤ avec token    │
+   └─────────────┘      └───────────────┘
+                            │
+                            │ Temps passe...
+                            ▼
+3. EXPIRATION           ┌───────────────┐
+   ┌─────────────┐      │ Token expiré  │
+   │ 401 Error   │◄─────┤ HTTP 401      │
+   └─────────────┘      └───────────────┘
+                            │
+                            │ Refresh ou nouvelle demande
+                            ▼
+4. RENOUVELLEMENT       ┌───────────────┐
+   ┌─────────────┐      │ Nouveau token │
+   │ Refresh     │─────>│ généré        │
+   └─────────────┘      └───────────────┘
+```
+
+---
+
+## 🎓 Quiz Module 2
+
+**Question 1** : Quelle est la durée de vie typique d'un Application Access Token eBay ?
+
+a) 30 minutes  
+b) 2 heures  
+c) 24 heures  
+d) 1 semaine
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : b) 2 heures (7200 secondes)**  
+Les Application Access Tokens expirent après 2 heures. Il faut en demander un nouveau après expiration.
+</details>
+
+**Question 2** : Quel flux OAuth est utilisé pour obtenir un User Access Token ?
+
+a) Client Credentials  
+b) Implicit Grant  
+c) Authorization Code  
+d) Password Grant
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : c) Authorization Code**  
+Ce flux nécessite le consentement de l'utilisateur et retourne un refresh token.
+</details>
+
+**Question 3** : Où doit-on placer le token OAuth dans une requête HTTP ?
+
+a) Dans l'URL (query parameter)  
+b) Dans le corps de la requête  
+c) Dans le header Authorization  
+d) Dans un cookie
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : c) Dans le header Authorization**  
+Format : `Authorization: Bearer <access_token>`
+</details>
+
+---
+
+# Module 3 : Interaction avec les APIs
+
+## 3.1 Construction d'une Requête Complète
+
+### Exemple : Rechercher des produits sur eBay Browse API
+
+```{python}
+#| eval: false
+
+def search_ebay_items(query, access_token, limit=5, marketplace='EBAY_US', environment='sandbox'):
+    """
+    Recherche des produits sur eBay via l'API Browse.
+    
+    Args:
+        query (str): Terme de recherche (ex: "iphone 14")
+        access_token (str): Token OAuth valide
+        limit (int): Nombre maximum de résultats (1-200)
+        marketplace (str): Marketplace cible
+        environment (str): 'sandbox' ou 'production'
+    
+    Returns:
+        dict: Résultats de recherche avec itemSummaries
+    """
+    
+    # 1. Construire l'URL du endpoint
+    base_url = API_URLS[environment]['api']
+    endpoint = '/buy/browse/v1/item_summary/search'
+    url = f"{base_url}{endpoint}"
+    
+    # 2. Paramètres de requête (query string)
+    params = {
+        'q': query,              # Terme de recherche
+        'limit': limit,          # Nombre de résultats
+        'filter': 'price:[0..1000],priceCurrency:USD'  # Filtres optionnels
+    }
+    
+    # 3. Headers HTTP
+    headers = build_ebay_headers(access_token, marketplace)
+    
+    print(f"🔍 Recherche eBay : '{query}'")
+    print(f"   URL : {url}")
+    print(f"   Params : {params}")
+    
+    try:
+        # 4. Envoyer la requête GET
+        response = requests.get(
+            url,
+            headers=headers,
+            params=params,
+            timeout=15
+        )
+        
+        # 5. Vérifier le statut HTTP
+        print(f"Statut HTTP : {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # 6. Extraire les résultats
+            total = data.get('total', 0)
+            items = data.get('itemSummaries', [])
+            
+            print(f"{len(items)} résultats trouvés (total : {total})")
+            
+            # 7. Afficher les résultats
+            for i, item in enumerate(items, 1):
+                print(f"\n   {i}. {item.get('title', 'Sans titre')}")
+                price = item.get('price', {})
+                print(f"      Prix : {price.get('value', 'N/A')} {price.get('currency', '')}")
+                print(f"      Condition : {item.get('condition', 'N/A')}")
+                print(f"      URL : {item.get('itemWebUrl', 'N/A')}")
+            
+            return data
+            
+        elif response.status_code == 401:
+            print(" Erreur 401 : Token invalide ou expiré")
+            print("   Obtenez un nouveau token et réessayez")
+            
+        elif response.status_code == 429:
+            print(" Erreur 429 : Limite de taux dépassée")
+            print("   Attendez avant de faire une nouvelle requête")
+            
+        else:
+            print(f" Erreur {response.status_code}")
+            print(f"   Réponse : {response.text[:200]}")
+        
+        return None
+        
+    except requests.exceptions.Timeout:
+        print("Timeout : La requête a pris trop de temps")
+        return None
+    except requests.exceptions.RequestException as e:
+        print(f"Erreur de requête : {str(e)}")
+        return None
+
+# Exemple d'utilisation
+if 'app_token' in locals():
+    results = search_ebay_items(
+        query="macbook pro",
+        access_token=app_token['access_token'],
+        limit=3,
+        marketplace='EBAY_US',
+        environment=ENVIRONMENT
+    )
+```
+
+## 3.2 Gestion des Erreurs
+
+### Types d'erreurs API eBay
+
+Les APIs eBay retournent des erreurs structurées en JSON :
+
+```json
+{
+  "errors": [
+    {
+      "errorId": 1001,
+      "domain": "API_BROWSE",
+      "subdomain": "Search",
+      "category": "REQUEST",
+      "message": "The 'limit' value is invalid. Maximum value is 200.",
+      "parameters": [
+        {
+          "name": "limit",
+          "value": "500"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Gestion robuste des erreurs
+
+```{python}
+#| eval: false
+
+class EbayAPIError(Exception):
+    """Exception personnalisée pour les erreurs eBay API."""
+    
+    def __init__(self, status_code, errors):
+        self.status_code = status_code
+        self.errors = errors
+        
+        # Construire le message d'erreur
+        if errors:
+            first_error = errors[0]
+            message = f"eBay API Error {status_code}: {first_error.get('message', 'Unknown error')}"
+        else:
+            message = f"eBay API Error {status_code}"
+        
+        super().__init__(message)
+
+
+def make_ebay_request(method, endpoint, access_token, 
+                      marketplace='EBAY_US', environment='sandbox',
+                      params=None, json_data=None, max_retries=3):
+    """
+    Fonction générique pour faire des appels à l'API eBay avec gestion d'erreurs.
+    
+    Args:
+        method (str): Méthode HTTP (GET, POST, PUT, DELETE)
+        endpoint (str): Endpoint API (ex: '/buy/browse/v1/item_summary/search')
+        access_token (str): Token OAuth
+        marketplace (str): Marketplace ID
+        environment (str): 'sandbox' ou 'production'
+        params (dict): Paramètres de requête (pour GET)
+        json_data (dict): Corps de la requête (pour POST/PUT)
+        max_retries (int): Nombre maximum de tentatives en cas d'erreur 5xx
+    
+    Returns:
+        dict: Réponse JSON de l'API
+    
+    Raises:
+        EbayAPIError: En cas d'erreur API
+    """
+    
+    base_url = API_URLS[environment]['api']
+    url = f"{base_url}{endpoint}"
+    headers = build_ebay_headers(access_token, marketplace)
+    
+    for attempt in range(max_retries):
+        try:
+            # Faire la requête selon la méthode
+            if method.upper() == 'GET':
+                response = requests.get(url, headers=headers, params=params, timeout=15)
+            elif method.upper() == 'POST':
+                response = requests.post(url, headers=headers, json=json_data, timeout=15)
+            elif method.upper() == 'PUT':
+                response = requests.put(url, headers=headers, json=json_data, timeout=15)
+            elif method.upper() == 'DELETE':
+                response = requests.delete(url, headers=headers, timeout=15)
+            else:
+                raise ValueError(f"Méthode HTTP non supportée : {method}")
+            
+            # Gérer les différents codes de statut
+            if response.status_code == 200 or response.status_code == 201:
+                # Succès
+                return response.json() if response.text else {}
+            
+            elif response.status_code == 204:
+                # Succès sans contenu (typique pour DELETE)
+                return {}
+            
+            elif response.status_code == 400:
+                # Erreur de validation
+                errors = response.json().get('errors', [])
+                print(f"Erreur 400 - Requête invalide :")
+                for error in errors:
+                    print(f"   - {error.get('message')}")
+                raise EbayAPIError(400, errors)
+            
+            elif response.status_code == 401:
+                # Token invalide ou expiré
+                print("Erreur 401 - Authentification échouée")
+                print("   Votre token est invalide ou a expiré. Obtenez-en un nouveau.")
+                raise EbayAPIError(401, [{'message': 'Authentication failed'}])
+            
+            elif response.status_code == 403:
+                # Permissions insuffisantes
+                print("Erreur 403 - Accès interdit")
+                print("   Vérifiez que votre application a les scopes nécessaires.")
+                raise EbayAPIError(403, [{'message': 'Access forbidden'}])
+            
+            elif response.status_code == 404:
+                # Ressource non trouvée
+                print("Erreur 404 - Ressource non trouvée")
+                raise EbayAPIError(404, [{'message': 'Resource not found'}])
+            
+            elif response.status_code == 429:
+                # Rate limit dépassé
+                print("Erreur 429 - Limite de taux dépassée")
+                print("   Attendez avant de faire une nouvelle requête.")
+                
+                # Récupérer le header Retry-After si présent
+                retry_after = response.headers.get('Retry-After')
+                if retry_after:
+                    print(f"   Réessayez après : {retry_after} secondes")
+                
+                raise EbayAPIError(429, [{'message': 'Rate limit exceeded'}])
+            
+            elif 500 <= response.status_code < 600:
+                # Erreur serveur - retry possible
+                print(f"⚠️  Erreur serveur {response.status_code} (tentative {attempt + 1}/{max_retries})")
+                
+                if attempt < max_retries - 1:
+                    wait_time = 2 ** attempt  # Backoff exponentiel : 1s, 2s, 4s...
+                    print(f"   Nouvelle tentative dans {wait_time} secondes...")
+                    import time
+                    time.sleep(wait_time)
+                    continue  # Retenter
+                else:
+                    print("   Nombre maximum de tentatives atteint.")
+                    raise EbayAPIError(response.status_code, [{'message': 'Server error'}])
+            
+            else:
+                # Autre erreur
+                print(f"❌ Erreur HTTP {response.status_code}")
+                print(f"   Réponse : {response.text[:200]}")
+                raise EbayAPIError(response.status_code, [{'message': response.text}])
+                
+        except requests.exceptions.Timeout:
+            print(f"⏱️  Timeout (tentative {attempt + 1}/{max_retries})")
+            if attempt < max_retries - 1:
+                continue
+            raise
+        
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Erreur réseau : {str(e)}")
+            raise
+
+# Exemple d'utilisation avec gestion d'erreurs
+try:
+    results = make_ebay_request(
+        method='GET',
+        endpoint='/buy/browse/v1/item_summary/search',
+        access_token=app_token['access_token'],
+        params={'q': 'laptop', 'limit': 5},
+        environment=ENVIRONMENT
+    )
+    print(f"✅ {len(results.get('itemSummaries', []))} résultats trouvés")
+    
+except EbayAPIError as e:
+    print(f"Erreur API capturée : {e}")
+except Exception as e:
+    print(f"Erreur inattendue : {e}")
+```
+
+## 3.3 Pagination
+
+### Pourquoi la pagination ?
+
+Les APIs limitent le nombre de résultats par requête pour :
+-  Optimiser les performances
+-  Réduire la charge réseau
+-  Éviter les timeouts
+-  Gérer de gros volumes de données
+
+### Pagination dans l'API eBay Browse
+
+```{python}
+#| eval: false
+
+def search_all_items_paginated(query, access_token, max_items=50, environment='sandbox'):
+    """
+    Recherche des produits avec pagination automatique.
+    
+    eBay Browse API utilise :
+    - 'limit' : nombre de résultats par page (max 200)
+    - 'offset' : position de départ (0, 200, 400...)
+    
+    Args:
+        query (str): Terme de recherche
+        access_token (str): Token OAuth
+        max_items (int): Nombre maximum total d'items à récupérer
+        environment (str): 'sandbox' ou 'production'
+    
+    Returns:
+        list: Liste de tous les items récupérés
+    """
+    
+    all_items = []
+    offset = 0
+    limit = 50  # Items par page (max 200 pour eBay)
+    
+    print(f"🔍 Recherche paginée : '{query}' (max {max_items} items)")
+    
+    while len(all_items) < max_items:
+        # Ajuster le limit pour ne pas dépasser max_items
+        current_limit = min(limit, max_items - len(all_items))
+        
+        print(f"\n📄 Page en cours : offset={offset}, limit={current_limit}")
+        
+        try:
+            # Faire la requête pour cette page
+            response = make_ebay_request(
+                method='GET',
+                endpoint='/buy/browse/v1/item_summary/search',
+                access_token=access_token,
+                params={
+                    'q': query,
+                    'limit': current_limit,
+                    'offset': offset
+                },
+                environment=environment
+            )
+            
+            # Extraire les items de cette page
+            items = response.get('itemSummaries', [])
+            total = response.get('total', 0)
+            
+            print(f"  {len(items)} items récupérés (total disponible : {total})")
+            
+            if not items:
+                print("  Aucun item sur cette page, arrêt de la pagination")
+                break
+            
+            # Ajouter à la liste globale
+            all_items.extend(items)
+            
+            # Vérifier s'il y a plus de pages
+            if len(all_items) >= total:
+                print(" Tous les items disponibles ont été récupérés")
+                break
+            
+            # Passer à la page suivante
+            offset += current_limit
+            
+        except EbayAPIError as e:
+            print(f" Erreur lors de la pagination : {e}")
+            break
+    
+    print(f"\n Total récupéré : {len(all_items)} items")
+    return all_items
+
+# Exemple d'utilisation
+if 'app_token' in locals():
+    all_laptops = search_all_items_paginated(
+        query="laptop",
+        access_token=app_token['access_token'],
+        max_items=100,
+        environment=ENVIRONMENT
+    )
+    
+    # Analyser les résultats
+    if all_laptops:
+        import pandas as pd
+        
+        # Créer un DataFrame pour analyse
+        df = pd.DataFrame([
+            {
+                'title': item.get('title', ''),
+                'price': item.get('price', {}).get('value', 0),
+                'currency': item.get('price', {}).get('currency', ''),
+                'condition': item.get('condition', '')
+            }
+            for item in all_laptops
+        ])
+        
+        print("\n Statistiques :")
+        print(f"   Prix moyen : {df['price'].mean():.2f} {df['currency'].iloc[0]}")
+        print(f"   Prix min : {df['price'].min():.2f}")
+        print(f"   Prix max : {df['price'].max():.2f}")
+        print(f"\n   Répartition par condition :")
+        print(df['condition'].value_counts())
+```
+
+### Types de pagination
+
+| Type | Description | APIs eBay |
+|------|-------------|-----------|
+| **Offset-based** | `offset` + `limit` | Browse, Search |
+| **Cursor-based** | Token de page (`next`, `prev`) | Certaines Sell APIs |
+| **Page-based** | Numéro de page + taille | Legacy APIs |
+
+## 3.4 Rate Limiting
+
+### Qu'est-ce que le Rate Limiting ?
+
+Le **rate limiting** limite le nombre de requêtes qu'une application peut faire sur une période donnée.
+
+**Objectifs** :
+- Protéger les serveurs contre les abus
+-  Garantir une utilisation équitable
+-  Monétiser l'usage (plans premium)
+
+### Limites eBay API
+
+| Type d'application | Appels/jour (défaut) | Appels/seconde |
+|--------------------|----------------------|----------------|
+| Sandbox | 5,000 | 5 |
+| Production (de base) | 5,000 | 5 |
+| Production (approuvé) | Sur demande | Variable |
+
+**Documentation eBay** : Consultez [developer.ebay.com/support/api-call-limits](https://developer.ebay.com/support/api-call-limits) pour les limites détaillées.
+
+### Headers de Rate Limiting eBay
+
+```http
+HTTP/1.1 200 OK
+X-RateLimit-Limit: 5000
+X-RateLimit-Remaining: 4950
+X-RateLimit-Reset: 1707480000
+```
+
+| Header | Description |
+|--------|-------------|
+| `X-RateLimit-Limit` | Limite totale |
+| `X-RateLimit-Remaining` | Appels restants |
+| `X-RateLimit-Reset` | Timestamp de réinitialisation |
+
+### Gestion du Rate Limiting
+
+```{python}
+#| eval: false
+
+import time
+from datetime import datetime
+
+class RateLimiter:
+    """
+    Gestionnaire de rate limiting simple.
+    
+    Suit les limites et attend automatiquement si nécessaire.
+    """
+    
+    def __init__(self, calls_per_second=5):
+        """
+        Args:
+            calls_per_second (int): Nombre maximum d'appels par seconde
+        """
+        self.calls_per_second = calls_per_second
+        self.min_interval = 1.0 / calls_per_second  # Intervalle minimum entre appels
+        self.last_call_time = 0
+    
+    def wait_if_needed(self):
+        """Attend si nécessaire pour respecter le rate limit."""
+        now = time.time()
+        time_since_last_call = now - self.last_call_time
+        
+        if time_since_last_call < self.min_interval:
+            wait_time = self.min_interval - time_since_last_call
+            print(f"⏳ Rate limiting : attente de {wait_time:.2f}s...")
+            time.sleep(wait_time)
+        
+        self.last_call_time = time.time()
+    
+    def check_response_headers(self, response):
+        """
+        Vérifie les headers de rate limiting de la réponse.
+        
+        Args:
+            response (requests.Response): Réponse HTTP
+        """
+        limit = response.headers.get('X-RateLimit-Limit')
+        remaining = response.headers.get('X-RateLimit-Remaining')
+        reset = response.headers.get('X-RateLimit-Reset')
+        
+        if all([limit, remaining, reset]):
+            print(f"📊 Rate Limit : {remaining}/{limit} appels restants")
+            
+            # Convertir le timestamp de reset
+            reset_time = datetime.fromtimestamp(int(reset))
+            print(f"   Réinitialisation : {reset_time.strftime('%Y-%m-%d %H:%M:%S')}")
+            
+            # Avertir si proche de la limite
+            if int(remaining) < 100:
+                print(" Attention : Proche de la limite !")
+
+# Exemple d'utilisation avec rate limiter
+rate_limiter = RateLimiter(calls_per_second=2)  # 2 appels/seconde max
+
+if 'app_token' in locals():
+    searches = ['iphone', 'laptop', 'camera', 'headphones', 'watch']
+    
+    print(f" Recherche de {len(searches)} termes avec rate limiting...\n")
+    
+    for search_term in searches:
+        # Attendre si nécessaire avant l'appel
+        rate_limiter.wait_if_needed()
+        
+        try:
+            response_raw = requests.get(
+                f"{API_URLS[ENVIRONMENT]['api']}/buy/browse/v1/item_summary/search",
+                headers=build_ebay_headers(app_token['access_token']),
+                params={'q': search_term, 'limit': 1},
+                timeout=10
+            )
+            
+            # Vérifier les headers de rate limiting
+            rate_limiter.check_response_headers(response_raw)
+            
+            if response_raw.status_code == 200:
+                data = response_raw.json()
+                total = data.get('total', 0)
+                print(f"   '{search_term}' : {total} résultats\n")
+            
+        except Exception as e:
+            print(f"   Erreur pour '{search_term}' : {e}\n")
+```
+
+## 3.5 Versioning des APIs
+
+### Pourquoi versionner ?
+
+- **Rétrocompatibilité** : Ne pas casser les apps existantes
+- **Évolution** : Ajouter de nouvelles fonctionnalités
+- **Dépréciation** : Retirer progressivement l'ancien
+
+### Stratégies de versioning
+
+| Stratégie | Exemple | eBay |
+|-----------|---------|------|
+| **URL Path** | `/v1/items`, `/v2/items` | ✅ Utilisé |
+| **Query Parameter** | `/items?version=1` | ❌ |
+| **Header** | `API-Version: 1` | ❌ |
+
+### Versions des APIs eBay
+
+```
+# Browse API v1
+/buy/browse/v1/item_summary/search
+
+# Sell Inventory API v1
+/sell/inventory/v1/offer
+
+# Commerce Taxonomy API v1
+/commerce/taxonomy/v1/category_tree/{category_tree_id}
+```
+
+**Documentation eBay** : Chaque API a son cycle de vie documenté. Consultez les release notes sur [developer.ebay.com/updates/api-updates](https://developer.ebay.com/updates/api-updates).
+
+### Gérer les changements de version
+
+```{python}
+#| eval: false
+
+class EbayAPIClient:
+    """
+    Client API eBay avec support de versioning.
+    """
+    
+    def __init__(self, access_token, environment='sandbox', api_version='v1'):
+        self.access_token = access_token
+        self.environment = environment
+        self.api_version = api_version
+        self.base_url = API_URLS[environment]['api']
+    
+    def search_items(self, query, limit=5):
+        """
+        Recherche d'items - s'adapte automatiquement à la version de l'API.
+        """
+        endpoint = f'/buy/browse/{self.api_version}/item_summary/search'
+        
+        return make_ebay_request(
+            method='GET',
+            endpoint=endpoint,
+            access_token=self.access_token,
+            params={'q': query, 'limit': limit},
+            environment=self.environment
+        )
+
+# Utilisation
+if 'app_token' in locals():
+    # Client avec version v1 (actuelle)
+    client_v1 = EbayAPIClient(
+        access_token=app_token['access_token'],
+        environment=ENVIRONMENT,
+        api_version='v1'
+    )
+    
+    results = client_v1.search_items('camera', limit=3)
+    print(f"✅ Recherche avec API v1 : {len(results.get('itemSummaries', []))} résultats")
+    
+    # Si une v2 sort à l'avenir, facile de migrer :
+    # client_v2 = EbayAPIClient(..., api_version='v2')
+```
+
+---
+
+## 🎓 Quiz Module 3
+
+**Question 1** : Quelle est la limite par défaut d'items par page dans l'API Browse d'eBay ?
+
+a) 50  
+b) 100  
+c) 200  
+d) 1000
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : c) 200**  
+L'API Browse accepte un maximum de 200 items par requête (paramètre `limit`).
+</details>
+
+**Question 2** : Que faire quand vous recevez une erreur HTTP 429 ?
+
+a) Réessayer immédiatement  
+b) Attendre puis réessayer  
+c) Changer de token  
+d) Contacter le support
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : b) Attendre puis réessayer**  
+429 signifie "Too Many Requests". Respectez le header `Retry-After` ou attendez un moment.
+</details>
+
+**Question 3** : Comment est indiquée la version de l'API dans les URLs eBay ?
+
+a) Query parameter `?version=1`  
+b) Header `API-Version: 1`  
+c) Path `/v1/` dans l'URL  
+d) Sous-domaine `v1.api.ebay.com`
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : c) Path `/v1/` dans l'URL**  
+Exemple : `/buy/browse/v1/item_summary/search`
+</details>
+
+---
+
+# Module 4 : Architecture et Bonnes Pratiques
+
+## 4.1 Design d'une API (Perspective Conceptuelle)
+
+Bien que ce cours se concentre sur la **consommation** d'APIs (comme eBay), comprendre les principes de design aide à mieux les utiliser.
+
+### Principes RESTful
+
+1. **Ressources comme noms** (pas de verbes dans les URLs)
+   ```
+   ✅ GET /items/12345
+   ❌ GET /getItem/12345
+   ```
+
+2. **Méthodes HTTP pour les actions**
+   ```
+   GET    /items/12345    # Lire
+   POST   /items          # Créer
+   PUT    /items/12345    # Remplacer
+   PATCH  /items/12345    # Modifier
+   DELETE /items/12345    # Supprimer
+   ```
+
+3. **Relations hiérarchiques**
+   ```
+   GET /sellers/12345/listings
+   GET /sellers/12345/listings/67890
+   ```
+
+4. **Filtrage, tri, pagination via query params**
+   ```
+   GET /items?category=electronics&sort=price&limit=20
+   ```
+
+### Design des APIs eBay
+
+eBay suit ces principes dans ses APIs modernes :
+
+```
+# Ressources et hiérarchie claire
+/sell/inventory/v1/inventory_item/{sku}
+/sell/inventory/v1/offer/{offerId}
+/buy/browse/v1/item/{item_id}
+
+# Filtres et recherche
+/buy/browse/v1/item_summary/search?q=laptop&filter=price:[100..500]
+```
+
+## 4.2 Documentation API
+
+### Une bonne documentation contient :
+
+1. **Vue d'ensemble** : Ce que fait l'API
+2. **Authentification** : Comment s'authentifier
+3. **Endpoints** : Liste complète avec exemples
+4. **Schémas** : Format des requêtes et réponses
+5. **Codes d'erreur** : Signification et solutions
+6. **Limites** : Rate limits, quotas
+7. **Changelog** : Historique des versions
+8. **Exemples de code** : Dans plusieurs langages
+
+### Documentation eBay
+
+eBay fournit une documentation exhaustive :
+
+- **Portal principal** : [developer.ebay.com](https://developer.ebay.com)
+- **Guides** : Tutoriels pas-à-pas
+- **Référence API** : Endpoints détaillés
+- **API Explorer** : Tester directement les APIs
+- **OpenAPI Specs** : Spécifications téléchargeables
+
+**Explorer eBay API** : [developer.ebay.com/my/api_test_tool](https://developer.ebay.com/my/api_test_tool)
+
+## 4.3 Tests d'API
+
+### Types de tests
+
+| Type | Objectif | Outils |
+|------|----------|--------|
+| **Tests unitaires** | Fonctions individuelles | pytest, unittest |
+| **Tests d'intégration** | Appels API réels | pytest + requests |
+| **Tests de contrat** | Validation schéma | Pact, JSON Schema |
+| **Tests de charge** | Performance | Locust, JMeter |
+
+### Exemple : Tests avec pytest
+
+```{python}
+#| eval: false
+
+# Installation : pip install pytest pytest-mock
+
+import pytest
+from unittest.mock import Mock, patch
+
+def test_search_ebay_items_success():
+    """Test de la fonction de recherche en mockant les appels HTTP."""
+    
+    # Mock de la réponse HTTP
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {
+        'total': 100,
+        'itemSummaries': [
+            {
+                'itemId': '123',
+                'title': 'Test Item',
+                'price': {'value': '99.99', 'currency': 'USD'}
+            }
+        ]
+    }
+    
+    # Patcher requests.get
+    with patch('requests.get', return_value=mock_response):
+        results = search_ebay_items(
+            query='test',
+            access_token='fake_token',
+            limit=1,
+            environment='sandbox'
+        )
+        
+        assert results is not None
+        assert results['total'] == 100
+        assert len(results['itemSummaries']) == 1
+        assert results['itemSummaries'][0]['title'] == 'Test Item'
+
+def test_search_ebay_items_unauthorized():
+    """Test avec un token invalide (401)."""
+    
+    mock_response = Mock()
+    mock_response.status_code = 401
+    mock_response.json.return_value = {
+        'errors': [{'message': 'Invalid token'}]
+    }
+    
+    with patch('requests.get', return_value=mock_response):
+        results = search_ebay_items(
+            query='test',
+            access_token='invalid_token',
+            limit=1,
+            environment='sandbox'
+        )
+        
+        # La fonction doit retourner None en cas d'erreur 401
+        assert results is None
+
+def test_rate_limiter_waits():
+    """Test que le rate limiter attend bien."""
+    
+    rate_limiter = RateLimiter(calls_per_second=2)
+    
+    start_time = time.time()
+    
+    # Faire 3 appels
+    for _ in range(3):
+        rate_limiter.wait_if_needed()
+    
+    elapsed = time.time() - start_time
+    
+    # Avec 2 appels/sec, 3 appels devraient prendre au moins 1 seconde
+    assert elapsed >= 1.0
+
+# Lancer les tests : pytest nom_du_fichier.py -v
+print("Tests définis. Exécutez avec : pytest")
+```
+
+### Tests dans le Sandbox eBay
+
+eBay fournit un environnement **Sandbox** spécifiquement pour les tests :
+
+```{python}
+#| eval: false
+
+def create_test_listing_sandbox(access_token):
+    """
+    Crée un listing de test dans le Sandbox eBay.
+    
+    Ce listing n'apparaîtra PAS sur eBay en production.
+    Les transactions sont fictives et utilisent de la fausse monnaie.
+    """
+    
+    endpoint = '/sell/inventory/v1/offer'
+    
+    # Données de listing de test
+    test_offer = {
+        "sku": "TEST-SKU-12345",
+        "marketplaceId": "EBAY_US",
+        "format": "FIXED_PRICE",
+        "availableQuantity": 10,
+        "categoryId": "20081",  # Ordinateurs portables
+        "listingDescription": "Laptop de test - NE PAS ACHETER",
+        "listingPolicies": {
+            "fulfillmentPolicyId": "YOUR_FULFILLMENT_POLICY_ID",
+            "paymentPolicyId": "YOUR_PAYMENT_POLICY_ID",
+            "returnPolicyId": "YOUR_RETURN_POLICY_ID"
+        },
+        "pricingSummary": {
+            "price": {
+                "value": "999.99",
+                "currency": "USD"
+            }
+        }
+    }
+    
+    try:
+        result = make_ebay_request(
+            method='POST',
+            endpoint=endpoint,
+            access_token=access_token,
+            json_data=test_offer,
+            environment='sandbox'
+        )
+        
+        print(f" Listing de test créé : {result.get('offerId')}")
+        return result
+        
+    except EbayAPIError as e:
+        print(f" Erreur lors de la création : {e}")
+        return None
+
+# Requiert un User Token avec le scope sell.inventory
+# Utilisez cette fonction UNIQUEMENT dans le Sandbox !
+```
+
+## 4.4 Monitoring et Logging
+
+### Pourquoi monitorer ?
+
+-  **Détecter les erreurs** en production
+-  **Analyser l'usage** (endpoints les plus utilisés)
+-  **Optimiser les performances**
+-  **Alerter** sur les anomalies
+
+### Logging structuré
+
+```{python}
+#| eval: false
+
+import logging
+import json
+from datetime import datetime
+
+# Configuration du logger
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('ebay_api.log'),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger('EbayAPIClient')
+
+def log_api_call(method, endpoint, status_code, response_time, error=None):
+    """
+    Log un appel API de manière structurée.
+    
+    Args:
+        method (str): Méthode HTTP
+        endpoint (str): Endpoint appelé
+        status_code (int): Code de statut HTTP
+        response_time (float): Temps de réponse en secondes
+        error (str): Message d'erreur éventuel
+    """
+    
+    log_entry = {
+        'timestamp': datetime.utcnow().isoformat(),
+        'method': method,
+        'endpoint': endpoint,
+        'status_code': status_code,
+        'response_time_ms': round(response_time * 1000, 2),
+        'success': 200 <= status_code < 300,
+        'error': error
+    }
+    
+    if log_entry['success']:
+        logger.info(json.dumps(log_entry))
+    else:
+        logger.error(json.dumps(log_entry))
+
+# Exemple d'utilisation
+import time
+
+start = time.time()
+
+try:
+    response = make_ebay_request(
+        method='GET',
+        endpoint='/buy/browse/v1/item_summary/search',
+        access_token='fake_token',
+        params={'q': 'test'},
+        environment='sandbox'
+    )
+    
+    elapsed = time.time() - start
+    log_api_call('GET', '/buy/browse/v1/item_summary/search', 200, elapsed)
+    
+except EbayAPIError as e:
+    elapsed = time.time() - start
+    log_api_call('GET', '/buy/browse/v1/item_summary/search', 
+                 e.status_code, elapsed, error=str(e))
+
+print(" Logs écrits dans ebay_api.log")
+```
+
+### Métriques à surveiller
+
+| Métrique | Description | Alerte si... |
+|----------|-------------|--------------|
+| **Taux d'erreur** | % de requêtes en erreur | > 5% |
+| **Latence** | Temps de réponse moyen | > 2 secondes |
+| **Throughput** | Requêtes par seconde | Chute soudaine |
+| **Taux 429** | Limites de taux atteintes | > 1% |
+| **Taux 5xx** | Erreurs serveur eBay | > 0.5% |
+
+## 4.5 Bonnes Pratiques : Résumé
+
+### Checklist du Développeur API
+
+#### Sécurité
+- [ ] Credentials stockés en sécurité (variables d'env, secrets manager)
+- [ ] HTTPS uniquement
+- [ ] Tokens régulièrement renouvelés
+- [ ] Scopes OAuth au minimum nécessaire
+- [ ] Pas de credentials dans les logs
+
+#### Performance
+- [ ] Utilisation de la pagination
+- [ ] Mise en cache des résultats (si pertinent)
+- [ ] Rate limiting respecté
+- [ ] Timeout configuré sur les requêtes
+- [ ] Connection pooling (pour haute fréquence)
+
+#### Fiabilité
+- [ ] Gestion d'erreurs robuste
+- [ ] Retry avec backoff exponentiel pour les 5xx
+- [ ] Validation des données avant envoi
+- [ ] Logs structurés
+- [ ] Monitoring en production
+
+#### Maintenabilité
+- [ ] Code documenté
+- [ ] Tests unitaires et d'intégration
+- [ ] Versioning des APIs suivi
+- [ ] Configuration externalisée
+- [ ] Changelog maintenu
+
+---
+
+## 🎓 Quiz Module 4
+
+**Question 1** : Quelle méthode HTTP utiliseriez-vous pour remplacer complètement une ressource ?
+
+a) POST  
+b) PUT  
+c) PATCH  
+d) DELETE
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : b) PUT**  
+PUT remplace intégralement la ressource. PATCH ne modifie que certains champs.
+</details>
+
+**Question 2** : Pourquoi tester dans le Sandbox plutôt qu'en Production ?
+
+a) C'est gratuit  
+b) Aucune transaction réelle  
+c) Données fictives  
+d) Toutes ces réponses
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : d) Toutes ces réponses**  
+Le Sandbox permet de tester sans impact financier ni sur de vraies données.
+</details>
+
+**Question 3** : Que signifie un taux d'erreur 5xx supérieur à 1% ?
+
+a) Vos credentials sont invalides  
+b) Vous dépassez le rate limit  
+c) Il y a un problème côté serveur eBay  
+d) Vos requêtes sont mal formées
+
+<details>
+<summary>Voir la réponse</summary>
+**Réponse : c) Il y a un problème côté serveur eBay**  
+Les erreurs 5xx indiquent des problèmes serveur (eBay dans ce cas).
+</details>
+
+---
+
+# Conclusion et Ressources
+
+## Ce que vous avez appris
+
+**Fondamentaux API**
+- Définition et architecture REST
+- Protocole HTTP et méthodes
+- Formats de données (JSON)
+
+**Authentification et Sécurité**
+- OAuth 2.0 (Application et User tokens)
+- Gestion sécurisée des credentials
+- Headers HTTP
+
+**Interaction avec APIs**
+- Construction de requêtes
+- Gestion d'erreurs robuste
+- Pagination et rate limiting
+- Versioning
+
+**Architecture et Bonnes Pratiques**
+- Design API
+- Tests (unitaires, intégration)
+- Monitoring et logging
+- Projet pratique complet
+
+## Ressources eBay
+
+### Documentation Officielle
+-  [eBay Developers Portal](https://developer.ebay.com)
+-  [Getting Started Guide](https://developer.ebay.com/develop/get-started)
+-  [API Reference](https://developer.ebay.com/docs)
+-  [API Explorer](https://developer.ebay.com/my/api_test_tool)
+
+### Outils
+-  [Créer des Keysets](https://developer.ebay.com/my/keys)
+-  [Sandbox Test Users](https://developer.ebay.com/sandbox/register)
+-  [API Status](https://developer.ebay.com/support/api-status)
+
+### Support
+-  [Developer Forum](https://community.ebay.com/t5/Developer-Groups/ct-p/developergroup)
+-  [Technical Support](https://developer.ebay.com/my/support/tickets)
+-  [Newsletter](https://developer.ebay.com/updates/newsletter)
+
+## Ressources Générales sur les APIs
+
+### Standards et Spécifications
+-  [OpenAPI Specification](https://swagger.io/specification/)
+-  [OAuth 2.0 RFC 6749](https://tools.ietf.org/html/rfc6749)
+-  [JSON Schema](https://json-schema.org/)
+
+### Livres Recommandés
+-  "RESTful Web APIs" - Leonard Richardson & Mike Amundsen
+-  "Designing Web APIs" - Brenda Jin, Saurabh Sahni, Amir Shevat
+
+### Outils de Développement
+-  [Postman](https://www.postman.com/) - Client API
+-  [Insomnia](https://insomnia.rest/) - Client API open-source
+-  [HTTPie](https://httpie.io/) - Client HTTP en ligne de commande
+
+## Prochaines Étapes
+
+1. **Pratiquez** avec le Sandbox eBay
+2. **Créez** une vraie application (dashboard de prix, outil de listing)
+3. **Explo

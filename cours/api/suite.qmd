@@ -1,0 +1,222 @@
+
+# Projet Pratique Final
+
+## Objectif
+
+Créer un **analyseur de prix eBay** qui :
+
+1. Recherche des produits pour une catégorie donnée
+2. Récupère les prix via pagination
+3. Calcule des statistiques (moyenne, min, max)
+4. Gère les erreurs et le rate limiting
+5. Log toutes les opérations
+
+## Code du Projet
+
+```{python}
+#| eval: false
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from datetime import datetime
+import json
+
+class EbayPriceAnalyzer:
+    """
+    Analyseur de prix eBay avec fonctionnalités complètes.
+    """
+    
+    def __init__(self, access_token, environment='sandbox'):
+        self.access_token = access_token
+        self.environment = environment
+        self.rate_limiter = RateLimiter(calls_per_second=2)
+        self.logger = logging.getLogger('PriceAnalyzer')
+    
+    def search_and_analyze(self, query, max_items=100):
+        """
+        Recherche des produits et analyse les prix.
+        
+        Args:
+            query (str): Terme de recherche
+            max_items (int): Nombre maximum d'items à analyser
+        
+        Returns:
+            dict: Statistiques et données
+        """
+        
+        self.logger.info(f"Début de l'analyse pour '{query}'")
+        
+        # 1. Récupération des données avec pagination
+        all_items = []
+        offset = 0
+        limit = 50
+        
+        while len(all_items) < max_items:
+            self.rate_limiter.wait_if_needed()
+            
+            current_limit = min(limit, max_items - len(all_items))
+            
+            try:
+                response = make_ebay_request(
+                    method='GET',
+                    endpoint='/buy/browse/v1/item_summary/search',
+                    access_token=self.access_token,
+                    params={
+                        'q': query,
+                        'limit': current_limit,
+                        'offset': offset,
+                        'filter': 'priceCurrency:USD'
+                    },
+                    environment=self.environment
+                )
+                
+                items = response.get('itemSummaries', [])
+                
+                if not items:
+                    break
+                
+                all_items.extend(items)
+                offset += current_limit
+                
+                self.logger.info(f"Récupéré {len(all_items)} items")
+                
+            except EbayAPIError as e:
+                self.logger.error(f"Erreur API : {e}")
+                break
+        
+        # 2. Extraction des prix
+        prices_data = []
+        for item in all_items:
+            price_info = item.get('price', {})
+            if 'value' in price_info:
+                prices_data.append({
+                    'title': item.get('title', '')[:50],
+                    'price': float(price_info['value']),
+                    'currency': price_info.get('currency', 'USD'),
+                    'condition': item.get('condition', 'UNKNOWN'),
+                    'seller': item.get('seller', {}).get('username', 'N/A')
+                })
+        
+        # 3. Création du DataFrame
+        df = pd.DataFrame(prices_data)
+        
+        if df.empty:
+            self.logger.warning("Aucune donnée de prix trouvée")
+            return None
+        
+        # 4. Calcul des statistiques
+        stats = {
+            'query': query,
+            'total_items': len(df),
+            'timestamp': datetime.now().isoformat(),
+            'price_stats': {
+                'mean': df['price'].mean(),
+                'median': df['price'].median(),
+                'min': df['price'].min(),
+                'max': df['price'].max(),
+                'std': df['price'].std()
+            },
+            'condition_breakdown': df['condition'].value_counts().to_dict()
+        }
+        
+        self.logger.info(f"Analyse terminée : {stats['total_items']} items")
+        
+        return {
+            'stats': stats,
+            'dataframe': df
+        }
+    
+    def save_results(self, results, filename):
+        """Sauvegarde les résultats en JSON et CSV."""
+        
+        if not results:
+            return
+        
+        # Sauvegarder les stats en JSON
+        stats_file = f"{filename}_stats.json"
+        with open(stats_file, 'w') as f:
+            json.dump(results['stats'], f, indent=2)
+        
+        # Sauvegarder les données en CSV
+        csv_file = f"{filename}_data.csv"
+        results['dataframe'].to_csv(csv_file, index=False)
+        
+        self.logger.info(f"Résultats sauvegardés : {stats_file}, {csv_file}")
+    
+    def visualize_prices(self, df):
+        """Crée des visualisations des prix."""
+        
+        fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+        
+        # Histogramme des prix
+        axes[0].hist(df['price'], bins=20, edgecolor='black', alpha=0.7)
+        axes[0].set_title('Distribution des Prix')
+        axes[0].set_xlabel('Prix (USD)')
+        axes[0].set_ylabel('Fréquence')
+        axes[0].axvline(df['price'].mean(), color='red', linestyle='--', label='Moyenne')
+        axes[0].legend()
+        
+        # Prix par condition
+        condition_prices = df.groupby('condition')['price'].mean().sort_values()
+        condition_prices.plot(kind='barh', ax=axes[1], color='skyblue', edgecolor='black')
+        axes[1].set_title('Prix Moyen par Condition')
+        axes[1].set_xlabel('Prix Moyen (USD)')
+        
+        plt.tight_layout()
+        plt.savefig('ebay_price_analysis.png', dpi=150)
+        plt.show()
+        
+        self.logger.info("Visualisations créées")
+
+# ═══════════════════════════════════════════════════════════════
+# EXÉCUTION DU PROJET
+# ═══════════════════════════════════════════════════════════════
+
+if 'app_token' in locals() and CLIENT_ID and CLIENT_SECRET:
+    print(" Lancement de l'analyseur de prix eBay...")
+    
+    # Créer l'analyseur
+    analyzer = EbayPriceAnalyzer(
+        access_token=app_token['access_token'],
+        environment=ENVIRONMENT
+    )
+    
+    # Analyser une catégorie de produits
+    query = "macbook pro"
+    results = analyzer.search_and_analyze(query, max_items=50)
+    
+    if results:
+        stats = results['stats']
+        df = results['dataframe']
+        
+        print(f"\n RÉSULTATS POUR '{query.upper()}'")
+        print("=" * 60)
+        print(f"Total items analysés : {stats['total_items']}")
+        print(f"\nStatistiques de prix (USD) :")
+        print(f"  • Moyenne  : ${stats['price_stats']['mean']:.2f}")
+        print(f"  • Médiane  : ${stats['price_stats']['median']:.2f}")
+        print(f"  • Minimum  : ${stats['price_stats']['min']:.2f}")
+        print(f"  • Maximum  : ${stats['price_stats']['max']:.2f}")
+        print(f"  • Écart-type : ${stats['price_stats']['std']:.2f}")
+        
+        print(f"\nRépartition par condition :")
+        for condition, count in stats['condition_breakdown'].items():
+            print(f"  • {condition}: {count} items")
+        
+        # Sauvegarder les résultats
+        analyzer.save_results(results, 'ebay_analysis')
+        
+        # Créer les visualisations
+        analyzer.visualize_prices(df)
+        
+        print("\n Analyse terminée avec succès !")
+        print("   Fichiers générés :")
+        print("   - ebay_analysis_stats.json")
+        print("   - ebay_analysis_data.csv")
+        print("   - ebay_price_analysis.png")
+    
+else:
+    print("  Veuillez configurer vos credentials eBay pour exécuter le projet.")
+```
+
+---

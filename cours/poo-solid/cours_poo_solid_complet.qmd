@@ -1,6 +1,9 @@
 ---
 title: "Programmation Orientée Objet et Principes SOLID en Python"
 subtitle: "De la théorie à la pratique"
+execute:
+  enabled: true
+  freeze: auto
 ---
 
 ::: {.callout-tip}
@@ -100,7 +103,7 @@ Définissez toujours `__str__` pour faciliter le debugging et les logs.
 # Sans __eq__
 book1 = Book('1984', 'George Orwell')
 book2 = Book('1984', 'George Orwell')
-print(f"Égaux sans __eq__ ? {book1 == book2}")  # False
+print(f"Égaux sans __eq__ ? {book1 == book2}") 
 
 # Avec __eq__
 class Book:
@@ -119,7 +122,7 @@ class Book:
 
 book1 = Book('1984', 'George Orwell')
 book2 = Book('1984', 'George Orwell')
-print(f"Égaux avec __eq__ ? {book1 == book2}")  # True
+print(f"Égaux avec __eq__ ? {book1 == book2}")
 ```
 
 ::: {.callout-important}
