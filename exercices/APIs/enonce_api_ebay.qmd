@@ -1,0 +1,154 @@
+---
+title: "Exercice : Intégration de l'API eBay"
+subtitle: "Client Credentials Grant — Browse API"
+format:
+  html:
+    toc: true
+    toc-title: "Sommaire"
+    toc-depth: 3
+    theme: cosmo
+    highlight-style: github
+    code-block-bg: true
+    code-block-border-left: "#2E5FA3"
+lang: fr
+---
+
+::: {.callout-tip}
+## Version interactive
+[Faites cet exercice dans Binder](https://mybinder.org/v2/gh/adreux/peregrinations-pythonesques/HEAD)
+:::
+
+## Contexte
+
+Dans cet exercice, vous allez implémenter un client Python pour interroger l'**API eBay**. Vous utiliserez le flux **OAuth Client Credentials Grant** pour obtenir un token d'accès, puis effectuerez des recherches d'articles via la **Browse API**.
+
+Ce type d'authentification (sans utilisateur connecté) est adapté aux accès en lecture seule aux données publiques eBay.
+
+::: {.callout-note title="Ressources"}
+- [OAuth Client Credentials Grant](https://developer.ebay.com/api-docs/static/oauth-client-credentials-grant.html)
+- [Outil de test API eBay](https://developer.ebay.com/my/api_test_tool?index=0&env=production)
+- [Browse API — Item Summary Search](https://developer.ebay.com/api-docs/buy/browse/resources/item_summary/methods/search)
+:::
+
+---
+
+## Prérequis
+
+Avant de commencer, assurez-vous d'avoir :
+
+- Un compte développeur eBay avec une application enregistrée (**App ID** et **Client Secret**)
+- Python 3.8+ avec les bibliothèques `requests` et `python-dotenv`
+- Un fichier `.env` à la racine du projet contenant vos identifiants
+
+```bash
+# .env
+app_id=VotreAppID
+dev_id=VotreDevID
+client_secret=VotreClientSecret
+```
+
+::: {.callout-warning title="Ne commitez jamais votre fichier .env"}
+Ajoutez `.env` à votre `.gitignore` pour ne pas exposer vos credentials.
+:::
+
+---
+
+## Objectifs
+
+Vous devrez implémenter une classe `EbayApi` qui :
+
+1. Charge les credentials depuis les variables d'environnement au moment de l'instanciation
+2. Gère un token OAuth avec renouvellement automatique à l'expiration
+3. Expose les fonctionnalités de recherche à ses utilisateurs
+
+Réfléchissez à la décomposition en méthodes : quelles responsabilités méritent d'être isolées ? Lesquelles font partie de l'interface publique, lesquelles sont des détails d'implémentation ?
+
+---
+
+## Partie 1 — Authentification OAuth
+
+### 1.1 Obtenir un token d'accès
+
+L'API eBay utilise le flux **Client Credentials Grant**. Vous devez envoyer une requête `POST` à l'endpoint :
+
+```
+POST https://api.ebay.com/identity/v1/oauth2/token
+```
+
+| Element | Valeur |
+|---------|--------|
+| Header `Authorization` | `Basic <base64(app_id:client_secret)>` |
+| Header `Content-Type` | `application/x-www-form-urlencoded` |
+| Body `grant_type` | `client_credentials` |
+| Body `scope` | `https://api.ebay.com/oauth/api_scope` |
+
+::: {.callout-tip title="Encodage Base64"}
+En Python, pour encoder les credentials :
+```python
+import base64
+credentials = f"{app_id}:{client_secret}"
+encoded = base64.b64encode(credentials.encode()).decode()
+```
+:::
+
+### 1.2 Gestion de l'expiration
+
+La réponse contient un champ `expires_in` (en secondes, généralement `7200`). Le token ne doit être renouvelé que lorsqu'il est expiré, et ce renouvellement doit être **transparent** pour le code appelant.
+
+Réfléchissez à comment Python vous permet d'exposer cela proprement : comment rendre l'accès au token aussi simple que l'accès à un attribut, tout en cachant la logique de refresh ?
+
+---
+
+## Partie 2 — Requêtes à la Browse API
+
+### 2.1 Recherche par mot-clé
+
+Implémentez une méthode permettant de rechercher des articles à partir d'un mot-clé :
+
+```
+GET https://api.ebay.com/buy/browse/v1/item_summary/search?q=<query>
+```
+
+**Headers obligatoires pour toutes les requêtes :**
+
+```python
+{
+    "Authorization": f"Bearer {access_token}",
+    "X-EBAY-C-MARKETPLACE-ID": "EBAY_FR",
+}
+```
+
+Toutes vos requêtes GET partagent la même logique (headers, gestion des erreurs). Pensez à factoriser ce comportement commun plutôt que de le dupliquer.
+
+### 2.2 Récupération d'un article par URL
+
+Implémentez une méthode permettant de récupérer un article à partir de son URL complète. Exemple :
+
+```
+https://api.ebay.com/buy/browse/v1/item/v1%7C358311088969%7C626586956773
+```
+
+---
+
+## Partie 3 — Gestion des erreurs et logs
+
+Votre implémentation doit gérer les cas suivants :
+
+| Cas | Comportement attendu |
+|-----|---------------------|
+| Credentials manquants dans `.env` | Lever une `ValueError` explicite |
+| Echec token (status != 200) | Lever une `Exception` avec status + message |
+| Echec requête API (status != 200) | Lever une `Exception` avec status + corps |
+| Opérations importantes | Utiliser le module `logging` — aucun `print` |
+
+---
+
+## Livrables attendus
+
+Un fichier `ebay_api.py` contenant la classe `EbayApi` avec toutes les fonctionnalités décrites, ainsi qu'un bloc `main()` qui instancie la classe, effectue une recherche et sauvegarde le résultat dans un fichier JSON.
+
+---
+
+::: {.callout-tip title="Conseil"}
+Utilisez l'[outil de test eBay](https://developer.ebay.com/my/api_test_tool?index=0&env=production) pour vérifier vos credentials et visualiser les réponses avant de commencer à coder.
+:::
