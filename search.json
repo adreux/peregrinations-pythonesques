@@ -1,0 +1,971 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "",
+    "text": "Les Learning Fridays sont des sessions de formation courtes et pratiques, pensées pour progresser collectivement sur des sujets techniques essentiels au métier de la data."
+  },
+  {
+    "objectID": "index.html#bienvenue",
+    "href": "index.html#bienvenue",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "",
+    "text": "Les Learning Fridays sont des sessions de formation courtes et pratiques, pensées pour progresser collectivement sur des sujets techniques essentiels au métier de la data."
+  },
+  {
+    "objectID": "index.html#lobjectif",
+    "href": "index.html#lobjectif",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "L’objectif",
+    "text": "L’objectif\nL’objectif est double :\n\nRenforcer les fondamentaux nécessaires pour être plus efficace et autonome dans ses missions\nDévelopper une culture technique transverse, utile au-delà du contexte immédiat du projet"
+  },
+  {
+    "objectID": "index.html#format-des-sessions",
+    "href": "index.html#format-des-sessions",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "Format des sessions",
+    "text": "Format des sessions\nChaque session aborde un thème concret, illustré par des exemples réels, avec une attention particulière portée aux :\n\nBonnes pratiques de production\nQualité du code\nCas d’usage data modernes (LLM, recherche documentaire, RAG)"
+  },
+  {
+    "objectID": "index.html#projet-fil-rouge",
+    "href": "index.html#projet-fil-rouge",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "Projet fil rouge",
+    "text": "Projet fil rouge\nUn projet fil rouge autour du déploiement d’un système RAG (Retrieval Augmented Generation) permettra de mettre en pratique l’ensemble des notions abordées au fil des sessions (dans un second temps)."
+  },
+  {
+    "objectID": "index.html#sessions-disponibles",
+    "href": "index.html#sessions-disponibles",
+    "title": "Learning Fridays – Progresser ensemble",
+    "section": "Sessions disponibles",
+    "text": "Sessions disponibles\n\nProgrammation Orientée Objet et Principes SOLID\nLa première session couvre les fondamentaux de la POO et les principes SOLID, essentiels pour écrire du code maintenable et évolutif.\nContenu :\n\nConcepts fondamentaux de la POO (classes, héritage, polymorphisme)\nDataclasses et méthodes magiques Python\nDécorateurs (@property, @staticmethod, @classmethod, @abstractmethod)\nPrincipes SOLID avec exemples pratiques\nExercices d’application\n\nAccéder au cours POO et SOLID\n\n\n\n\n\n\n\nNoteProchaines sessions\n\n\n\nD’autres sessions seront ajoutées progressivement pour couvrir l’ensemble des compétences nécessaires au développement de solutions data en production."
+  },
+  {
+    "objectID": "exercices/APIs/enonce_api_ebay.html",
+    "href": "exercices/APIs/enonce_api_ebay.html",
+    "title": "Exercice : Intégration de l’API eBay",
+    "section": "",
+    "text": "AstuceVersion interactive\n\n\n\nFaites cet exercice dans Binder",
+    "crumbs": [
+      "Pratique",
+      "Exercice eBay"
+    ]
+  },
+  {
+    "objectID": "exercices/APIs/enonce_api_ebay.html#contexte",
+    "href": "exercices/APIs/enonce_api_ebay.html#contexte",
+    "title": "Exercice : Intégration de l’API eBay",
+    "section": "Contexte",
+    "text": "Contexte\nDans cet exercice, vous allez implémenter un client Python pour interroger l’API eBay. Vous utiliserez le flux OAuth Client Credentials Grant pour obtenir un token d’accès, puis effectuerez des recherches d’articles via la Browse API.\nCe type d’authentification (sans utilisateur connecté) est adapté aux accès en lecture seule aux données publiques eBay.\n\n\n\n\n\n\nNoteRessources\n\n\n\n\nOAuth Client Credentials Grant\nOutil de test API eBay\nBrowse API — Item Summary Search",
+    "crumbs": [
+      "Pratique",
+      "Exercice eBay"
+    ]
+  },
+  {
+    "objectID": "exercices/APIs/enonce_api_ebay.html#prérequis",
+    "href": "exercices/APIs/enonce_api_ebay.html#prérequis",
+    "title": "Exercice : Intégration de l’API eBay",
+    "section": "Prérequis",
+    "text": "Prérequis\nAvant de commencer, assurez-vous d’avoir :\n\nUn compte développeur eBay avec une application enregistrée (App ID et Client Secret)\nPython 3.8+ avec les bibliothèques requests et python-dotenv\nUn fichier .env à la racine du projet contenant vos identifiants\n\n# .env\napp_id=VotreAppID\ndev_id=VotreDevID\nclient_secret=VotreClientSecret\n\n\n\n\n\n\nAvertissementNe commitez jamais votre fichier .env\n\n\n\nAjoutez .env à votre .gitignore pour ne pas exposer vos credentials.",
+    "crumbs": [
+      "Pratique",
+      "Exercice eBay"
+    ]
+  },
+  {
+    "objectID": "exercices/APIs/enonce_api_ebay.html#objectifs",
+    "href": "exercices/APIs/enonce_api_ebay.html#objectifs",
+    "title": "Exercice : Intégration de l’API eBay",
+    "section": "Objectifs",
+    "text": "Objectifs\nVous devrez implémenter une classe EbayApi qui :\n\nCharge les credentials depuis les variables d’environnement au moment de l’instanciation\nGère un token OAuth avec renouvellement automatique à l’expiration\nExpose les fonctionnalités de recherche à ses utilisateurs\n\nRéfléchissez à la décomposition en méthodes : quelles responsabilités méritent d’être isolées ? Lesquelles font partie de l’interface publique, lesquelles sont des détails d’implémentation ?",
+    "crumbs": [
+      "Pratique",
+      "Exercice eBay"
+    ]
+  },
+  {
+    "objectID": "exercices/APIs/enonce_api_ebay.html#partie-1-authentification-oauth",
+    "href": "exercices/APIs/enonce_api_ebay.html#partie-1-authentification-oauth",
+    "title": "Exercice : Intégration de l’API eBay",
+    "section": "Partie 1 — Authentification OAuth",
+    "text": "Partie 1 — Authentification OAuth\n\n1.1 Obtenir un token d’accès\nL’API eBay utilise le flux Client Credentials Grant. Vous devez envoyer une requête POST à l’endpoint :\nPOST https://api.ebay.com/identity/v1/oauth2/token\n\n\n\nElement\nValeur\n\n\n\n\nHeader Authorization\nBasic &lt;base64(app_id:client_secret)&gt;\n\n\nHeader Content-Type\napplication/x-www-form-urlencoded\n\n\nBody grant_type\nclient_credentials\n\n\nBody scope\nhttps://api.ebay.com/oauth/api_scope\n\n\n\n\n\n\n\n\n\nAstuceEncodage Base64\n\n\n\nEn Python, pour encoder les credentials :\nimport base64\ncredentials = f\"{app_id}:{client_secret}\"\nencoded = base64.b64encode(credentials.encode()).decode()\n\n\n\n\n1.2 Gestion de l’expiration\nLa réponse contient un champ expires_in (en secondes, généralement 7200). Le token ne doit être renouvelé que lorsqu’il est expiré, et ce renouvellement doit être transparent pour le code appelant.\nRéfléchissez à comment Python vous permet d’exposer cela proprement : comment rendre l’accès au token aussi simple que l’accès à un attribut, tout en cachant la logique de refresh ?",
+    "crumbs": [
+      "Pratique",
+      "Exercice eBay"
+    ]
+  },
+  {
+    "objectID": "exercices/APIs/enonce_api_ebay.html#partie-2-requêtes-à-la-browse-api",
+    "href": "exercices/APIs/enonce_api_ebay.html#partie-2-requêtes-à-la-browse-api",
+    "title": "Exercice : Intégration de l’API eBay",
+    "section": "Partie 2 — Requêtes à la Browse API",
+    "text": "Partie 2 — Requêtes à la Browse API\n\n2.1 Recherche par mot-clé\nImplémentez une méthode permettant de rechercher des articles à partir d’un mot-clé :\nGET https://api.ebay.com/buy/browse/v1/item_summary/search?q=&lt;query&gt;\nHeaders obligatoires pour toutes les requêtes :\n{\n    \"Authorization\": f\"Bearer {access_token}\",\n    \"X-EBAY-C-MARKETPLACE-ID\": \"EBAY_FR\",\n}\nToutes vos requêtes GET partagent la même logique (headers, gestion des erreurs). Pensez à factoriser ce comportement commun plutôt que de le dupliquer.\n\n\n2.2 Récupération d’un article par URL\nImplémentez une méthode permettant de récupérer un article à partir de son URL complète. Exemple :\nhttps://api.ebay.com/buy/browse/v1/item/v1%7C358311088969%7C626586956773",
+    "crumbs": [
+      "Pratique",
+      "Exercice eBay"
+    ]
+  },
+  {
+    "objectID": "exercices/APIs/enonce_api_ebay.html#partie-3-gestion-des-erreurs-et-logs",
+    "href": "exercices/APIs/enonce_api_ebay.html#partie-3-gestion-des-erreurs-et-logs",
+    "title": "Exercice : Intégration de l’API eBay",
+    "section": "Partie 3 — Gestion des erreurs et logs",
+    "text": "Partie 3 — Gestion des erreurs et logs\nVotre implémentation doit gérer les cas suivants :\n\n\n\n\n\n\n\nCas\nComportement attendu\n\n\n\n\nCredentials manquants dans .env\nLever une ValueError explicite\n\n\nEchec token (status != 200)\nLever une Exception avec status + message\n\n\nEchec requête API (status != 200)\nLever une Exception avec status + corps\n\n\nOpérations importantes\nUtiliser le module logging — aucun print",
+    "crumbs": [
+      "Pratique",
+      "Exercice eBay"
+    ]
+  },
+  {
+    "objectID": "exercices/APIs/enonce_api_ebay.html#livrables-attendus",
+    "href": "exercices/APIs/enonce_api_ebay.html#livrables-attendus",
+    "title": "Exercice : Intégration de l’API eBay",
+    "section": "Livrables attendus",
+    "text": "Livrables attendus\nUn fichier ebay_api.py contenant la classe EbayApi avec toutes les fonctionnalités décrites, ainsi qu’un bloc main() qui instancie la classe, effectue une recherche et sauvegarde le résultat dans un fichier JSON.\n\n\n\n\n\n\n\nAstuceConseil\n\n\n\nUtilisez l’outil de test eBay pour vérifier vos credentials et visualiser les réponses avant de commencer à coder.",
+    "crumbs": [
+      "Pratique",
+      "Exercice eBay"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "",
+    "text": "TipVersion interactive\n\n\n\nOuvrir ce cours dans Binder",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#pourquoi-la-poo",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#pourquoi-la-poo",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Pourquoi la POO ?",
+    "text": "Pourquoi la POO ?\nProblème sans POO :\nImaginez gérer une bibliothèque avec des dictionnaires et des fonctions dispersées.\n\nbook1 = {\"titre\": \"1984\", \"auteur\": \"Orwell\", \"disponible\": True}\nbook2 = {\"titre\": \"Dune\", \"auteur\": \"Herbert\", \"disponible\": False}\n\ndef borrow_book(book):\n    if book[\"disponible\"]:\n        book[\"disponible\"] = False\n        return True\n    return False\n\nprint(f\"Emprunt réussi : {borrow_book(book1)}\")\nprint(f\"Livre 1 : {book1}\")\n\nEmprunt réussi : True\nLivre 1 : {'titre': '1984', 'auteur': 'Orwell', 'disponible': False}\n\n\n\n\n\n\n\n\nWarningProblèmes sans POO\n\n\n\n\nPas de validation des données\nCode dupliqué partout\nDifficile à maintenir et déboguer\nPas de cohérence entre les objets\nImpossible de tracer les modifications\n\n\n\nAvec la POO : - Encapsulation : données et comportements regroupés - Réutilisabilité : héritage et composition - Maintenabilité : modifications localisées - Debugging facilité : logs et tracés centralisés",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#classes-et-instances",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#classes-et-instances",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Classes et Instances",
+    "text": "Classes et Instances\nUne classe est un modèle pour créer des objets.\n\nimport logging\nlogging.basicConfig(\n    level=logging.INFO,\n    format=\"%(asctime)s [%(levelname)s] - %(message)s\"\n)\n\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n\nbook = Book('1984', 'George Orwell')\nlogging.info(f\"Livre créé : {book}\")\n\n2026-03-13 16:02:16,209 [INFO] - Livre créé : &lt;__main__.Book object at 0x7fe9545bfa90&gt;",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#méthodes-magiques",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#méthodes-magiques",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Méthodes magiques",
+    "text": "Méthodes magiques\n\n__str__ : Représentation lisible\n__str__ définit comment un objet est affiché pour un humain (print, logs), au lieu d’une représentation technique inutile.\n\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n    \n    def __str__(self):\n        return f\"{self.title} – {self.author}\"\n\nbook = Book('1984', 'George Orwell')\nlogging.info(f\"Livre : {book}\")\n\n2026-03-13 16:02:16,217 [INFO] - Livre : 1984 – George Orwell\n\n\n\n\n\n\n\n\nTipBonne pratique\n\n\n\nDéfinissez toujours __str__ pour faciliter le debugging et les logs.\n\n\n\n\n__eq__ : Comparaison d’égalité\n__eq__ définit quand deux objets doivent être considérés égaux par leur contenu, et non par leur identité.\n\n# Sans __eq__\nbook1 = Book('1984', 'George Orwell')\nbook2 = Book('1984', 'George Orwell')\nprint(f\"Égaux sans __eq__ ? {book1 == book2}\") \n\n# Avec __eq__\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.available = True\n    \n    def __str__(self):\n        return f\"{self.title} – {self.author}\"\n\n    def __eq__(self, other):\n        if not isinstance(other, Book):\n            return NotImplemented\n        return self.title == other.title and self.author == other.author\n\nbook1 = Book('1984', 'George Orwell')\nbook2 = Book('1984', 'George Orwell')\nprint(f\"Égaux avec __eq__ ? {book1 == book2}\")\n\nÉgaux sans __eq__ ? False\nÉgaux avec __eq__ ? True\n\n\n\n\n\n\n\n\nImportantImportant\n\n\n\nSans __eq__, Python compare les identités (adresses mémoire), pas le contenu.",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#dataclasses-simplification-moderne",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#dataclasses-simplification-moderne",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Dataclasses : Simplification moderne",
+    "text": "Dataclasses : Simplification moderne\nLes dataclasses automatisent la création de __init__, __repr__, __eq__ et plus encore.\n\nfrom dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    author: str\n    available: bool = True\n\nbook1 = Book('1984', 'George Orwell')\nbook2 = Book('1984', 'George Orwell')\n\nprint(book1)\nprint(f\"Égaux ? {book1 == book2}\")\n\nBook(title='1984', author='George Orwell', available=True)\nÉgaux ? True\n\n\n\n\n\n\n\n\nNoteAvantages des dataclasses\n\n\n\n\nMoins de code boilerplate\nType hints intégrés (meilleure documentation)\nValeurs par défaut simples\nReprésentation automatique lisible\n\n\n\n\nQuand utiliser les dataclasses ?\nUtilisez les dataclasses pour : - Classes “conteneurs” de données (DTO, modèles) - Configuration d’objets - Résultats de calculs\nÉvitez pour : - Classes avec beaucoup de logique métier - Héritage complexe - Besoin de contrôle fin sur __init__",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#encapsulation",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#encapsulation",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Encapsulation",
+    "text": "Encapsulation\nProtéger les données internes avec des attributs privés/protégés.\n\nclass BankAccount:\n    def __init__(self, initial_balance):\n        self.__balance = initial_balance  # Privé (__)\n\n    def deposit(self, amount):\n        if amount &lt;= 0:\n            raise ValueError(\"Le montant à déposer doit être positif\")\n        self.__balance += amount\n        logging.info(f\"Dépôt de {amount}€. Nouveau solde : {self.__balance}€\")\n\n    def get_balance(self):\n        return self.__balance\n\naccount = BankAccount(100)\naccount.deposit(50)\nprint(f\"Solde : {account.get_balance()}€\")\n\n2026-03-13 16:02:16,242 [INFO] - Dépôt de 50€. Nouveau solde : 150€\n\n\nSolde : 150€\n\n\nAvantages : - Contrôle des accès - Validation des modifications - Protection contre les erreurs",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#héritage",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#héritage",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Héritage",
+    "text": "Héritage\nRéutiliser du code en créant des sous-classes.\n\nclass User:\n    def __init__(self, name, email):\n        self.name = name\n        self.email = email\n        logging.info(f\"Utilisateur créé : {name}\")\n\nclass Librarian(User):\n    def __init__(self, name, email, department):\n        super().__init__(name, email)  # Appelle le constructeur parent\n        self.department = department\n        self.permissions = [\"borrow\", \"add_book\", \"delete_book\"]\n        logging.info(f\"Bibliothécaire créé : département {department}\")\n\nlibrarian = Librarian(\"Marie\", \"marie@library.com\", \"Histoire\")\nprint(f\"Permissions : {librarian.permissions}\")\n\n2026-03-13 16:02:16,251 [INFO] - Utilisateur créé : Marie\n2026-03-13 16:02:16,252 [INFO] - Bibliothécaire créé : département Histoire\n\n\nPermissions : ['borrow', 'add_book', 'delete_book']\n\n\n\n\n\n\n\n\nNoteLe rôle de super()\n\n\n\nsuper().__init__() appelle le constructeur de la classe parente pour initialiser les attributs qu’elle gère, avant d’ajouter nos propres attributs spécifiques.\nQuand Librarian hérite de User, on doit d’abord initialiser les attributs communs (name, email) avec super().__init__(name, email), puis ajouter les attributs spécifiques au bibliothécaire (department). Sans super(), les attributs du parent ne seraient pas initialisés.",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#polymorphisme",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#polymorphisme",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Polymorphisme",
+    "text": "Polymorphisme\nMême interface, comportements différents.\n\nclass Document:\n    def __init__(self, title):\n        self.title = title\n    \n    def display(self):\n        raise NotImplementedError\n\nclass Book(Document):\n    def display(self):\n        return f\"Livre: {self.title}\"\n\nclass Magazine(Document):\n    def display(self):\n        return f\"Magazine: {self.title}\"\n\n# Test polymorphique\ndocuments = [\n    Book(\"1984\"),\n    Magazine(\"National Geographic\")\n]\n\nfor doc in documents:\n    print(doc.display())\n\nLivre: 1984\nMagazine: National Geographic",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#property---propriétés-gérées",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#property---propriétés-gérées",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "@property - Propriétés gérées",
+    "text": "@property - Propriétés gérées\nTransformer une méthode en attribut accessible avec validation.\n\nclass Book:\n    def __init__(self, title, price):\n        self._title = title\n        self._price = price\n\n    @property\n    def price(self):\n        \"\"\"Getter\"\"\"\n        logging.info(f\"[LOG] Accès au prix de '{self._title}'\")\n        return self._price\n\n    @price.setter\n    def price(self, new_price):\n        \"\"\"Setter avec validation\"\"\"\n        if new_price &lt; 0:\n            raise ValueError(\"Le prix ne peut pas être négatif\")\n        logging.info(f\"[LOG] Prix modifié: {self._price} → {new_price}\")\n        self._price = new_price\n\nbook = Book(\"1984\", 15.99)\nprint(f\"Prix initial : {book.price}€\")\nbook.price = 12.99\nprint(f\"Nouveau prix : {book.price}€\")\n\n2026-03-13 16:02:16,270 [INFO] - [LOG] Accès au prix de '1984'\n2026-03-13 16:02:16,271 [INFO] - [LOG] Prix modifié: 15.99 → 12.99\n2026-03-13 16:02:16,272 [INFO] - [LOG] Accès au prix de '1984'\n\n\nPrix initial : 15.99€\nNouveau prix : 12.99€\n\n\n\n\n\n\n\n\nTipPourquoi utiliser un setter ?\n\n\n\nLe setter permet d’ajouter de la validation et du contrôle quand on modifie un attribut, au lieu de laisser n’importe quelle valeur être assignée directement.\nSans setter, on pourrait écrire book.price = -50 et Python accepterait sans vérifier. Le setter intercepte toute modification de price pour : - Vérifier que la valeur est valide (pas négative) - Logger le changement pour le debugging - Garantir la cohérence des données\n\n\nAvantages pour le debugging : - Logs automatiques sur les accès - Validation centralisée - Traçabilité des modifications",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#staticmethod---méthodes-utilitaires",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#staticmethod---méthodes-utilitaires",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "@staticmethod - Méthodes utilitaires",
+    "text": "@staticmethod - Méthodes utilitaires\nMéthodes sans accès à l’instance ou la classe.\n\nclass LibraryUtils:\n    @staticmethod\n    def format_isbn(isbn):\n        \"\"\"Formatage ISBN sans besoin de l'instance\"\"\"\n        return f\"{isbn[:3]}-{isbn[3:4]}-{isbn[4:9]}-{isbn[9:12]}-{isbn[12]}\"\n\nisbn = \"9782070368228\"\nformatted = LibraryUtils.format_isbn(isbn)\nprint(f\"ISBN formaté : {formatted}\")\n\nISBN formaté : 978-2-07036-822-8\n\n\nQuand l’utiliser : - Fonctions utilitaires liées conceptuellement à la classe - Pas besoin de self ou cls",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#classmethod---méthodes-de-classe",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#classmethod---méthodes-de-classe",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "@classmethod - Méthodes de classe",
+    "text": "@classmethod - Méthodes de classe\nMéthodes avec accès à la classe (pas l’instance).\n\nclass Book:\n    total_count = 0\n\n    def __init__(self, title):\n        self.title = title\n        Book.total_count += 1\n\n    @classmethod\n    def from_dict(cls, data):\n        \"\"\"Factory method - constructeur alternatif\"\"\"\n        return cls(data['title'])\n\n    @classmethod\n    def get_total_count(cls):\n        return cls.total_count\n\nbook1 = Book(\"1984\")\nbook2 = Book.from_dict({'title': 'Dune'})\nprint(f\"Nombre total de livres : {Book.get_total_count()}\")\n\nNombre total de livres : 2\n\n\nAvantages : - Constructeurs alternatifs (factory methods) - Accès aux variables de classe - Utile pour le tracking",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#abstractmethod---classes-abstraites",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#abstractmethod---classes-abstraites",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "@abstractmethod - Classes abstraites",
+    "text": "@abstractmethod - Classes abstraites\nForcer l’implémentation dans les sous-classes.\n\nfrom abc import ABC, abstractmethod\n\nclass Borrowable(ABC):\n    @abstractmethod\n    def borrow(self):\n        pass\n\n    @abstractmethod\n    def return_item(self):\n        pass\n\nclass Book(Borrowable):\n    def __init__(self, title):\n        self.title = title\n        self.available = True\n\n    def borrow(self):\n        if not self.available:\n            raise Exception(f\"Le livre '{self.title}' n'est pas disponible\")\n        self.available = False\n        return f\"Livre '{self.title}' emprunté\"\n\n    def return_item(self):\n        self.available = True\n        return f\"Livre '{self.title}' retourné\"\n\nbook = Book(\"1984\")\nprint(book.borrow())\nprint(book.return_item())\n\nLivre '1984' emprunté\nLivre '1984' retourné\n\n\nAvantages : - Contrat d’interface clair - Erreurs à la création, pas à l’exécution - Documentation du comportement attendu",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#s---single-responsibility-principle",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#s---single-responsibility-principle",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "S - Single Responsibility Principle",
+    "text": "S - Single Responsibility Principle\nPrincipe : Une classe = une responsabilité.\n\nMauvais exempleBon exemple\n\n\nclass Book:\n    def __init__(self, title):\n        self.title = title\n\n    def borrow(self):\n        pass\n\n    def send_reminder_email(self):\n        # PROBLÈME : Book ne devrait pas gérer les emails\n        pass\n\n    def save_to_db(self):\n        # PROBLÈME : Book ne devrait pas gérer la DB\n        pass\n\n\n\nfrom dataclasses import dataclass\nfrom datetime import datetime\n\n@dataclass\nclass Book:\n    \"\"\"Responsabilité : Représenter un livre\"\"\"\n    title: str\n    author: str\n    available: bool = True\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: str\n    borrow_date: datetime\n\nclass BorrowManager:\n    \"\"\"Responsabilité : Gérer les emprunts\"\"\"\n    def borrow_book(self, book, user):\n        if book.available:\n            book.available = False\n            borrow = Borrow(book, user, datetime.now())\n            logging.info(f\"Emprunt créé : {book.title} par {user}\")\n            return borrow\n        raise Exception(f\"Livre non disponible : {book.title}\")\n\nclass EmailService:\n    \"\"\"Responsabilité : Envoyer des emails\"\"\"\n    def send_reminder(self, borrow):\n        logging.info(f\"Email envoyé pour : {borrow.book.title}\")\n\n# Test\nbook = Book(\"1984\", \"George Orwell\")\nmanager = BorrowManager()\nemail_service = EmailService()\n\nborrow = manager.borrow_book(book, \"Alice\")\nemail_service.send_reminder(borrow)\n\n2026-03-13 16:02:16,307 [INFO] - Emprunt créé : 1984 par Alice\n2026-03-13 16:02:16,308 [INFO] - Email envoyé pour : 1984\n\n\n\n\n\nAvantages debugging : - Erreur d’email ? Chercher dans EmailService uniquement - Problème de BDD ? Chercher dans BookRepository - Logs plus clairs et ciblés",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#o---openclosed-principle",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#o---openclosed-principle",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "O - Open/Closed Principle",
+    "text": "O - Open/Closed Principle\nPrincipe : Ouvert à l’extension, fermé à la modification.\n\nMauvais exempleBon exemple\n\n\nclass DiscountCalculator:\n    def calculate(self, user_type, amount):\n        if user_type == \"student\":\n            return amount * 0.9\n        elif user_type == \"senior\":\n            return amount * 0.85\n        elif user_type == \"vip\":\n            return amount * 0.8\n        return amount\n        # Problème : Ajouter un nouveau type = modifier cette classe\n\n\n\nfrom abc import ABC, abstractmethod\n\nclass DiscountStrategy(ABC):\n    @abstractmethod\n    def apply(self, amount):\n        pass\n\nclass StudentDiscount(DiscountStrategy):\n    def apply(self, amount):\n        return amount * 0.9\n\nclass SeniorDiscount(DiscountStrategy):\n    def apply(self, amount):\n        return amount * 0.85\n\nclass VIPDiscount(DiscountStrategy):\n    def apply(self, amount):\n        return amount * 0.8\n\nclass User:\n    def __init__(self, name, discount_strategy):\n        self.name = name\n        self.discount_strategy = discount_strategy\n\n    def calculate_price(self, amount):\n        return self.discount_strategy.apply(amount)\n\n# Test\nstudent = User(\"Alice\", StudentDiscount())\nsenior = User(\"Bob\", SeniorDiscount())\n\nprint(f\"Prix étudiant : {student.calculate_price(100)}€\")\nprint(f\"Prix senior : {senior.calculate_price(100)}€\")\n\nPrix étudiant : 90.0€\nPrix senior : 85.0€\n\n\n\n\n\nAvantages : - Ajouter une nouvelle remise = créer une nouvelle classe - Code existant non modifié = moins de bugs - Tests unitaires isolés",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#l---liskov-substitution-principle",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#l---liskov-substitution-principle",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "L - Liskov Substitution Principle",
+    "text": "L - Liskov Substitution Principle\nPrincipe : Les sous-classes doivent pouvoir remplacer leurs classes parentes.\n\nMauvais exempleBon exemple\n\n\nclass Bird:\n    def fly(self):\n        return \"Je vole\"\n\nclass Penguin(Bird):\n    def fly(self):\n        raise Exception(\"Je ne peux pas voler!\")\n        # PROBLÈME : Penguin ne peut pas remplacer Bird\n\n\n\nclass Document:\n    def __init__(self, title):\n        self.title = title\n\n    def can_be_borrowed(self):\n        return True\n\nclass Book(Document):\n    def can_be_borrowed(self):\n        return True  # Cohérent avec Document\n\nclass ArchiveDocument(Document):\n    def can_be_borrowed(self):\n        return False  # Cohérent, juste une réponse différente\n\ndef display_availability(document: Document):\n    status = \"disponible\" if document.can_be_borrowed() else \"archivé\"\n    print(f\"{document.title}: {status}\")\n\n# Test\nbook = Book(\"1984\")\narchive = ArchiveDocument(\"Manuscrit ancien\")\n\ndisplay_availability(book)\ndisplay_availability(archive)\n\n1984: disponible\nManuscrit ancien: archivé",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#i---interface-segregation-principle",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#i---interface-segregation-principle",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "I - Interface Segregation Principle",
+    "text": "I - Interface Segregation Principle\nPrincipe : Interfaces spécifiques plutôt qu’une interface générale.\n\nMauvais exempleBon exemple\n\n\nclass Printable(ABC):\n    @abstractmethod\n    def print(self):\n        pass\n\n    @abstractmethod\n    def scan(self):\n        pass\n\n    @abstractmethod\n    def fax(self):\n        pass\n\nclass SimplePrinter(Printable):\n    def print(self):\n        return \"Impression...\"\n\n    def scan(self):\n        raise NotImplementedError(\"Pas de scanner!\")\n\n    def fax(self):\n        raise NotImplementedError(\"Pas de fax!\")\n\n\n\nfrom abc import ABC, abstractmethod\n\nclass Printable(ABC):\n    @abstractmethod\n    def print(self):\n        pass\n\nclass Scannable(ABC):\n    @abstractmethod\n    def scan(self):\n        pass\n\nclass Faxable(ABC):\n    @abstractmethod\n    def fax(self):\n        pass\n\nclass SimplePrinter(Printable):\n    def print(self):\n        return \"Impression...\"\n\nclass MultifunctionPrinter(Printable, Scannable, Faxable):\n    def print(self):\n        return \"Impression...\"\n\n    def scan(self):\n        return \"Scan...\"\n\n    def fax(self):\n        return \"Fax...\"\n\n# Test\nsimple = SimplePrinter()\nmultifunction = MultifunctionPrinter()\n\nprint(simple.print())\nprint(multifunction.scan())\n\nImpression...\nScan...",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#d---dependency-inversion-principle",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#d---dependency-inversion-principle",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "D - Dependency Inversion Principle",
+    "text": "D - Dependency Inversion Principle\nPrincipe : Dépendre d’abstractions, pas d’implémentations concrètes.\n\nMauvais exempleBon exemple\n\n\nclass MySQLDatabase:\n    def save(self, data):\n        print(\"Sauvegarde dans MySQL\")\n\nclass BorrowManager:\n    def __init__(self):\n        self.db = MySQLDatabase()  # Dépendance forte !\n\n    def record_borrow(self, borrow):\n        self.db.save(borrow)\n        # Impossible de tester avec une fausse DB\n        # Impossible de changer vers PostgreSQL facilement\n\n\n\nfrom abc import ABC, abstractmethod\nfrom dataclasses import dataclass\n\nclass DatabaseInterface(ABC):\n    @abstractmethod\n    def save(self, data):\n        pass\n\nclass MySQLDatabase(DatabaseInterface):\n    def save(self, data):\n        logging.info(f\"[MySQL] Sauvegarde: {data}\")\n\nclass PostgreSQLDatabase(DatabaseInterface):\n    def save(self, data):\n        logging.info(f\"[PostgreSQL] Sauvegarde: {data}\")\n\nclass FakeDatabase(DatabaseInterface):\n    \"\"\"Pour les tests\"\"\"\n    def save(self, data):\n        logging.info(f\"[FAKE] Sauvegarde: {data}\")\n\nclass BorrowManager:\n    def __init__(self, database: DatabaseInterface):\n        self.db = database  # Injection de dépendance\n\n    def record_borrow(self, borrow):\n        self.db.save(borrow)\n\n# Utilisation\n@dataclass\nclass Book:\n    title: str\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: str\n\ndb_prod = MySQLDatabase()\nmanager_prod = BorrowManager(db_prod)\n\ndb_test = FakeDatabase()\nmanager_test = BorrowManager(db_test)\n\nborrow = Borrow(Book(\"1984\"), \"Alice\")\nmanager_prod.record_borrow(borrow)\nmanager_test.record_borrow(borrow)\n\n2026-03-13 16:02:16,347 [INFO] - [MySQL] Sauvegarde: Borrow(book=Book(title='1984'), user='Alice')\n2026-03-13 16:02:16,347 [INFO] - [FAKE] Sauvegarde: Borrow(book=Book(title='1984'), user='Alice')\n\n\n\n\n\nAvantages pour le debugging : - Tests isolés avec fausses dépendances - Logs différents selon l’environnement - Changement de DB sans toucher au code métier",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#sans-poo---cauchemar-du-debugging",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#sans-poo---cauchemar-du-debugging",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Sans POO - Cauchemar du debugging",
+    "text": "Sans POO - Cauchemar du debugging\ndef borrow_book(books, book_id, user_id):\n    book = books[book_id]\n    if book[\"available\"]:\n        book[\"available\"] = False\n        # Où logger ? Quelle fonction a causé l'erreur ?\n        return True\n    return False\nProblèmes : - Pas de traçabilité - Erreurs silencieuses - Impossible de savoir qui a modifié quoi",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#avec-poo---debugging-structuré",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#avec-poo---debugging-structuré",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Avec POO - Debugging structuré",
+    "text": "Avec POO - Debugging structuré\n\nfrom datetime import datetime\nfrom dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    _available: bool = True\n    \n    @property\n    def available(self):\n        return self._available\n\n    @available.setter\n    def available(self, value):\n        logging.info(\n            f\"'{self.title}' - Disponibilité: {self._available} → {value}\"\n        )\n        self._available = value\n\n@dataclass\nclass Borrow:\n    book: Book\n    user: str\n    borrow_date: datetime = None\n    \n    def __post_init__(self):\n        if self.borrow_date is None:\n            self.borrow_date = datetime.now()\n        logging.info(\n            f\"Emprunt créé: '{self.book.title}' par {self.user} \"\n            f\"à {self.borrow_date}\"\n        )\n\n# Test\nbook = Book(\"1984\")\nbook.available = False\nborrow = Borrow(book, \"Alice\")\n\n2026-03-13 16:02:16,358 [INFO] - '1984' - Disponibilité: True → False\n2026-03-13 16:02:16,359 [INFO] - Emprunt créé: '1984' par Alice à 2026-03-13 16:02:16.359181\n\n\nAvantages : - Logs automatiques et structurés - Traçabilité complète - Facile de retrouver l’origine d’une erreur",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#avantages-de-la-poo",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#avantages-de-la-poo",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Avantages de la POO",
+    "text": "Avantages de la POO\n\nMaintenance\n\nCode organisé et modulaire\nModifications localisées\nRéutilisation par héritage/composition\n\n\n\nDebugging\n\nLogs centralisés par classe\nTraçabilité via @property\nErreurs plus précises\n\n\n\nÉvolutivité\n\nSOLID garantit l’extensibilité\nTests unitaires isolés\nNouveaux features sans casser l’existant\n\n\n\nCollaboration\n\nInterfaces claires\nResponsabilités définies\nDocumentation naturelle via les classes",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/cours_poo_solid_complet.html#conclusion",
+    "href": "cours/poo-solid/cours_poo_solid_complet.html#conclusion",
+    "title": "Programmation Orientée Objet et Principes SOLID en Python",
+    "section": "Conclusion",
+    "text": "Conclusion\n\n\n\n\n\n\nNotePoints clés\n\n\n\nLa POO n’est pas juste une façon d’organiser du code, c’est un outil pour : - Penser en termes de responsabilités - Debugger efficacement avec des logs structurés - Faire évoluer le code sans tout casser - Collaborer avec des interfaces claires\nLes principes SOLID sont des garde-fous qui vous éviteront des heures de debugging et de refactoring.\n\n\n\n\n\n\n\n\nTipConseil final\n\n\n\nCommencez simple, refactorisez quand la complexité augmente, et testez chaque classe individuellement.",
+    "crumbs": [
+      "Cours",
+      "POO & Principes SOLID"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html",
+    "href": "cours/api/cours_api_complet.html",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "",
+    "text": "Les notions abordées au sein du cours seront :\n\nComprendre les concepts fondamentaux des APIs (focus REST)\nUtiliser les méthodes HTTP et interpréter les codes de statut\nAuthentifier vos applications avec OAuth 2.0\nInteragir avec une API réelle (eBay) de manière professionnelle\nGérer les erreurs, la pagination et les limites de taux\nConcevoir des intégrations API robustes et sécurisées\n\n\n\n\n┌─────────────────────────────────────────────────┐\n│  Module 1: Fondamentaux API                     │\n│  → Définitions, REST, HTTP                      │\n├─────────────────────────────────────────────────┤\n│  Module 2: Authentification et Sécurité         │\n│  → OAuth 2.0, Tokens, Headers                   │\n├─────────────────────────────────────────────────┤\n│  Module 3: Interaction avec les APIs            │\n│  → Requêtes, Erreurs, Pagination                │\n├─────────────────────────────────────────────────┤\n│  Module 4: Architecture et Bonnes Pratiques     │\n│  → Design, Tests, Monitoring                    │\n└─────────────────────────────────────────────────┘",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#objectifs-pédagogiques",
+    "href": "cours/api/cours_api_complet.html#objectifs-pédagogiques",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "",
+    "text": "Les notions abordées au sein du cours seront :\n\nComprendre les concepts fondamentaux des APIs (focus REST)\nUtiliser les méthodes HTTP et interpréter les codes de statut\nAuthentifier vos applications avec OAuth 2.0\nInteragir avec une API réelle (eBay) de manière professionnelle\nGérer les erreurs, la pagination et les limites de taux\nConcevoir des intégrations API robustes et sécurisées",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#structure-du-cours",
+    "href": "cours/api/cours_api_complet.html#structure-du-cours",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "",
+    "text": "┌─────────────────────────────────────────────────┐\n│  Module 1: Fondamentaux API                     │\n│  → Définitions, REST, HTTP                      │\n├─────────────────────────────────────────────────┤\n│  Module 2: Authentification et Sécurité         │\n│  → OAuth 2.0, Tokens, Headers                   │\n├─────────────────────────────────────────────────┤\n│  Module 3: Interaction avec les APIs            │\n│  → Requêtes, Erreurs, Pagination                │\n├─────────────────────────────────────────────────┤\n│  Module 4: Architecture et Bonnes Pratiques     │\n│  → Design, Tests, Monitoring                    │\n└─────────────────────────────────────────────────┘",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#quest-ce-quune-api",
+    "href": "cours/api/cours_api_complet.html#quest-ce-quune-api",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "2.1 1.1 Qu’est-ce qu’une API ?",
+    "text": "2.1 1.1 Qu’est-ce qu’une API ?\n\n2.1.1 Définition\nUne API (Application Programming Interface) est un contrat qui définit comment des logiciels communiquent entre eux. C’est une interface qui expose des fonctionnalités d’un système à d’autres systèmes.\nAnalogie : Imaginez un restaurant. Le menu (API) liste les plats disponibles (endpoints). Le serveur (protocole HTTP) transmet votre commande (requête) à la cuisine (serveur) et vous rapporte le plat (réponse).\nDéfinition technique\nUne API est définie par un contrat qui précise :\n- Les endpoints disponibles (ex : /users, /orders/{id}, /buy/browse/v1/item_summary/search)\n- Les méthodes HTTP autorisées (ex : GET, POST, PUT, DELETE)\n- Le format d’échange des données (ex : JSON, XML, Protocol Buffers)\n- Les règles de sécurité (ex : OAuth2, API Key, Authorization: Bearer )\n- Le schéma des requêtes et réponses (ex : { “email”: “string”, “password”: “string” })\n- Les codes de retour (ex : 200, 201, 400, 401, 404, 500)\n- Le versioning (ex : /api/v1/users, /api/v2/users)\nOn peut voir une API comme une couche d’abstraction qui expose des fonctionnalités d’un système via une interface stable et documentée.\n\n2.1.1.1 Focus sur le contrat\nLe contrat d’API — Définition globale\nLe contrat d’API est la description formelle et stable de tout ce qu’un client doit savoir pour interagir correctement avec une API.\nIl définit ce qui est observable et garanti entre le client et le serveur.\n\n2.1.1.1.1 Ce que contient un contrat d’API\n\n\n2.1.1.1.2 Endpoints\nLes points d’entrée accessibles via une URL.\nExemple :\n\nGET /users  \nPOST /orders  \nDELETE /users/{id}\n\nIls définissent où appeler l’API.\n\n\n\n2.1.1.1.3 Méthodes HTTP\nLes actions autorisées sur chaque endpoint :\n\n- GET → Lire\n- POST → Créer\n- PUT / PATCH → Modifier\n- DELETE → Supprimer\n- PATCH -&gt; Modification partielle \n- HEAD -&gt; Metadatas liées à la requête\n\nElles définissent quelle opération est permise.\n\n\n\n2.1.1.1.4 Format d’échange\nLe format des données envoyées et reçues :\n\nJSON\nXML\nProtocol Buffers\n\nIl définit comment les données sont structurées.\n\n\n\n2.1.1.1.5 Schéma des données\nLa structure précise des objets :\n\nNom des champs\nTypes (string, number, boolean…)\nChamps obligatoires ou optionnels\nContraintes (format email, min/max…)\n\nIl définit quoi envoyer et quoi recevoir exactement.\n\n\n\n2.1.1.1.6 Paramètres\nLes paramètres acceptés :\n\nPath parameters (/users/{id})\nQuery parameters (?limit=10)\nBody (JSON)\n\nIls définissent comment personnaliser une requête.\n\n\n\n2.1.1.1.7 Authentification & Sécurité\nLes règles pour accéder à l’API :\n\nBearer Token\nAPI Key\nOAuth2\n\nElles définissent comment prouver son identité.\n\n\n\n2.1.1.1.8 Codes de retour HTTP\nLes statuts renvoyés selon le résultat :\n\n200 → Succès\n201 → Créé\n400 → Requête invalide\n401 → Non authentifié\n404 → Ressource introuvable\n500 → Erreur serveur\n\nIls définissent comment interpréter la réponse.\n\n\n\n2.1.1.1.9 Structure des erreurs\nExemple :\n{\n  \"error\": {\n    \"code\": \"INVALID_EMAIL\",\n    \"message\": \"Email format is invalid\"\n  }\n}\nElle définit comment comprendre les échecs.\n\n\n\n2.1.1.1.10 Versioning\nPermet de faire évoluer l’API sans casser les clients :\n\n/api/v1/users\n/api/v2/users\n\nIl garantit la stabilité dans le temps.\n\n\n\n\n2.1.2 Vue architecturelle\n\nDans une architecture distribuée moderne :\nClient → API → Service → Base de données\nL’API joue le rôle de façade :\n- Elle valide les entrées\n- Elle orchestre la logique métier\n- Elle formate la réponse\n- Elle gère la sécurité",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#rest-vs-autres-architectures",
+    "href": "cours/api/cours_api_complet.html#rest-vs-autres-architectures",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "2.2 1.2 REST vs Autres Architectures",
+    "text": "2.2 1.2 REST vs Autres Architectures\n\n2.2.1 Architecture REST (Representational State Transfer)\nREST est un style d’architecture pour les systèmes distribués, basé sur 6 principes :\n\nClient-Serveur : Séparation des préoccupations\nSans état (Stateless) : Chaque requête contient toutes les informations nécessaires\nCacheable : Les réponses doivent indiquer si elles peuvent être mises en cache\nInterface uniforme : URLs standard, méthodes HTTP\nSystème en couches : Architecture modulaire\nCode à la demande (optionnel) : Le serveur peut envoyer du code exécutable\n\n\nPrécisons ces points !\nStateless (REST)\nLe serveur ne conserve aucun état de session entre deux requêtes.\nChaque requête doit contenir : - l’identification (ex: JWT)\n- le contexte nécessaire\n- toutes les données utiles\nStateful (l’inverse)\nLe serveur stocke un état en mémoire ou en base.\nExemple classique :\n- Login\n- Serveur crée une session\n\nCacheable (REST)\nDans REST, cacheable signifie que les réponses HTTP doivent indiquer clairement si elles peuvent être stockées temporairement afin de :\n- Réduire la charge serveur\n- Diminuer la latence\n- Économiser la bande passante\n- Améliorer la scalabilité\nOn ne met pas en cache “une API”, mais la réponse HTTP complète :\n- Status code\n- Headers\n- Body (ex: JSON)\nQuelles requêtes sont concernées ?\nPrincipalement :\n- `GET`    \n- `HEAD`    \nPas concernées :\n- `POST`    \n- `PUT`    \n- `PATCH`    \n- `DELETE`     \n(car elles modifient l’état)\nDeux mécanismes principaux\nCache par durée\nCache-Control: max-age=3600\n→ La réponse est valide pendant 1 heure. Le client ne recontacte pas le serveur durant ce délai.\nCache conditionnel (ETag)\nETag: v1\nLors d’une nouvelle requête : If-None-Match: v1 Si la ressource n’a pas changé : 304 Not Modified\n→ Pas de renvoi du JSON.\nETag = identifiant de version de la ressource.\nOù le cache est-il stocké ?\nNavigateur\nProxy\nAPI Gateway\nCDN (Content Delivery Network) Réseau de serveurs stockant des copies de ressources.\nDirectives importantes\nCache-Control: public   # Cache possible par CDN\nCache-Control: private  # Cache navigateur uniquement\nCache-Control: no-store # Aucun stockage\nPourquoi c’est crucial ?\nDans un système distribué :\nLe réseau est lent\nLes serveurs coûtent cher\nLa latence est critique\nUn bon cache peut diviser la charge backend par 10 ou plus.\n\nInterface uniforme\nL’interface uniforme est le principe REST selon lequel toutes les ressources sont manipulées de la même manière, en utilisant des règles standardisées.\nConcrètement :\nLes ressources sont identifiées par des URI (/users/42)\nLes actions sont exprimées via les méthodes HTTP (GET, POST, PUT, DELETE, PATCH)\nLes échanges utilisent des représentations standard (souvent JSON)\nLes messages sont auto-descriptifs (headers HTTP explicites)\n\nLayered System (système en couches)\nDans une API REST, une architecture en couches signifie que :\nLe système est composé de plusieurs niveaux intermédiaires, le client ne sait pas avec quelle couche il communique réellement.\nChaque couche a une responsabilité spécifique.\nConcrètement, cela veut dire quoi ?\nUne requête peut traverser plusieurs composants :\nClient\n→ Cache\n→ Proxy\n→ API Gateway\n→ Service d’authentification\n→ Service métier\n→ Base de données\nLe client ne voit qu’un seul point d’entrée : https://api.example.com\nIl ignore totalement :\ns’il y a un cache\ns’il y a plusieurs microservices\nCette séparation permet :\nScalabilité\nOn peut ajouter ou modifier une couche sans impacter le client.\nSécurité\nOn peut insérer :\nun firewall\nune couche d’authentification\nun système de rate limiting\nMaintenabilité\nChaque couche a une responsabilité unique :\nAuth\nLogging\nCache\nBusiness logic\nL’inverse (non modulaire)\nClient → Serveur unique → Base\nPas d’intermédiaire, tout est centralisé dans un seul composant.\n\n\n2.2.2 Comparaison avec d’autres architectures\n\n\n\n\n\n\n\n\n\nArchitecture\nProtocole\nFormat\nCas d’usage\n\n\n\n\nREST\nHTTP/HTTPS\nJSON, XML\nAPIs web modernes\n\n\nSOAP\nHTTP, SMTP\nXML uniquement\nSystèmes legacy, transactions complexes\n\n\nGraphQL\nHTTP\nJSON\nRequêtes flexibles, mobile\n\n\ngRPC\nHTTP/2\nProtocol Buffers\nMicroservices, performance critique\n\n\n\neBay utilise REST pour ses APIs modernes (Buy, Sell, Commerce) et SOAP pour ses APIs traditionnelles (Trading, Shopping).",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#http-et-ses-méthodes",
+    "href": "cours/api/cours_api_complet.html#http-et-ses-méthodes",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "2.3 1.3 HTTP et ses Méthodes",
+    "text": "2.3 1.3 HTTP et ses Méthodes\n\n2.3.1 Le protocole HTTP\nHTTP (HyperText Transfer Protocol) est le protocole de communication du web. Une transaction HTTP se compose de :\nCLIENT                           SERVEUR\n  │                                 │\n  ├──── Requête HTTP ──────────────&gt;│\n  │     (Méthode, URL, Headers)     │\n  │                                 │\n  │&lt;──── Réponse HTTP ──────────────┤\n        (Status, Headers, Body)     │\n\n\n2.3.2 Les méthodes HTTP principales\n\n\n\n\n\n\n\n\n\n\nMéthode\nUsage\nIdempotent\nSafe\neBay Example\n\n\n\n\nGET\nRécupérer une ressource\n✅\n✅\nObtenir les détails d’un produit\n\n\nPOST\nCréer une ressource\n❌\n❌\nCréer un listing\n\n\nPUT\nRemplacer une ressource\n✅\n❌\nMettre à jour entièrement un listing\n\n\nPATCH\nModifier partiellement\n❌\n❌\nModifier le prix d’un listing\n\n\nDELETE\nSupprimer une ressource\n✅\n❌\nSupprimer un listing\n\n\n\nIdempotent : Une opération peut être répétée sans effets de bord supplémentaires.\nSafe : L’opération ne modifie pas l’état du serveur.\n\n\n2.3.3 Exemple concret avec l’API eBay Browse\n# GET : Rechercher des produits sur eBay\n# Endpoint : /buy/browse/v1/item_summary/search\nGET https://api.ebay.com/buy/browse/v1/item_summary/search?q=iphone&limit=5\n\n# POST : Créer un listing (Sell API)\n# Endpoint : /sell/inventory/v1/offer\nPOST https://api.ebay.com/sell/inventory/v1/offer\nBody: { \"sku\": \"ABC123\", \"marketplaceId\": \"EBAY_US\", ... }\n\n# PUT : Mettre à jour un listing complètement\nPUT https://api.ebay.com/sell/inventory/v1/offer/12345\nBody: { \"sku\": \"ABC123\", \"quantity\": 10, ... }\n\n# DELETE : Retirer un listing\nDELETE https://api.ebay.com/sell/inventory/v1/offer/12345",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#structure-des-requêtes-et-réponses",
+    "href": "cours/api/cours_api_complet.html#structure-des-requêtes-et-réponses",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "2.4 1.4 Structure des Requêtes et Réponses",
+    "text": "2.4 1.4 Structure des Requêtes et Réponses\n\n2.4.1 Anatomie d’une requête HTTP\nPOST /sell/inventory/v1/offer HTTP/1.1\nHost: api.ebay.com\nAuthorization: Bearer v^1.1#i^1#...\nContent-Type: application/json\nX-EBAY-C-MARKETPLACE-ID: EBAY_US\n\n{\n  \"sku\": \"LAPTOP-001\",\n  \"marketplaceId\": \"EBAY_US\",\n  \"format\": \"FIXED_PRICE\",\n  \"availableQuantity\": 5,\n  \"pricingSummary\": {\n    \"price\": {\n      \"value\": \"999.99\",\n      \"currency\": \"USD\"\n    }\n  }\n}\nComposants :\n1. Ligne de requête : Méthode + URL + Version HTTP\n2. Headers : Métadonnées (autorisation, type de contenu)\n3. Body : Données (pour POST/PUT/PATCH)\n\n\n2.4.2 Anatomie d’une réponse HTTP\nHTTP/1.1 201 Created\nContent-Type: application/json\nDate: Mon, 09 Feb 2026 10:30:00 GMT\n\n{\n  \"offerId\": \"1234567890\",\n  \"status\": \"PUBLISHED\",\n  \"listingPolicies\": {\n    \"fulfillmentPolicyId\": \"6789012345\",\n    \"paymentPolicyId\": \"3456789012\"\n  }\n}\nComposants :\n1. Ligne de statut : Version HTTP + Code de statut + Message\n2. Headers : Métadonnées de réponse\n3. Body : Données retournées (généralement JSON)\n\n\n2.4.3 Codes de statut HTTP\n\n\n\nCode\nSignification\nExemple eBay\n\n\n\n\n2xx\nSuccès\n\n\n\n200\nOK\nRequête réussie\n\n\n201\nCreated\nListing créé\n\n\n204\nNo Content\nSuppression réussie\n\n\n3xx\nRedirection\n\n\n\n301\nMoved Permanently\nURL changée définitivement\n\n\n4xx\nErreur client\n\n\n\n400\nBad Request\nDonnées invalides\n\n\n401\nUnauthorized\nToken manquant ou expiré\n\n\n403\nForbidden\nAccès refusé (permissions)\n\n\n404\nNot Found\nRessource inexistante\n\n\n429\nToo Many Requests\nLimite de taux dépassée\n\n\n5xx\nErreur serveur\n\n\n\n500\nInternal Server Error\nErreur interne eBay\n\n\n503\nService Unavailable\nMaintenance",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#formats-de-données-json-vs-xml",
+    "href": "cours/api/cours_api_complet.html#formats-de-données-json-vs-xml",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "2.5 1.5 Formats de Données : JSON vs XML",
+    "text": "2.5 1.5 Formats de Données : JSON vs XML\n\n2.5.1 JSON (JavaScript Object Notation)\nFormat léger et lisible par l’homme, standard pour les APIs REST modernes.\n{\n  \"itemId\": \"v1|110547012345|0\",\n  \"title\": \"Apple iPhone 14 Pro Max - 256GB\",\n  \"price\": {\n    \"value\": \"1099.00\",\n    \"currency\": \"USD\"\n  },\n  \"condition\": \"NEW\",\n  \"seller\": {\n    \"username\": \"apple_store\",\n    \"feedbackScore\": 98765\n  },\n  \"itemLocation\": {\n    \"city\": \"Cupertino\",\n    \"country\": \"US\"\n  }\n}\nAvantages :\n- ✅ Léger et rapide à parser\n- ✅ Lisible par l’homme\n- ✅ Support natif en JavaScript\n- ✅ Utilisé par toutes les APIs eBay modernes (REST)\n\n\n2.5.2 XML (eXtensible Markup Language)\nFormat verbeux mais strictement typé, utilisé par les APIs SOAP.\n&lt;?xml version=\"1.0\" encoding=\"utf-8\"?&gt;\n&lt;GetItemResponse xmlns=\"urn:ebay:apis:eBLBaseComponents\"&gt;\n  &lt;Timestamp&gt;2026-02-09T10:30:00.000Z&lt;/Timestamp&gt;\n  &lt;Ack&gt;Success&lt;/Ack&gt;\n  &lt;Item&gt;\n    &lt;ItemID&gt;110547012345&lt;/ItemID&gt;\n    &lt;Title&gt;Apple iPhone 14 Pro Max - 256GB&lt;/Title&gt;\n    &lt;SellingStatus&gt;\n      &lt;CurrentPrice currencyID=\"USD\"&gt;1099.00&lt;/CurrentPrice&gt;\n    &lt;/SellingStatus&gt;\n    &lt;Seller&gt;\n      &lt;UserID&gt;apple_store&lt;/UserID&gt;\n      &lt;FeedbackScore&gt;98765&lt;/FeedbackScore&gt;\n    &lt;/Seller&gt;\n  &lt;/Item&gt;\n&lt;/GetItemResponse&gt;\nAvantages :\n- Validation stricte avec schémas (XSD)\n- Support des namespaces\n- Utilisé par les APIs eBay traditionnelles (Trading, Shopping)\nDocumentation eBay : Les APIs REST eBay utilisent exclusivement JSON. Les APIs traditionnelles (SOAP) utilisent XML.",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#quiz-module-1",
+    "href": "cours/api/cours_api_complet.html#quiz-module-1",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "2.6 🎓 Quiz Module 1",
+    "text": "2.6 🎓 Quiz Module 1\nQuestion 1 : Quelle méthode HTTP utiliseriez-vous pour modifier uniquement le prix d’un listing eBay ?\n\nGET\n\nPOST\n\nPUT\n\nPATCH\n\n\n\nVoir la réponse\n\nRéponse : d) PATCH\nPATCH permet de modifier partiellement une ressource. PUT remplacerait toute la ressource.\n\nQuestion 2 : Quel code de statut HTTP indique que votre token d’authentification a expiré ?\n\n400\n\n401\n\n403\n\n404\n\n\n\nVoir la réponse\n\nRéponse : b) 401 Unauthorized\n401 signifie que l’authentification est requise ou a échoué. 403 signifierait que vous êtes authentifié mais n’avez pas les permissions.\n\nQuestion 3 : Quel format de données est utilisé par les APIs eBay REST modernes ?\n\nXML uniquement\n\nJSON uniquement\n\nJSON ou XML au choix\n\nProtocol Buffers\n\n\n\nVoir la réponse\n\nRéponse : b) JSON uniquement\nToutes les APIs REST eBay (Buy, Sell, Commerce) utilisent exclusivement JSON.\n\n\n\n2.6.1 Les APIs dans l’écosystème eBay\neBay expose plusieurs catégories d’APIs :\n\n\n\n\n\n\n\n\nCatégorie\nUsage\nExemple\n\n\n\n\nSell APIs\nVendre sur eBay\nCréer des listings, gérer l’inventaire\n\n\nBuy APIs\nAcheter sur eBay\nRechercher des produits, passer commande\n\n\nCommerce APIs\nOpérations transversales\nTaxonomie, métadonnées\n\n\nDeveloper APIs\nGestion développeur\nInsights sur l’utilisation\n\n\n\nDocumentation eBay : Toutes les APIs eBay sont documentées sur developer.ebay.com.",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#pourquoi-lauthentification",
+    "href": "cours/api/cours_api_complet.html#pourquoi-lauthentification",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "3.1 2.1 Pourquoi l’Authentification ?",
+    "text": "3.1 2.1 Pourquoi l’Authentification ?\nL’authentification garantit :\n\nIdentification : Qui fait la requête ?\nAutorisation : A-t-il le droit de le faire ?\nTraçabilité : Audit et logs\nLimitation : Rate limiting par utilisateur\nFacturation : Suivi de la consommation\n\neBay utilise OAuth 2.0 pour toutes ses APIs modernes.",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#les-application-keysets-ebay",
+    "href": "cours/api/cours_api_complet.html#les-application-keysets-ebay",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "3.2 2.2 Les Application Keysets eBay",
+    "text": "3.2 2.2 Les Application Keysets eBay\nAvant de faire des appels API, vous devez créer un keyset (jeu de clés) sur le portail développeur eBay.\n\n3.2.1 Composants d’un Keyset\n\n\n\n\n\n\n\n\n\nComposant\nDescription\nExemple\nConfidentialité\n\n\n\n\nApp ID (Client ID)\nIdentifiant unique de votre app\nMyApp-MyComp-PRD-abc123456\n🟢 Public\n\n\nDev ID\nIdentifiant développeur\na1b2c3d4-e5f6-7890-abcd-ef1234567890\n🟢 Public\n\n\nCert ID (Client Secret)\nMot de passe de l’app\nPRD-abc123456-789a-bcde...\n🔴 SECRET\n\n\n\nDocumentation eBay : Créez vos keysets sur developer.ebay.com/my/keys.\n\n\n3.2.2 Environnements : Sandbox vs Production\n\n\n\nEnvironnement\nUsage\nURL API\nDonnées\n\n\n\n\nSandbox\nTests\napi.sandbox.ebay.com\nFictives\n\n\nProduction\nLive\napi.ebay.com\nRéelles\n\n\n\nImportant : Créez des keysets séparés pour chaque environnement !",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#oauth-2.0-le-standard-dauthentification",
+    "href": "cours/api/cours_api_complet.html#oauth-2.0-le-standard-dauthentification",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "3.3 2.3 OAuth 2.0 : Le Standard d’Authentification",
+    "text": "3.3 2.3 OAuth 2.0 : Le Standard d’Authentification\n\n3.3.1 Qu’est-ce qu’OAuth 2.0 ?\nOAuth 2.0 est un protocole d’autorisation qui permet à une application d’accéder aux ressources d’un utilisateur sans connaître son mot de passe.\n\n\n3.3.2 Deux types de tokens OAuth eBay\n\n3.3.2.1 1. Application Access Token (App Token)\n\nUsage : Accès aux données publiques (recherche, browse)\nDurée : 2 heures\nPas de consentement utilisateur requis\n\nFlux Client Credentials :\n┌─────────────┐                                ┌─────────────┐\n│             │  1. POST /identity/v1/oauth2/  │             │\n│   Votre App │────────────token──────────────&gt;│  eBay Auth  │\n│             │  (Client ID + Client Secret)   │   Server    │\n│             │                                │             │\n│             │&lt;─────── 2. Access Token ───────┤             │\n│             │    (expires_in: 7200)          │             │\n└─────────────┘                                └─────────────┘\n       │\n       │ 3. Appels API avec token\n       │\n       ▼\n┌─────────────┐\n│  eBay API   │\n│  (Browse,   │\n│   Search)   │\n└─────────────┘\n\n\n3.3.2.2 2. User Access Token (User Token)\n\nUsage : Accès aux données privées de l’utilisateur (listings, ordres)\nDurée : Varie selon les scopes\nConsentement utilisateur obligatoire\n\nFlux Authorization Code :\n┌──────────┐                                           ┌──────────┐\n│          │  1. Redirection vers eBay login page      │          │\n│  User    │──────────────────────────────────────────&gt;│  eBay    │\n│ (Browser)│                                           │  Login   │\n│          │                                           │          │\n│          │&lt;─────── 2. Enter credentials ─────────────┤          │\n└──────────┘                                           └──────────┘\n     │                                                       │\n     │ 3. Consent screen (scopes)                            │\n     │&lt;──────────────────────────────────────────────────────┤\n     │                                                       │\n     │ 4. Approve                                            │\n     ├──────────────────────────────────────────────────────&gt;│\n     │                                                       │\n     │ 5. Redirect to Your App with CODE                     │\n     │&lt;──────────────────────────────────────────────────────┤\n     │                                                       │\n     ▼                                                       │\n┌──────────┐                                           ┌──────────┐\n│  Your    │  6. Exchange CODE for Token               │  eBay    │\n│  App     │──────────────────────────────────────────&gt;│  Auth    │\n│  Server  │  POST /identity/v1/oauth2/token           │  Server  │\n│          │                                           │          │\n│          │&lt;─────── 7. Access + Refresh Tokens ───────┤          │\n│          │                                           │          │\n└──────────┘                                           └──────────┘\n     │\n     │ 8. API calls with Access Token\n     │\n     ▼\n┌──────────┐\n│  eBay    │\n│  Sell    │\n│  API     │\n└──────────┘\n\n\n\n3.3.3 Scopes (Permissions)\nLes scopes définissent les permissions demandées. Exemples eBay :\n\n\n\n\n\n\n\n\nScope\nDescription\nAPI\n\n\n\n\nhttps://api.ebay.com/oauth/api_scope\nAccès général (legacy)\nToutes\n\n\nhttps://api.ebay.com/oauth/api_scope/sell.inventory\nGérer l’inventaire\nSell Inventory\n\n\nhttps://api.ebay.com/oauth/api_scope/sell.marketing\nMarketing & promotions\nSell Marketing\n\n\nhttps://api.ebay.com/oauth/api_scope/commerce.catalog.readonly\nLire le catalogue\nCommerce\n\n\n\nDocumentation eBay : Liste complète des scopes : developer.ebay.com/api-docs/static/oauth-scopes.html",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#implémentation-oauth-avec-python",
+    "href": "cours/api/cours_api_complet.html#implémentation-oauth-avec-python",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "3.4 2.4 Implémentation OAuth avec Python",
+    "text": "3.4 2.4 Implémentation OAuth avec Python\n\n3.4.1 Configuration des credentials\n\n# Installation des dépendances\n# pip install requests python-dotenv\n\nimport os\nfrom dotenv import load_dotenv\nimport requests\nimport base64\nfrom datetime import datetime, timedelta\n\n# Charger les variables d'environnement depuis un fichier .env\nload_dotenv()\n\n# IMPORTANT : Remplacez ces valeurs par vos propres credentials\n# Créez un fichier .env avec :\n# EBAY_CLIENT_ID=votre_app_id\n# EBAY_CLIENT_SECRET=votre_cert_id\n# EBAY_ENVIRONMENT=sandbox  # ou 'production'\n\nCLIENT_ID = os.getenv('EBAY_CLIENT_ID')\nCLIENT_SECRET = os.getenv('EBAY_CLIENT_SECRET')\nENVIRONMENT = os.getenv('EBAY_ENVIRONMENT', 'sandbox')\n\n# URLs des APIs selon l'environnement\nAPI_URLS = {\n    'sandbox': {\n        'oauth': 'https://api.sandbox.ebay.com/identity/v1/oauth2/token',\n        'api': 'https://api.sandbox.ebay.com'\n    },\n    'production': {\n        'oauth': 'https://api.ebay.com/identity/v1/oauth2/token',\n        'api': 'https://api.ebay.com'\n    }\n}\n\nprint(f\" Configuration chargée pour l'environnement : {ENVIRONMENT}\")\nprint(f\"   Client ID : {CLIENT_ID[:20]}...\" if CLIENT_ID else \"CLIENT_ID manquant !\")\n\n\n\n3.4.2 Obtenir un Application Access Token\n\ndef get_application_token(client_id, client_secret, environment='sandbox'):\n    \"\"\"\n    Obtient un Application Access Token via le flux Client Credentials.\n    \n    Ce token permet d'accéder aux APIs publiques (Browse, Search) sans\n    nécessiter de consentement utilisateur.\n    \n    Args:\n        client_id (str): L'App ID de votre keyset eBay\n        client_secret (str): Le Cert ID de votre keyset eBay\n        environment (str): 'sandbox' ou 'production'\n    \n    Returns:\n        dict: Contient 'access_token', 'token_type', 'expires_in', 'expires_at'\n    \n    Raises:\n        requests.exceptions.RequestException: En cas d'erreur HTTP\n    \"\"\"\n    \n    # 1. Encoder les credentials en Base64\n    # Format : \"Client_ID:Client_Secret\" encodé en base64\n    credentials = f\"{client_id}:{client_secret}\"\n    encoded_credentials = base64.b64encode(credentials.encode()).decode()\n    \n    # 2. Construire les headers HTTP\n    headers = {\n        'Content-Type': 'application/x-www-form-urlencoded',\n        'Authorization': f'Basic {encoded_credentials}'\n    }\n    \n    # 3. Corps de la requête : grant_type et scopes\n    data = {\n        'grant_type': 'client_credentials',\n        'scope': 'https://api.ebay.com/oauth/api_scope'\n    }\n    \n    # 4. URL du endpoint OAuth selon l'environnement\n    token_url = API_URLS[environment]['oauth']\n    \n    print(f\"Demande de token à : {token_url}\")\n    \n    # 5. Envoyer la requête POST\n    try:\n        response = requests.post(\n            token_url,\n            headers=headers,\n            data=data,\n            timeout=10  # Timeout de 10 secondes\n        )\n        \n        # 6. Vérifier le code de statut HTTP\n        response.raise_for_status()  # Lève une exception si status &gt;= 400\n        \n        # 7. Parser la réponse JSON\n        token_data = response.json()\n        \n        # 8. Calculer la date d'expiration\n        expires_in = token_data.get('expires_in', 7200)  # Par défaut 2h\n        expires_at = datetime.now() + timedelta(seconds=expires_in)\n        \n        # 9. Ajouter les métadonnées\n        token_data['expires_at'] = expires_at.isoformat()\n        token_data['environment'] = environment\n        \n        print(f\"Token obtenu avec succès !\")\n        print(f\"   Type : {token_data.get('token_type')}\")\n        print(f\"   Expire dans : {expires_in} secondes ({expires_in//3600}h)\")\n        print(f\"   Expiration : {expires_at.strftime('%Y-%m-%d %H:%M:%S')}\")\n        \n        return token_data\n        \n    except requests.exceptions.HTTPError as e:\n        print(f\"Erreur HTTP {e.response.status_code} : {e.response.text}\")\n        raise\n    except requests.exceptions.RequestException as e:\n        print(f\"Erreur de requête : {str(e)}\")\n        raise\n\n# Exemple d'utilisation\nif CLIENT_ID and CLIENT_SECRET:\n    app_token = get_application_token(CLIENT_ID, CLIENT_SECRET, ENVIRONMENT)\n    print(f\"\\nAccess Token (premiers 50 caractères) : {app_token['access_token'][:50]}...\")\nelse:\n    print(\"Credentials manquants. Créez un fichier .env avec EBAY_CLIENT_ID et EBAY_CLIENT_SECRET\")\n\n\n\n3.4.3 Obtenir un User Access Token (Flux complet)\n\nimport urllib.parse\nimport secrets\n\ndef generate_authorization_url(client_id, redirect_uri, scopes, environment='sandbox'):\n    \"\"\"\n    Génère l'URL de consentement eBay pour le flux Authorization Code.\n    \n    L'utilisateur doit être redirigé vers cette URL pour approuver les scopes.\n    \n    Args:\n        client_id (str): L'App ID de votre keyset\n        redirect_uri (str): URL de redirection après consentement (doit être configurée dans votre app)\n        scopes (list): Liste des scopes demandés\n        environment (str): 'sandbox' ou 'production'\n    \n    Returns:\n        tuple: (authorization_url, state)\n    \"\"\"\n    \n    # Base URL selon l'environnement\n    auth_base_urls = {\n        'sandbox': 'https://auth.sandbox.ebay.com/oauth2/authorize',\n        'production': 'https://auth.ebay.com/oauth2/authorize'\n    }\n    \n    # Générer un état aléatoire pour prévenir les attaques CSRF\n    state = secrets.token_urlsafe(32)\n    \n    # Construire les paramètres de la requête\n    params = {\n        'client_id': client_id,\n        'redirect_uri': redirect_uri,\n        'response_type': 'code',\n        'scope': ' '.join(scopes),\n        'state': state\n    }\n    \n    # Encoder l'URL\n    authorization_url = f\"{auth_base_urls[environment]}?{urllib.parse.urlencode(params)}\"\n    \n    print(f\"🔗 URL de consentement générée :\")\n    print(f\"   {authorization_url}\")\n    print(f\"\\n State (à vérifier lors du callback) : {state}\")\n    \n    return authorization_url, state\n\n\ndef exchange_code_for_token(client_id, client_secret, code, redirect_uri, environment='sandbox'):\n    \"\"\"\n    Échange le code d'autorisation contre un User Access Token.\n    \n    Cette fonction est appelée après que l'utilisateur a approuvé les scopes\n    et a été redirigé vers votre redirect_uri avec un code d'autorisation.\n    \n    Args:\n        client_id (str): L'App ID\n        client_secret (str): Le Cert ID\n        code (str): Le code d'autorisation reçu dans l'URL de callback\n        redirect_uri (str): Le même redirect_uri utilisé lors de l'autorisation\n        environment (str): 'sandbox' ou 'production'\n    \n    Returns:\n        dict: Contient 'access_token', 'refresh_token', 'expires_in', etc.\n    \"\"\"\n    \n    # Encoder les credentials\n    credentials = f\"{client_id}:{client_secret}\"\n    encoded_credentials = base64.b64encode(credentials.encode()).decode()\n    \n    headers = {\n        'Content-Type': 'application/x-www-form-urlencoded',\n        'Authorization': f'Basic {encoded_credentials}'\n    }\n    \n    # Corps de la requête\n    data = {\n        'grant_type': 'authorization_code',\n        'code': code,\n        'redirect_uri': redirect_uri\n    }\n    \n    token_url = API_URLS[environment]['oauth']\n    \n    print(f\" Échange du code d'autorisation contre un token...\")\n    \n    try:\n        response = requests.post(token_url, headers=headers, data=data, timeout=10)\n        response.raise_for_status()\n        \n        token_data = response.json()\n        \n        # Calculer l'expiration\n        expires_in = token_data.get('expires_in', 7200)\n        expires_at = datetime.now() + timedelta(seconds=expires_in)\n        token_data['expires_at'] = expires_at.isoformat()\n        \n        print(f\"User Token obtenu avec succès !\")\n        print(f\"   Access Token : {token_data['access_token'][:30]}...\")\n        print(f\"   Refresh Token : {token_data.get('refresh_token', 'N/A')[:30]}...\")\n        print(f\"   Expire dans : {expires_in} secondes\")\n        \n        return token_data\n        \n    except requests.exceptions.HTTPError as e:\n        print(f\"Erreur lors de l'échange : {e.response.text}\")\n        raise\n\n# Exemple d'utilisation (simulation)\n# Dans une vraie application, vous devez :\n# 1. Rediriger l'utilisateur vers authorization_url\n# 2. Récupérer le code depuis l'URL de callback\n# 3. L'échanger contre un token\n\nif CLIENT_ID:\n    # Scopes pour gérer l'inventaire et le marketing\n    scopes = [\n        'https://api.ebay.com/oauth/api_scope/sell.inventory',\n        'https://api.ebay.com/oauth/api_scope/sell.marketing'\n    ]\n    \n    # URL de redirection (doit être configurée dans votre app eBay)\n    redirect_uri = 'https://votre-app.com/oauth/callback'\n    \n    auth_url, state = generate_authorization_url(\n        CLIENT_ID, \n        redirect_uri, \n        scopes, \n        ENVIRONMENT\n    )\n    \n    print(\"\\n Étapes suivantes :\")\n    print(\"   1. Ouvrez l'URL ci-dessus dans un navigateur\")\n    print(\"   2. Connectez-vous avec un compte eBay Sandbox\")\n    print(\"   3. Approuvez les permissions\")\n    print(\"   4. Récupérez le 'code' depuis l'URL de redirection\")\n    print(\"   5. Utilisez exchange_code_for_token() pour obtenir le token\")",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#headers-http-et-authentification",
+    "href": "cours/api/cours_api_complet.html#headers-http-et-authentification",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "3.5 2.5 Headers HTTP et Authentification",
+    "text": "3.5 2.5 Headers HTTP et Authentification\n\n3.5.1 Headers essentiels pour les APIs eBay\n\ndef build_ebay_headers(access_token, marketplace_id='EBAY_US', content_type='application/json'):\n    \"\"\"\n    Construit les headers HTTP requis pour les appels eBay API.\n    \n    Args:\n        access_token (str): Le token OAuth (app ou user)\n        marketplace_id (str): ID du marketplace (EBAY_US, EBAY_FR, etc.)\n        content_type (str): Type de contenu (application/json par défaut)\n    \n    Returns:\n        dict: Headers HTTP prêts à l'emploi\n    \"\"\"\n    \n    headers = {\n        # 1. Authentification OAuth 2.0\n        'Authorization': f'Bearer {access_token}',\n        \n        # 2. Type de contenu (pour POST/PUT/PATCH)\n        'Content-Type': content_type,\n        \n        # 3. Marketplace cible (requis pour la plupart des APIs)\n        'X-EBAY-C-MARKETPLACE-ID': marketplace_id,\n        \n        # 4. Accept (format de réponse souhaité)\n        'Accept': 'application/json',\n        \n        # 5. User-Agent (bonne pratique)\n        'User-Agent': 'MonApp/1.0 (Formation API)'\n    }\n    \n    return headers\n\n# Exemple d'utilisation\nif 'app_token' in locals():\n    headers = build_ebay_headers(app_token['access_token'], 'EBAY_FR')\n    \n    print(\"📋 Headers HTTP générés :\")\n    for key, value in headers.items():\n        # Masquer le token pour des raisons de sécurité\n        if key == 'Authorization':\n            print(f\"   {key}: Bearer {value.split(' ')[1][:20]}...\")\n        else:\n            print(f\"   {key}: {value}\")\n\n\n\n3.5.2 Marketplace IDs eBay\n\n\n\nMarketplace\nID\nDevise\nLangue\n\n\n\n\nÉtats-Unis\nEBAY_US\nUSD\nen-US\n\n\nRoyaume-Uni\nEBAY_GB\nGBP\nen-GB\n\n\nAllemagne\nEBAY_DE\nEUR\nde-DE\n\n\nFrance\nEBAY_FR\nEUR\nfr-FR\n\n\nAustralie\nEBAY_AU\nAUD\nen-AU\n\n\nCanada (anglais)\nEBAY_ENCA\nCAD\nen-CA\n\n\nCanada (français)\nEBAY_FRCA\nCAD\nfr-CA\n\n\n\nDocumentation eBay : Liste complète sur developer.ebay.com/api-docs/static/rest-request-components.html",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#bonnes-pratiques-de-sécurité",
+    "href": "cours/api/cours_api_complet.html#bonnes-pratiques-de-sécurité",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "3.6 2.6 Bonnes Pratiques de Sécurité",
+    "text": "3.6 2.6 Bonnes Pratiques de Sécurité\n\n3.6.1 ✅ À FAIRE\n\nNe jamais hardcoder les credentials\n# MAL\nCLIENT_SECRET = \"PRD-abc123456-789a-bcde-fghi-jklm\"\n\n# BIEN\nCLIENT_SECRET = os.getenv('EBAY_CLIENT_SECRET')\nUtiliser HTTPS uniquement\n# Toutes les URLs eBay utilisent HTTPS\nurl = \"https://api.ebay.com/...\"  # ✅\nurl = \"http://api.ebay.com/...\"   # ❌ JAMAIS !\nStocker les tokens en sécurité\n\n✅ Variables d’environnement\n✅ Gestionnaires de secrets (AWS Secrets Manager, Azure Key Vault)\n✅ Bases de données chiffrées\n❌ Fichiers texte, code source, logs\n\nGérer l’expiration des tokens\ndef is_token_expired(token_data):\n    \"\"\"Vérifie si un token a expiré.\"\"\"\n    expires_at = datetime.fromisoformat(token_data['expires_at'])\n    # Ajouter une marge de 5 minutes\n    return datetime.now() &gt;= (expires_at - timedelta(minutes=5))\n\nif is_token_expired(app_token):\n    app_token = get_application_token(CLIENT_ID, CLIENT_SECRET)\nUtiliser le principe du moindre privilège\n\nDemandez uniquement les scopes nécessaires\nSéparez les applications selon leur usage\n\nRévoquer les tokens compromis\n\nSi un token est compromis, contactez le support eBay\nRegénérez votre Cert ID si nécessaire\n\n\n\n\n3.6.2 ❌ À ÉVITER\n\nCommit les tokens dans Git\nLogger les tokens complets\nPartager les keysets entre applications\nUtiliser des tokens de production dans le code de test\n\n\n\n3.6.3 Schéma ASCII : Cycle de vie d’un token\n┌──────────────────────────────────────────────────────────────┐\n│                    CYCLE DE VIE D'UN TOKEN                   │\n└──────────────────────────────────────────────────────────────┘\n\n1. GÉNÉRATION\n   ┌─────────────┐\n   │ Demande de  │\n   │   token     │──────────┐\n   └─────────────┘          │\n                            ▼\n                    ┌───────────────┐\n                    │ Token valide  │\n                    │ expires_in:   │\n                    │    7200s      │\n                    └───────────────┘\n                            │\n                            │ Utilisation\n                            ▼\n2. UTILISATION          ┌───────────────┐\n   ┌─────────────┐      │ Appels API    │\n   │ API calls   │◄─────┤ avec token    │\n   └─────────────┘      └───────────────┘\n                            │\n                            │ Temps passe...\n                            ▼\n3. EXPIRATION           ┌───────────────┐\n   ┌─────────────┐      │ Token expiré  │\n   │ 401 Error   │◄─────┤ HTTP 401      │\n   └─────────────┘      └───────────────┘\n                            │\n                            │ Refresh ou nouvelle demande\n                            ▼\n4. RENOUVELLEMENT       ┌───────────────┐\n   ┌─────────────┐      │ Nouveau token │\n   │ Refresh     │─────&gt;│ généré        │\n   └─────────────┘      └───────────────┘",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#quiz-module-2",
+    "href": "cours/api/cours_api_complet.html#quiz-module-2",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "3.7 🎓 Quiz Module 2",
+    "text": "3.7 🎓 Quiz Module 2\nQuestion 1 : Quelle est la durée de vie typique d’un Application Access Token eBay ?\n\n30 minutes\n\n2 heures\n\n24 heures\n\n1 semaine\n\n\n\nVoir la réponse\n\nRéponse : b) 2 heures (7200 secondes)\nLes Application Access Tokens expirent après 2 heures. Il faut en demander un nouveau après expiration.\n\nQuestion 2 : Quel flux OAuth est utilisé pour obtenir un User Access Token ?\n\nClient Credentials\n\nImplicit Grant\n\nAuthorization Code\n\nPassword Grant\n\n\n\nVoir la réponse\n\nRéponse : c) Authorization Code\nCe flux nécessite le consentement de l’utilisateur et retourne un refresh token.\n\nQuestion 3 : Où doit-on placer le token OAuth dans une requête HTTP ?\n\nDans l’URL (query parameter)\n\nDans le corps de la requête\n\nDans le header Authorization\n\nDans un cookie\n\n\n\nVoir la réponse\n\nRéponse : c) Dans le header Authorization\nFormat : Authorization: Bearer &lt;access_token&gt;",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#construction-dune-requête-complète",
+    "href": "cours/api/cours_api_complet.html#construction-dune-requête-complète",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "4.1 3.1 Construction d’une Requête Complète",
+    "text": "4.1 3.1 Construction d’une Requête Complète\n\n4.1.1 Exemple : Rechercher des produits sur eBay Browse API\n\ndef search_ebay_items(query, access_token, limit=5, marketplace='EBAY_US', environment='sandbox'):\n    \"\"\"\n    Recherche des produits sur eBay via l'API Browse.\n    \n    Args:\n        query (str): Terme de recherche (ex: \"iphone 14\")\n        access_token (str): Token OAuth valide\n        limit (int): Nombre maximum de résultats (1-200)\n        marketplace (str): Marketplace cible\n        environment (str): 'sandbox' ou 'production'\n    \n    Returns:\n        dict: Résultats de recherche avec itemSummaries\n    \"\"\"\n    \n    # 1. Construire l'URL du endpoint\n    base_url = API_URLS[environment]['api']\n    endpoint = '/buy/browse/v1/item_summary/search'\n    url = f\"{base_url}{endpoint}\"\n    \n    # 2. Paramètres de requête (query string)\n    params = {\n        'q': query,              # Terme de recherche\n        'limit': limit,          # Nombre de résultats\n        'filter': 'price:[0..1000],priceCurrency:USD'  # Filtres optionnels\n    }\n    \n    # 3. Headers HTTP\n    headers = build_ebay_headers(access_token, marketplace)\n    \n    print(f\"🔍 Recherche eBay : '{query}'\")\n    print(f\"   URL : {url}\")\n    print(f\"   Params : {params}\")\n    \n    try:\n        # 4. Envoyer la requête GET\n        response = requests.get(\n            url,\n            headers=headers,\n            params=params,\n            timeout=15\n        )\n        \n        # 5. Vérifier le statut HTTP\n        print(f\"Statut HTTP : {response.status_code}\")\n        \n        if response.status_code == 200:\n            data = response.json()\n            \n            # 6. Extraire les résultats\n            total = data.get('total', 0)\n            items = data.get('itemSummaries', [])\n            \n            print(f\"{len(items)} résultats trouvés (total : {total})\")\n            \n            # 7. Afficher les résultats\n            for i, item in enumerate(items, 1):\n                print(f\"\\n   {i}. {item.get('title', 'Sans titre')}\")\n                price = item.get('price', {})\n                print(f\"      Prix : {price.get('value', 'N/A')} {price.get('currency', '')}\")\n                print(f\"      Condition : {item.get('condition', 'N/A')}\")\n                print(f\"      URL : {item.get('itemWebUrl', 'N/A')}\")\n            \n            return data\n            \n        elif response.status_code == 401:\n            print(\" Erreur 401 : Token invalide ou expiré\")\n            print(\"   Obtenez un nouveau token et réessayez\")\n            \n        elif response.status_code == 429:\n            print(\" Erreur 429 : Limite de taux dépassée\")\n            print(\"   Attendez avant de faire une nouvelle requête\")\n            \n        else:\n            print(f\" Erreur {response.status_code}\")\n            print(f\"   Réponse : {response.text[:200]}\")\n        \n        return None\n        \n    except requests.exceptions.Timeout:\n        print(\"Timeout : La requête a pris trop de temps\")\n        return None\n    except requests.exceptions.RequestException as e:\n        print(f\"Erreur de requête : {str(e)}\")\n        return None\n\n# Exemple d'utilisation\nif 'app_token' in locals():\n    results = search_ebay_items(\n        query=\"macbook pro\",\n        access_token=app_token['access_token'],\n        limit=3,\n        marketplace='EBAY_US',\n        environment=ENVIRONMENT\n    )",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#gestion-des-erreurs",
+    "href": "cours/api/cours_api_complet.html#gestion-des-erreurs",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "4.2 3.2 Gestion des Erreurs",
+    "text": "4.2 3.2 Gestion des Erreurs\n\n4.2.1 Types d’erreurs API eBay\nLes APIs eBay retournent des erreurs structurées en JSON :\n{\n  \"errors\": [\n    {\n      \"errorId\": 1001,\n      \"domain\": \"API_BROWSE\",\n      \"subdomain\": \"Search\",\n      \"category\": \"REQUEST\",\n      \"message\": \"The 'limit' value is invalid. Maximum value is 200.\",\n      \"parameters\": [\n        {\n          \"name\": \"limit\",\n          \"value\": \"500\"\n        }\n      ]\n    }\n  ]\n}\n\n\n4.2.2 Gestion robuste des erreurs\n\nclass EbayAPIError(Exception):\n    \"\"\"Exception personnalisée pour les erreurs eBay API.\"\"\"\n    \n    def __init__(self, status_code, errors):\n        self.status_code = status_code\n        self.errors = errors\n        \n        # Construire le message d'erreur\n        if errors:\n            first_error = errors[0]\n            message = f\"eBay API Error {status_code}: {first_error.get('message', 'Unknown error')}\"\n        else:\n            message = f\"eBay API Error {status_code}\"\n        \n        super().__init__(message)\n\n\ndef make_ebay_request(method, endpoint, access_token, \n                      marketplace='EBAY_US', environment='sandbox',\n                      params=None, json_data=None, max_retries=3):\n    \"\"\"\n    Fonction générique pour faire des appels à l'API eBay avec gestion d'erreurs.\n    \n    Args:\n        method (str): Méthode HTTP (GET, POST, PUT, DELETE)\n        endpoint (str): Endpoint API (ex: '/buy/browse/v1/item_summary/search')\n        access_token (str): Token OAuth\n        marketplace (str): Marketplace ID\n        environment (str): 'sandbox' ou 'production'\n        params (dict): Paramètres de requête (pour GET)\n        json_data (dict): Corps de la requête (pour POST/PUT)\n        max_retries (int): Nombre maximum de tentatives en cas d'erreur 5xx\n    \n    Returns:\n        dict: Réponse JSON de l'API\n    \n    Raises:\n        EbayAPIError: En cas d'erreur API\n    \"\"\"\n    \n    base_url = API_URLS[environment]['api']\n    url = f\"{base_url}{endpoint}\"\n    headers = build_ebay_headers(access_token, marketplace)\n    \n    for attempt in range(max_retries):\n        try:\n            # Faire la requête selon la méthode\n            if method.upper() == 'GET':\n                response = requests.get(url, headers=headers, params=params, timeout=15)\n            elif method.upper() == 'POST':\n                response = requests.post(url, headers=headers, json=json_data, timeout=15)\n            elif method.upper() == 'PUT':\n                response = requests.put(url, headers=headers, json=json_data, timeout=15)\n            elif method.upper() == 'DELETE':\n                response = requests.delete(url, headers=headers, timeout=15)\n            else:\n                raise ValueError(f\"Méthode HTTP non supportée : {method}\")\n            \n            # Gérer les différents codes de statut\n            if response.status_code == 200 or response.status_code == 201:\n                # Succès\n                return response.json() if response.text else {}\n            \n            elif response.status_code == 204:\n                # Succès sans contenu (typique pour DELETE)\n                return {}\n            \n            elif response.status_code == 400:\n                # Erreur de validation\n                errors = response.json().get('errors', [])\n                print(f\"Erreur 400 - Requête invalide :\")\n                for error in errors:\n                    print(f\"   - {error.get('message')}\")\n                raise EbayAPIError(400, errors)\n            \n            elif response.status_code == 401:\n                # Token invalide ou expiré\n                print(\"Erreur 401 - Authentification échouée\")\n                print(\"   Votre token est invalide ou a expiré. Obtenez-en un nouveau.\")\n                raise EbayAPIError(401, [{'message': 'Authentication failed'}])\n            \n            elif response.status_code == 403:\n                # Permissions insuffisantes\n                print(\"Erreur 403 - Accès interdit\")\n                print(\"   Vérifiez que votre application a les scopes nécessaires.\")\n                raise EbayAPIError(403, [{'message': 'Access forbidden'}])\n            \n            elif response.status_code == 404:\n                # Ressource non trouvée\n                print(\"Erreur 404 - Ressource non trouvée\")\n                raise EbayAPIError(404, [{'message': 'Resource not found'}])\n            \n            elif response.status_code == 429:\n                # Rate limit dépassé\n                print(\"Erreur 429 - Limite de taux dépassée\")\n                print(\"   Attendez avant de faire une nouvelle requête.\")\n                \n                # Récupérer le header Retry-After si présent\n                retry_after = response.headers.get('Retry-After')\n                if retry_after:\n                    print(f\"   Réessayez après : {retry_after} secondes\")\n                \n                raise EbayAPIError(429, [{'message': 'Rate limit exceeded'}])\n            \n            elif 500 &lt;= response.status_code &lt; 600:\n                # Erreur serveur - retry possible\n                print(f\"⚠️  Erreur serveur {response.status_code} (tentative {attempt + 1}/{max_retries})\")\n                \n                if attempt &lt; max_retries - 1:\n                    wait_time = 2 ** attempt  # Backoff exponentiel : 1s, 2s, 4s...\n                    print(f\"   Nouvelle tentative dans {wait_time} secondes...\")\n                    import time\n                    time.sleep(wait_time)\n                    continue  # Retenter\n                else:\n                    print(\"   Nombre maximum de tentatives atteint.\")\n                    raise EbayAPIError(response.status_code, [{'message': 'Server error'}])\n            \n            else:\n                # Autre erreur\n                print(f\"❌ Erreur HTTP {response.status_code}\")\n                print(f\"   Réponse : {response.text[:200]}\")\n                raise EbayAPIError(response.status_code, [{'message': response.text}])\n                \n        except requests.exceptions.Timeout:\n            print(f\"⏱️  Timeout (tentative {attempt + 1}/{max_retries})\")\n            if attempt &lt; max_retries - 1:\n                continue\n            raise\n        \n        except requests.exceptions.RequestException as e:\n            print(f\"❌ Erreur réseau : {str(e)}\")\n            raise\n\n# Exemple d'utilisation avec gestion d'erreurs\ntry:\n    results = make_ebay_request(\n        method='GET',\n        endpoint='/buy/browse/v1/item_summary/search',\n        access_token=app_token['access_token'],\n        params={'q': 'laptop', 'limit': 5},\n        environment=ENVIRONMENT\n    )\n    print(f\"✅ {len(results.get('itemSummaries', []))} résultats trouvés\")\n    \nexcept EbayAPIError as e:\n    print(f\"Erreur API capturée : {e}\")\nexcept Exception as e:\n    print(f\"Erreur inattendue : {e}\")",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#pagination",
+    "href": "cours/api/cours_api_complet.html#pagination",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "4.3 3.3 Pagination",
+    "text": "4.3 3.3 Pagination\n\n4.3.1 Pourquoi la pagination ?\nLes APIs limitent le nombre de résultats par requête pour : - Optimiser les performances - Réduire la charge réseau - Éviter les timeouts - Gérer de gros volumes de données\n\n\n4.3.2 Pagination dans l’API eBay Browse\n\ndef search_all_items_paginated(query, access_token, max_items=50, environment='sandbox'):\n    \"\"\"\n    Recherche des produits avec pagination automatique.\n    \n    eBay Browse API utilise :\n    - 'limit' : nombre de résultats par page (max 200)\n    - 'offset' : position de départ (0, 200, 400...)\n    \n    Args:\n        query (str): Terme de recherche\n        access_token (str): Token OAuth\n        max_items (int): Nombre maximum total d'items à récupérer\n        environment (str): 'sandbox' ou 'production'\n    \n    Returns:\n        list: Liste de tous les items récupérés\n    \"\"\"\n    \n    all_items = []\n    offset = 0\n    limit = 50  # Items par page (max 200 pour eBay)\n    \n    print(f\"🔍 Recherche paginée : '{query}' (max {max_items} items)\")\n    \n    while len(all_items) &lt; max_items:\n        # Ajuster le limit pour ne pas dépasser max_items\n        current_limit = min(limit, max_items - len(all_items))\n        \n        print(f\"\\n📄 Page en cours : offset={offset}, limit={current_limit}\")\n        \n        try:\n            # Faire la requête pour cette page\n            response = make_ebay_request(\n                method='GET',\n                endpoint='/buy/browse/v1/item_summary/search',\n                access_token=access_token,\n                params={\n                    'q': query,\n                    'limit': current_limit,\n                    'offset': offset\n                },\n                environment=environment\n            )\n            \n            # Extraire les items de cette page\n            items = response.get('itemSummaries', [])\n            total = response.get('total', 0)\n            \n            print(f\"  {len(items)} items récupérés (total disponible : {total})\")\n            \n            if not items:\n                print(\"  Aucun item sur cette page, arrêt de la pagination\")\n                break\n            \n            # Ajouter à la liste globale\n            all_items.extend(items)\n            \n            # Vérifier s'il y a plus de pages\n            if len(all_items) &gt;= total:\n                print(\" Tous les items disponibles ont été récupérés\")\n                break\n            \n            # Passer à la page suivante\n            offset += current_limit\n            \n        except EbayAPIError as e:\n            print(f\" Erreur lors de la pagination : {e}\")\n            break\n    \n    print(f\"\\n Total récupéré : {len(all_items)} items\")\n    return all_items\n\n# Exemple d'utilisation\nif 'app_token' in locals():\n    all_laptops = search_all_items_paginated(\n        query=\"laptop\",\n        access_token=app_token['access_token'],\n        max_items=100,\n        environment=ENVIRONMENT\n    )\n    \n    # Analyser les résultats\n    if all_laptops:\n        import pandas as pd\n        \n        # Créer un DataFrame pour analyse\n        df = pd.DataFrame([\n            {\n                'title': item.get('title', ''),\n                'price': item.get('price', {}).get('value', 0),\n                'currency': item.get('price', {}).get('currency', ''),\n                'condition': item.get('condition', '')\n            }\n            for item in all_laptops\n        ])\n        \n        print(\"\\n Statistiques :\")\n        print(f\"   Prix moyen : {df['price'].mean():.2f} {df['currency'].iloc[0]}\")\n        print(f\"   Prix min : {df['price'].min():.2f}\")\n        print(f\"   Prix max : {df['price'].max():.2f}\")\n        print(f\"\\n   Répartition par condition :\")\n        print(df['condition'].value_counts())\n\n\n\n4.3.3 Types de pagination\n\n\n\n\n\n\n\n\nType\nDescription\nAPIs eBay\n\n\n\n\nOffset-based\noffset + limit\nBrowse, Search\n\n\nCursor-based\nToken de page (next, prev)\nCertaines Sell APIs\n\n\nPage-based\nNuméro de page + taille\nLegacy APIs",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#rate-limiting",
+    "href": "cours/api/cours_api_complet.html#rate-limiting",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "4.4 3.4 Rate Limiting",
+    "text": "4.4 3.4 Rate Limiting\n\n4.4.1 Qu’est-ce que le Rate Limiting ?\nLe rate limiting limite le nombre de requêtes qu’une application peut faire sur une période donnée.\nObjectifs : - Protéger les serveurs contre les abus - Garantir une utilisation équitable - Monétiser l’usage (plans premium)\n\n\n4.4.2 Limites eBay API\n\n\n\nType d’application\nAppels/jour (défaut)\nAppels/seconde\n\n\n\n\nSandbox\n5,000\n5\n\n\nProduction (de base)\n5,000\n5\n\n\nProduction (approuvé)\nSur demande\nVariable\n\n\n\nDocumentation eBay : Consultez developer.ebay.com/support/api-call-limits pour les limites détaillées.\n\n\n4.4.3 Headers de Rate Limiting eBay\nHTTP/1.1 200 OK\nX-RateLimit-Limit: 5000\nX-RateLimit-Remaining: 4950\nX-RateLimit-Reset: 1707480000\n\n\n\nHeader\nDescription\n\n\n\n\nX-RateLimit-Limit\nLimite totale\n\n\nX-RateLimit-Remaining\nAppels restants\n\n\nX-RateLimit-Reset\nTimestamp de réinitialisation\n\n\n\n\n\n4.4.4 Gestion du Rate Limiting\n\nimport time\nfrom datetime import datetime\n\nclass RateLimiter:\n    \"\"\"\n    Gestionnaire de rate limiting simple.\n    \n    Suit les limites et attend automatiquement si nécessaire.\n    \"\"\"\n    \n    def __init__(self, calls_per_second=5):\n        \"\"\"\n        Args:\n            calls_per_second (int): Nombre maximum d'appels par seconde\n        \"\"\"\n        self.calls_per_second = calls_per_second\n        self.min_interval = 1.0 / calls_per_second  # Intervalle minimum entre appels\n        self.last_call_time = 0\n    \n    def wait_if_needed(self):\n        \"\"\"Attend si nécessaire pour respecter le rate limit.\"\"\"\n        now = time.time()\n        time_since_last_call = now - self.last_call_time\n        \n        if time_since_last_call &lt; self.min_interval:\n            wait_time = self.min_interval - time_since_last_call\n            print(f\"⏳ Rate limiting : attente de {wait_time:.2f}s...\")\n            time.sleep(wait_time)\n        \n        self.last_call_time = time.time()\n    \n    def check_response_headers(self, response):\n        \"\"\"\n        Vérifie les headers de rate limiting de la réponse.\n        \n        Args:\n            response (requests.Response): Réponse HTTP\n        \"\"\"\n        limit = response.headers.get('X-RateLimit-Limit')\n        remaining = response.headers.get('X-RateLimit-Remaining')\n        reset = response.headers.get('X-RateLimit-Reset')\n        \n        if all([limit, remaining, reset]):\n            print(f\"📊 Rate Limit : {remaining}/{limit} appels restants\")\n            \n            # Convertir le timestamp de reset\n            reset_time = datetime.fromtimestamp(int(reset))\n            print(f\"   Réinitialisation : {reset_time.strftime('%Y-%m-%d %H:%M:%S')}\")\n            \n            # Avertir si proche de la limite\n            if int(remaining) &lt; 100:\n                print(\" Attention : Proche de la limite !\")\n\n# Exemple d'utilisation avec rate limiter\nrate_limiter = RateLimiter(calls_per_second=2)  # 2 appels/seconde max\n\nif 'app_token' in locals():\n    searches = ['iphone', 'laptop', 'camera', 'headphones', 'watch']\n    \n    print(f\" Recherche de {len(searches)} termes avec rate limiting...\\n\")\n    \n    for search_term in searches:\n        # Attendre si nécessaire avant l'appel\n        rate_limiter.wait_if_needed()\n        \n        try:\n            response_raw = requests.get(\n                f\"{API_URLS[ENVIRONMENT]['api']}/buy/browse/v1/item_summary/search\",\n                headers=build_ebay_headers(app_token['access_token']),\n                params={'q': search_term, 'limit': 1},\n                timeout=10\n            )\n            \n            # Vérifier les headers de rate limiting\n            rate_limiter.check_response_headers(response_raw)\n            \n            if response_raw.status_code == 200:\n                data = response_raw.json()\n                total = data.get('total', 0)\n                print(f\"   '{search_term}' : {total} résultats\\n\")\n            \n        except Exception as e:\n            print(f\"   Erreur pour '{search_term}' : {e}\\n\")",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#versioning-des-apis",
+    "href": "cours/api/cours_api_complet.html#versioning-des-apis",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "4.5 3.5 Versioning des APIs",
+    "text": "4.5 3.5 Versioning des APIs\n\n4.5.1 Pourquoi versionner ?\n\nRétrocompatibilité : Ne pas casser les apps existantes\nÉvolution : Ajouter de nouvelles fonctionnalités\nDépréciation : Retirer progressivement l’ancien\n\n\n\n4.5.2 Stratégies de versioning\n\n\n\nStratégie\nExemple\neBay\n\n\n\n\nURL Path\n/v1/items, /v2/items\n✅ Utilisé\n\n\nQuery Parameter\n/items?version=1\n❌\n\n\nHeader\nAPI-Version: 1\n❌\n\n\n\n\n\n4.5.3 Versions des APIs eBay\n# Browse API v1\n/buy/browse/v1/item_summary/search\n\n# Sell Inventory API v1\n/sell/inventory/v1/offer\n\n# Commerce Taxonomy API v1\n/commerce/taxonomy/v1/category_tree/{category_tree_id}\nDocumentation eBay : Chaque API a son cycle de vie documenté. Consultez les release notes sur developer.ebay.com/updates/api-updates.\n\n\n4.5.4 Gérer les changements de version\n\nclass EbayAPIClient:\n    \"\"\"\n    Client API eBay avec support de versioning.\n    \"\"\"\n    \n    def __init__(self, access_token, environment='sandbox', api_version='v1'):\n        self.access_token = access_token\n        self.environment = environment\n        self.api_version = api_version\n        self.base_url = API_URLS[environment]['api']\n    \n    def search_items(self, query, limit=5):\n        \"\"\"\n        Recherche d'items - s'adapte automatiquement à la version de l'API.\n        \"\"\"\n        endpoint = f'/buy/browse/{self.api_version}/item_summary/search'\n        \n        return make_ebay_request(\n            method='GET',\n            endpoint=endpoint,\n            access_token=self.access_token,\n            params={'q': query, 'limit': limit},\n            environment=self.environment\n        )\n\n# Utilisation\nif 'app_token' in locals():\n    # Client avec version v1 (actuelle)\n    client_v1 = EbayAPIClient(\n        access_token=app_token['access_token'],\n        environment=ENVIRONMENT,\n        api_version='v1'\n    )\n    \n    results = client_v1.search_items('camera', limit=3)\n    print(f\"✅ Recherche avec API v1 : {len(results.get('itemSummaries', []))} résultats\")\n    \n    # Si une v2 sort à l'avenir, facile de migrer :\n    # client_v2 = EbayAPIClient(..., api_version='v2')",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#quiz-module-3",
+    "href": "cours/api/cours_api_complet.html#quiz-module-3",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "4.6 🎓 Quiz Module 3",
+    "text": "4.6 🎓 Quiz Module 3\nQuestion 1 : Quelle est la limite par défaut d’items par page dans l’API Browse d’eBay ?\n\n50\n\n100\n\n200\n\n1000\n\n\n\nVoir la réponse\n\nRéponse : c) 200\nL’API Browse accepte un maximum de 200 items par requête (paramètre limit).\n\nQuestion 2 : Que faire quand vous recevez une erreur HTTP 429 ?\n\nRéessayer immédiatement\n\nAttendre puis réessayer\n\nChanger de token\n\nContacter le support\n\n\n\nVoir la réponse\n\nRéponse : b) Attendre puis réessayer\n429 signifie “Too Many Requests”. Respectez le header Retry-After ou attendez un moment.\n\nQuestion 3 : Comment est indiquée la version de l’API dans les URLs eBay ?\n\nQuery parameter ?version=1\n\nHeader API-Version: 1\n\nPath /v1/ dans l’URL\n\nSous-domaine v1.api.ebay.com\n\n\n\nVoir la réponse\n\nRéponse : c) Path /v1/ dans l’URL\nExemple : /buy/browse/v1/item_summary/search",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#design-dune-api-perspective-conceptuelle",
+    "href": "cours/api/cours_api_complet.html#design-dune-api-perspective-conceptuelle",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "5.1 4.1 Design d’une API (Perspective Conceptuelle)",
+    "text": "5.1 4.1 Design d’une API (Perspective Conceptuelle)\nBien que ce cours se concentre sur la consommation d’APIs (comme eBay), comprendre les principes de design aide à mieux les utiliser.\n\n5.1.1 Principes RESTful\n\nRessources comme noms (pas de verbes dans les URLs)\n✅ GET /items/12345\n❌ GET /getItem/12345\nMéthodes HTTP pour les actions\nGET    /items/12345    # Lire\nPOST   /items          # Créer\nPUT    /items/12345    # Remplacer\nPATCH  /items/12345    # Modifier\nDELETE /items/12345    # Supprimer\nRelations hiérarchiques\nGET /sellers/12345/listings\nGET /sellers/12345/listings/67890\nFiltrage, tri, pagination via query params\nGET /items?category=electronics&sort=price&limit=20\n\n\n\n5.1.2 Design des APIs eBay\neBay suit ces principes dans ses APIs modernes :\n# Ressources et hiérarchie claire\n/sell/inventory/v1/inventory_item/{sku}\n/sell/inventory/v1/offer/{offerId}\n/buy/browse/v1/item/{item_id}\n\n# Filtres et recherche\n/buy/browse/v1/item_summary/search?q=laptop&filter=price:[100..500]",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#documentation-api",
+    "href": "cours/api/cours_api_complet.html#documentation-api",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "5.2 4.2 Documentation API",
+    "text": "5.2 4.2 Documentation API\n\n5.2.1 Une bonne documentation contient :\n\nVue d’ensemble : Ce que fait l’API\nAuthentification : Comment s’authentifier\nEndpoints : Liste complète avec exemples\nSchémas : Format des requêtes et réponses\nCodes d’erreur : Signification et solutions\nLimites : Rate limits, quotas\nChangelog : Historique des versions\nExemples de code : Dans plusieurs langages\n\n\n\n5.2.2 Documentation eBay\neBay fournit une documentation exhaustive :\n\nPortal principal : developer.ebay.com\nGuides : Tutoriels pas-à-pas\nRéférence API : Endpoints détaillés\nAPI Explorer : Tester directement les APIs\nOpenAPI Specs : Spécifications téléchargeables\n\nExplorer eBay API : developer.ebay.com/my/api_test_tool",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#tests-dapi",
+    "href": "cours/api/cours_api_complet.html#tests-dapi",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "5.3 4.3 Tests d’API",
+    "text": "5.3 4.3 Tests d’API\n\n5.3.1 Types de tests\n\n\n\nType\nObjectif\nOutils\n\n\n\n\nTests unitaires\nFonctions individuelles\npytest, unittest\n\n\nTests d’intégration\nAppels API réels\npytest + requests\n\n\nTests de contrat\nValidation schéma\nPact, JSON Schema\n\n\nTests de charge\nPerformance\nLocust, JMeter\n\n\n\n\n\n5.3.2 Exemple : Tests avec pytest\n\n# Installation : pip install pytest pytest-mock\n\nimport pytest\nfrom unittest.mock import Mock, patch\n\ndef test_search_ebay_items_success():\n    \"\"\"Test de la fonction de recherche en mockant les appels HTTP.\"\"\"\n    \n    # Mock de la réponse HTTP\n    mock_response = Mock()\n    mock_response.status_code = 200\n    mock_response.json.return_value = {\n        'total': 100,\n        'itemSummaries': [\n            {\n                'itemId': '123',\n                'title': 'Test Item',\n                'price': {'value': '99.99', 'currency': 'USD'}\n            }\n        ]\n    }\n    \n    # Patcher requests.get\n    with patch('requests.get', return_value=mock_response):\n        results = search_ebay_items(\n            query='test',\n            access_token='fake_token',\n            limit=1,\n            environment='sandbox'\n        )\n        \n        assert results is not None\n        assert results['total'] == 100\n        assert len(results['itemSummaries']) == 1\n        assert results['itemSummaries'][0]['title'] == 'Test Item'\n\ndef test_search_ebay_items_unauthorized():\n    \"\"\"Test avec un token invalide (401).\"\"\"\n    \n    mock_response = Mock()\n    mock_response.status_code = 401\n    mock_response.json.return_value = {\n        'errors': [{'message': 'Invalid token'}]\n    }\n    \n    with patch('requests.get', return_value=mock_response):\n        results = search_ebay_items(\n            query='test',\n            access_token='invalid_token',\n            limit=1,\n            environment='sandbox'\n        )\n        \n        # La fonction doit retourner None en cas d'erreur 401\n        assert results is None\n\ndef test_rate_limiter_waits():\n    \"\"\"Test que le rate limiter attend bien.\"\"\"\n    \n    rate_limiter = RateLimiter(calls_per_second=2)\n    \n    start_time = time.time()\n    \n    # Faire 3 appels\n    for _ in range(3):\n        rate_limiter.wait_if_needed()\n    \n    elapsed = time.time() - start_time\n    \n    # Avec 2 appels/sec, 3 appels devraient prendre au moins 1 seconde\n    assert elapsed &gt;= 1.0\n\n# Lancer les tests : pytest nom_du_fichier.py -v\nprint(\"Tests définis. Exécutez avec : pytest\")\n\n\n\n5.3.3 Tests dans le Sandbox eBay\neBay fournit un environnement Sandbox spécifiquement pour les tests :\n\ndef create_test_listing_sandbox(access_token):\n    \"\"\"\n    Crée un listing de test dans le Sandbox eBay.\n    \n    Ce listing n'apparaîtra PAS sur eBay en production.\n    Les transactions sont fictives et utilisent de la fausse monnaie.\n    \"\"\"\n    \n    endpoint = '/sell/inventory/v1/offer'\n    \n    # Données de listing de test\n    test_offer = {\n        \"sku\": \"TEST-SKU-12345\",\n        \"marketplaceId\": \"EBAY_US\",\n        \"format\": \"FIXED_PRICE\",\n        \"availableQuantity\": 10,\n        \"categoryId\": \"20081\",  # Ordinateurs portables\n        \"listingDescription\": \"Laptop de test - NE PAS ACHETER\",\n        \"listingPolicies\": {\n            \"fulfillmentPolicyId\": \"YOUR_FULFILLMENT_POLICY_ID\",\n            \"paymentPolicyId\": \"YOUR_PAYMENT_POLICY_ID\",\n            \"returnPolicyId\": \"YOUR_RETURN_POLICY_ID\"\n        },\n        \"pricingSummary\": {\n            \"price\": {\n                \"value\": \"999.99\",\n                \"currency\": \"USD\"\n            }\n        }\n    }\n    \n    try:\n        result = make_ebay_request(\n            method='POST',\n            endpoint=endpoint,\n            access_token=access_token,\n            json_data=test_offer,\n            environment='sandbox'\n        )\n        \n        print(f\" Listing de test créé : {result.get('offerId')}\")\n        return result\n        \n    except EbayAPIError as e:\n        print(f\" Erreur lors de la création : {e}\")\n        return None\n\n# Requiert un User Token avec le scope sell.inventory\n# Utilisez cette fonction UNIQUEMENT dans le Sandbox !",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#monitoring-et-logging",
+    "href": "cours/api/cours_api_complet.html#monitoring-et-logging",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "5.4 4.4 Monitoring et Logging",
+    "text": "5.4 4.4 Monitoring et Logging\n\n5.4.1 Pourquoi monitorer ?\n\nDétecter les erreurs en production\nAnalyser l’usage (endpoints les plus utilisés)\nOptimiser les performances\nAlerter sur les anomalies\n\n\n\n5.4.2 Logging structuré\n\nimport logging\nimport json\nfrom datetime import datetime\n\n# Configuration du logger\nlogging.basicConfig(\n    level=logging.INFO,\n    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',\n    handlers=[\n        logging.FileHandler('ebay_api.log'),\n        logging.StreamHandler()\n    ]\n)\n\nlogger = logging.getLogger('EbayAPIClient')\n\ndef log_api_call(method, endpoint, status_code, response_time, error=None):\n    \"\"\"\n    Log un appel API de manière structurée.\n    \n    Args:\n        method (str): Méthode HTTP\n        endpoint (str): Endpoint appelé\n        status_code (int): Code de statut HTTP\n        response_time (float): Temps de réponse en secondes\n        error (str): Message d'erreur éventuel\n    \"\"\"\n    \n    log_entry = {\n        'timestamp': datetime.utcnow().isoformat(),\n        'method': method,\n        'endpoint': endpoint,\n        'status_code': status_code,\n        'response_time_ms': round(response_time * 1000, 2),\n        'success': 200 &lt;= status_code &lt; 300,\n        'error': error\n    }\n    \n    if log_entry['success']:\n        logger.info(json.dumps(log_entry))\n    else:\n        logger.error(json.dumps(log_entry))\n\n# Exemple d'utilisation\nimport time\n\nstart = time.time()\n\ntry:\n    response = make_ebay_request(\n        method='GET',\n        endpoint='/buy/browse/v1/item_summary/search',\n        access_token='fake_token',\n        params={'q': 'test'},\n        environment='sandbox'\n    )\n    \n    elapsed = time.time() - start\n    log_api_call('GET', '/buy/browse/v1/item_summary/search', 200, elapsed)\n    \nexcept EbayAPIError as e:\n    elapsed = time.time() - start\n    log_api_call('GET', '/buy/browse/v1/item_summary/search', \n                 e.status_code, elapsed, error=str(e))\n\nprint(\" Logs écrits dans ebay_api.log\")\n\n\n\n5.4.3 Métriques à surveiller\n\n\n\nMétrique\nDescription\nAlerte si…\n\n\n\n\nTaux d’erreur\n% de requêtes en erreur\n&gt; 5%\n\n\nLatence\nTemps de réponse moyen\n&gt; 2 secondes\n\n\nThroughput\nRequêtes par seconde\nChute soudaine\n\n\nTaux 429\nLimites de taux atteintes\n&gt; 1%\n\n\nTaux 5xx\nErreurs serveur eBay\n&gt; 0.5%",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#bonnes-pratiques-résumé",
+    "href": "cours/api/cours_api_complet.html#bonnes-pratiques-résumé",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "5.5 4.5 Bonnes Pratiques : Résumé",
+    "text": "5.5 4.5 Bonnes Pratiques : Résumé\n\n5.5.1 Checklist du Développeur API\n\n5.5.1.1 Sécurité\n\nCredentials stockés en sécurité (variables d’env, secrets manager)\nHTTPS uniquement\nTokens régulièrement renouvelés\nScopes OAuth au minimum nécessaire\nPas de credentials dans les logs\n\n\n\n5.5.1.2 Performance\n\nUtilisation de la pagination\nMise en cache des résultats (si pertinent)\nRate limiting respecté\nTimeout configuré sur les requêtes\nConnection pooling (pour haute fréquence)\n\n\n\n5.5.1.3 Fiabilité\n\nGestion d’erreurs robuste\nRetry avec backoff exponentiel pour les 5xx\nValidation des données avant envoi\nLogs structurés\nMonitoring en production\n\n\n\n5.5.1.4 Maintenabilité\n\nCode documenté\nTests unitaires et d’intégration\nVersioning des APIs suivi\nConfiguration externalisée\nChangelog maintenu",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#quiz-module-4",
+    "href": "cours/api/cours_api_complet.html#quiz-module-4",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "5.6 🎓 Quiz Module 4",
+    "text": "5.6 🎓 Quiz Module 4\nQuestion 1 : Quelle méthode HTTP utiliseriez-vous pour remplacer complètement une ressource ?\n\nPOST\n\nPUT\n\nPATCH\n\nDELETE\n\n\n\nVoir la réponse\n\nRéponse : b) PUT\nPUT remplace intégralement la ressource. PATCH ne modifie que certains champs.\n\nQuestion 2 : Pourquoi tester dans le Sandbox plutôt qu’en Production ?\n\nC’est gratuit\n\nAucune transaction réelle\n\nDonnées fictives\n\nToutes ces réponses\n\n\n\nVoir la réponse\n\nRéponse : d) Toutes ces réponses\nLe Sandbox permet de tester sans impact financier ni sur de vraies données.\n\nQuestion 3 : Que signifie un taux d’erreur 5xx supérieur à 1% ?\n\nVos credentials sont invalides\n\nVous dépassez le rate limit\n\nIl y a un problème côté serveur eBay\n\nVos requêtes sont mal formées\n\n\n\nVoir la réponse\n\nRéponse : c) Il y a un problème côté serveur eBay\nLes erreurs 5xx indiquent des problèmes serveur (eBay dans ce cas).",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#ce-que-vous-avez-appris",
+    "href": "cours/api/cours_api_complet.html#ce-que-vous-avez-appris",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "6.1 Ce que vous avez appris",
+    "text": "6.1 Ce que vous avez appris\nFondamentaux API - Définition et architecture REST - Protocole HTTP et méthodes - Formats de données (JSON)\nAuthentification et Sécurité - OAuth 2.0 (Application et User tokens) - Gestion sécurisée des credentials - Headers HTTP\nInteraction avec APIs - Construction de requêtes - Gestion d’erreurs robuste - Pagination et rate limiting - Versioning\nArchitecture et Bonnes Pratiques - Design API - Tests (unitaires, intégration) - Monitoring et logging - Projet pratique complet",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#ressources-ebay",
+    "href": "cours/api/cours_api_complet.html#ressources-ebay",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "6.2 Ressources eBay",
+    "text": "6.2 Ressources eBay\n\n6.2.1 Documentation Officielle\n\neBay Developers Portal\nGetting Started Guide\nAPI Reference\nAPI Explorer\n\n\n\n6.2.2 Outils\n\nCréer des Keysets\nSandbox Test Users\nAPI Status\n\n\n\n6.2.3 Support\n\nDeveloper Forum\nTechnical Support\nNewsletter",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#ressources-générales-sur-les-apis",
+    "href": "cours/api/cours_api_complet.html#ressources-générales-sur-les-apis",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "6.3 Ressources Générales sur les APIs",
+    "text": "6.3 Ressources Générales sur les APIs\n\n6.3.1 Standards et Spécifications\n\nOpenAPI Specification\nOAuth 2.0 RFC 6749\nJSON Schema\n\n\n\n6.3.2 Livres Recommandés\n\n“RESTful Web APIs” - Leonard Richardson & Mike Amundsen\n“Designing Web APIs” - Brenda Jin, Saurabh Sahni, Amir Shevat\n\n\n\n6.3.3 Outils de Développement\n\nPostman - Client API\nInsomnia - Client API open-source\nHTTPie - Client HTTP en ligne de commande",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "cours/api/cours_api_complet.html#prochaines-étapes",
+    "href": "cours/api/cours_api_complet.html#prochaines-étapes",
+    "title": "Maîtriser les APIs Web : Guide Complet",
+    "section": "6.4 Prochaines Étapes",
+    "text": "6.4 Prochaines Étapes\n\nPratiquez avec le Sandbox eBay\nCréez une vraie application (dashboard de prix, outil de listing)\n**Explo",
+    "crumbs": [
+      "Cours",
+      "APIs"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "cours/api/suite.html",
+    "href": "cours/api/suite.html",
+    "title": "Projet Pratique Final",
+    "section": "",
+    "text": "Créer un analyseur de prix eBay qui :\n\nRecherche des produits pour une catégorie donnée\nRécupère les prix via pagination\nCalcule des statistiques (moyenne, min, max)\nGère les erreurs et le rate limiting\nLog toutes les opérations"
+  },
+  {
+    "objectID": "cours/api/suite.html#objectif",
+    "href": "cours/api/suite.html#objectif",
+    "title": "Projet Pratique Final",
+    "section": "",
+    "text": "Créer un analyseur de prix eBay qui :\n\nRecherche des produits pour une catégorie donnée\nRécupère les prix via pagination\nCalcule des statistiques (moyenne, min, max)\nGère les erreurs et le rate limiting\nLog toutes les opérations"
+  },
+  {
+    "objectID": "cours/api/suite.html#code-du-projet",
+    "href": "cours/api/suite.html#code-du-projet",
+    "title": "Projet Pratique Final",
+    "section": "Code du Projet",
+    "text": "Code du Projet\n\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom datetime import datetime\nimport json\n\nclass EbayPriceAnalyzer:\n    \"\"\"\n    Analyseur de prix eBay avec fonctionnalités complètes.\n    \"\"\"\n    \n    def __init__(self, access_token, environment='sandbox'):\n        self.access_token = access_token\n        self.environment = environment\n        self.rate_limiter = RateLimiter(calls_per_second=2)\n        self.logger = logging.getLogger('PriceAnalyzer')\n    \n    def search_and_analyze(self, query, max_items=100):\n        \"\"\"\n        Recherche des produits et analyse les prix.\n        \n        Args:\n            query (str): Terme de recherche\n            max_items (int): Nombre maximum d'items à analyser\n        \n        Returns:\n            dict: Statistiques et données\n        \"\"\"\n        \n        self.logger.info(f\"Début de l'analyse pour '{query}'\")\n        \n        # 1. Récupération des données avec pagination\n        all_items = []\n        offset = 0\n        limit = 50\n        \n        while len(all_items) &lt; max_items:\n            self.rate_limiter.wait_if_needed()\n            \n            current_limit = min(limit, max_items - len(all_items))\n            \n            try:\n                response = make_ebay_request(\n                    method='GET',\n                    endpoint='/buy/browse/v1/item_summary/search',\n                    access_token=self.access_token,\n                    params={\n                        'q': query,\n                        'limit': current_limit,\n                        'offset': offset,\n                        'filter': 'priceCurrency:USD'\n                    },\n                    environment=self.environment\n                )\n                \n                items = response.get('itemSummaries', [])\n                \n                if not items:\n                    break\n                \n                all_items.extend(items)\n                offset += current_limit\n                \n                self.logger.info(f\"Récupéré {len(all_items)} items\")\n                \n            except EbayAPIError as e:\n                self.logger.error(f\"Erreur API : {e}\")\n                break\n        \n        # 2. Extraction des prix\n        prices_data = []\n        for item in all_items:\n            price_info = item.get('price', {})\n            if 'value' in price_info:\n                prices_data.append({\n                    'title': item.get('title', '')[:50],\n                    'price': float(price_info['value']),\n                    'currency': price_info.get('currency', 'USD'),\n                    'condition': item.get('condition', 'UNKNOWN'),\n                    'seller': item.get('seller', {}).get('username', 'N/A')\n                })\n        \n        # 3. Création du DataFrame\n        df = pd.DataFrame(prices_data)\n        \n        if df.empty:\n            self.logger.warning(\"Aucune donnée de prix trouvée\")\n            return None\n        \n        # 4. Calcul des statistiques\n        stats = {\n            'query': query,\n            'total_items': len(df),\n            'timestamp': datetime.now().isoformat(),\n            'price_stats': {\n                'mean': df['price'].mean(),\n                'median': df['price'].median(),\n                'min': df['price'].min(),\n                'max': df['price'].max(),\n                'std': df['price'].std()\n            },\n            'condition_breakdown': df['condition'].value_counts().to_dict()\n        }\n        \n        self.logger.info(f\"Analyse terminée : {stats['total_items']} items\")\n        \n        return {\n            'stats': stats,\n            'dataframe': df\n        }\n    \n    def save_results(self, results, filename):\n        \"\"\"Sauvegarde les résultats en JSON et CSV.\"\"\"\n        \n        if not results:\n            return\n        \n        # Sauvegarder les stats en JSON\n        stats_file = f\"{filename}_stats.json\"\n        with open(stats_file, 'w') as f:\n            json.dump(results['stats'], f, indent=2)\n        \n        # Sauvegarder les données en CSV\n        csv_file = f\"{filename}_data.csv\"\n        results['dataframe'].to_csv(csv_file, index=False)\n        \n        self.logger.info(f\"Résultats sauvegardés : {stats_file}, {csv_file}\")\n    \n    def visualize_prices(self, df):\n        \"\"\"Crée des visualisations des prix.\"\"\"\n        \n        fig, axes = plt.subplots(1, 2, figsize=(14, 5))\n        \n        # Histogramme des prix\n        axes[0].hist(df['price'], bins=20, edgecolor='black', alpha=0.7)\n        axes[0].set_title('Distribution des Prix')\n        axes[0].set_xlabel('Prix (USD)')\n        axes[0].set_ylabel('Fréquence')\n        axes[0].axvline(df['price'].mean(), color='red', linestyle='--', label='Moyenne')\n        axes[0].legend()\n        \n        # Prix par condition\n        condition_prices = df.groupby('condition')['price'].mean().sort_values()\n        condition_prices.plot(kind='barh', ax=axes[1], color='skyblue', edgecolor='black')\n        axes[1].set_title('Prix Moyen par Condition')\n        axes[1].set_xlabel('Prix Moyen (USD)')\n        \n        plt.tight_layout()\n        plt.savefig('ebay_price_analysis.png', dpi=150)\n        plt.show()\n        \n        self.logger.info(\"Visualisations créées\")\n\n# ═══════════════════════════════════════════════════════════════\n# EXÉCUTION DU PROJET\n# ═══════════════════════════════════════════════════════════════\n\nif 'app_token' in locals() and CLIENT_ID and CLIENT_SECRET:\n    print(\" Lancement de l'analyseur de prix eBay...\")\n    \n    # Créer l'analyseur\n    analyzer = EbayPriceAnalyzer(\n        access_token=app_token['access_token'],\n        environment=ENVIRONMENT\n    )\n    \n    # Analyser une catégorie de produits\n    query = \"macbook pro\"\n    results = analyzer.search_and_analyze(query, max_items=50)\n    \n    if results:\n        stats = results['stats']\n        df = results['dataframe']\n        \n        print(f\"\\n RÉSULTATS POUR '{query.upper()}'\")\n        print(\"=\" * 60)\n        print(f\"Total items analysés : {stats['total_items']}\")\n        print(f\"\\nStatistiques de prix (USD) :\")\n        print(f\"  • Moyenne  : ${stats['price_stats']['mean']:.2f}\")\n        print(f\"  • Médiane  : ${stats['price_stats']['median']:.2f}\")\n        print(f\"  • Minimum  : ${stats['price_stats']['min']:.2f}\")\n        print(f\"  • Maximum  : ${stats['price_stats']['max']:.2f}\")\n        print(f\"  • Écart-type : ${stats['price_stats']['std']:.2f}\")\n        \n        print(f\"\\nRépartition par condition :\")\n        for condition, count in stats['condition_breakdown'].items():\n            print(f\"  • {condition}: {count} items\")\n        \n        # Sauvegarder les résultats\n        analyzer.save_results(results, 'ebay_analysis')\n        \n        # Créer les visualisations\n        analyzer.visualize_prices(df)\n        \n        print(\"\\n Analyse terminée avec succès !\")\n        print(\"   Fichiers générés :\")\n        print(\"   - ebay_analysis_stats.json\")\n        print(\"   - ebay_analysis_data.csv\")\n        print(\"   - ebay_price_analysis.png\")\n    \nelse:\n    print(\"  Veuillez configurer vos credentials eBay pour exécuter le projet.\")"
+  },
+  {
+    "objectID": "cours/poo-solid/introduction.html",
+    "href": "cours/poo-solid/introduction.html",
+    "title": "Programmation Orientée Objet et Principes SOLID",
+    "section": "",
+    "text": "Cette session vous introduit aux concepts fondamentaux de la POO en Python et aux principes SOLID.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/introduction.html#bienvenue",
+    "href": "cours/poo-solid/introduction.html#bienvenue",
+    "title": "Programmation Orientée Objet et Principes SOLID",
+    "section": "",
+    "text": "Cette session vous introduit aux concepts fondamentaux de la POO en Python et aux principes SOLID.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "cours/poo-solid/introduction.html#contenu-de-la-session",
+    "href": "cours/poo-solid/introduction.html#contenu-de-la-session",
+    "title": "Programmation Orientée Objet et Principes SOLID",
+    "section": "Contenu de la session",
+    "text": "Contenu de la session\n\nCours complet\nLe cours couvre :\n- Les bases de la POO (classes, objets, héritage)\n- Les principes SOLID expliqués\n- Des exemples pratiques en Python\nAccéder au cours →\n\n\nExercices pratiques\nDes exercices pour mettre en pratique :\n- Création de classes\n- Application des principes SOLID\n- Refactoring de code\nAccéder aux exercices →",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html",
+    "href": "exercices/poo-solid/exercice_rag_weather.html",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "",
+    "text": "TipVersion interactive\n\n\n\nFaites cet exercice dans Binder",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#objectifs-pédagogiques",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#objectifs-pédagogiques",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Objectifs pédagogiques",
+    "text": "Objectifs pédagogiques\n\nComprendre et utiliser les classes abstraites (ABC)\nAppliquer le pattern Strategy pour gérer différents types de prompts\n\nMaîtriser les dataclasses Python\n\nGérer les secrets et configurations\n\nImplémenter un système agentique complet\n\nÉcrire des tests unitaires",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#installation-des-dépendances",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#installation-des-dépendances",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Installation des dépendances",
+    "text": "Installation des dépendances\nuv add mistralai geopy requests python-dotenv",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#variables-denvironnement",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#variables-denvironnement",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Variables d’environnement",
+    "text": "Variables d’environnement\nCréez un fichier .env à la racine du projet :\nmistral_api_key=votre_clé_mistral\nweather_api_key=votre_clé_openweathermap\nPour obtenir les clés :\n- Mistral AI : https://console.mistral.ai/\n- OpenWeatherMap : https://openweathermap.org/api",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-1.1-analyse-du-code-weatherapi",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-1.1-analyse-du-code-weatherapi",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 1.1 : Analyse du code WeatherAPI",
+    "text": "Question 1.1 : Analyse du code WeatherAPI\nIdentifiez le problème de conception majeur dans la classe WeatherAPI.\nIndices : - Que se passe-t-il si vous voulez récupérer la météo pour 10 adresses différentes ? - Combien d’instances de la classe allez-vous créer ? - La clé API change-t-elle entre chaque requête ?\nRéponse attendue : ___________________________________________",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-1.2-proposition-de-refactoring",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-1.2-proposition-de-refactoring",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 1.2 : Proposition de refactoring",
+    "text": "Question 1.2 : Proposition de refactoring\nProposez une nouvelle architecture pour séparer : - La configuration (clé API, timeout, etc.) - L’exécution de requêtes météo\nÉcrivez le code refactoré ci-dessous :\n\n# Votre code ici",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#code-de-base-fourni",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#code-de-base-fourni",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Code de base fourni",
+    "text": "Code de base fourni\n\n# src/mistral_api.py\nimport logging\nimport os \nimport dotenv\n\nfrom src.logger import setup_logging\nfrom mistralai import Mistral\nfrom dataclasses import dataclass\nfrom abc import ABC, abstractmethod\nfrom typing import Optional\n\nsetup_logging()\n\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.DEBUG)\n\ndotenv.load_dotenv()\n\n\n@dataclass\nclass MistralSecret:\n    mistral_api_key: str = None\n\n    def __post_init__(self):\n        if self.mistral_api_key is None:\n            self.mistral_api_key = os.getenv('mistral_api_key')\n            logging.info(f'Mistral Key loaded : len {len(self.mistral_api_key)}')\n        if self.mistral_api_key is None:\n            logging.error('You must set up mistral api key')\n\n\n@dataclass\nclass MistralConfig:\n    temperature: float = 0\n    max_tokens: int = 500\n    model: str = \"mistral-medium-latest\"\n\n    def __post_init__(self):\n        if self.temperature &lt; 0:\n            logging.error('Temperature must be &gt;0')\n            raise ValueError('Temperature must be &gt;0')\n        if self.max_tokens &lt; 0:\n            logging.error('Max tokens must be &gt;0')\n            raise ValueError('Max tokens must be &gt;0')",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.1-classe-abstraite-strategy",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.1-classe-abstraite-strategy",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 2.1 : Classe abstraite Strategy",
+    "text": "Question 2.1 : Classe abstraite Strategy\nComplétez la classe abstraite MistralStrategy (notez la correction de la faute de frappe “Srategy” → “Strategy”).\n\nfrom abc import ABC, abstractmethod\n\nclass MistralStrategy(ABC):\n    \"\"\"Classe abstraite définissant le contrat pour les différentes stratégies de prompt\"\"\"\n    config: MistralConfig\n\n    @abstractmethod\n    def get_prompt(self):\n        \"\"\"Retourne le prompt système pour cette stratégie\"\"\"\n        pass\n\n    def get_setup(self):\n        \"\"\"Retourne la configuration Mistral\"\"\"\n        return {\n            \"temperature\": self.config.temperature,\n            \"max_tokens\": self.config.max_tokens,\n            \"model\": self.config.model\n        }",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.2-stratégie-agentique",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.2-stratégie-agentique",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 2.2 : Stratégie Agentique",
+    "text": "Question 2.2 : Stratégie Agentique\nLa stratégie Agentique est fournie :\n\n@dataclass\nclass AgenticStrategy(MistralStrategy):\n    content: str\n    config: Optional[MistralConfig] = None\n\n    def __post_init__(self):\n        if self.content == \"\":\n            raise ValueError(\"you must enter en content for using Agentique strategy\")\n\n        if self.config is None:\n            self.config = MistralConfig(\n                temperature=0,\n                max_tokens=500,\n                model='mistral-medium-latest'\n            )\n\n    def get_prompt(self):\n        return f\"You're a Agentique system you will use the follow content {self.content} \" \\\n               \"If the result is not from the content you must say it clearly\"",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.3-implémentez-une-simplestrategy",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.3-implémentez-une-simplestrategy",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 2.3 : Implémentez une SimpleStrategy",
+    "text": "Question 2.3 : Implémentez une SimpleStrategy\nCréez une nouvelle stratégie SimpleStrategy qui permet de poser des questions simples sans contexte Agentique.\nSpécifications : - Pas de contenu requis - Prompt système : “You are a helpful assistant. Answer questions clearly and concisely.” - Même configuration par défaut que AgenticStrategy\n\n# Votre code ici\n@dataclass\nclass SimpleStrategy(MistralStrategy):\n    # À compléter\n    pass",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-2.4-classe-mistralprovider",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-2.4-classe-mistralprovider",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 2.4 : Classe MistralProvider",
+    "text": "Question 2.4 : Classe MistralProvider\nComplétez la classe MistralProvider :\n\n@dataclass\nclass MistralProvider:\n    mistralsecret: MistralSecret\n    mistralconfig: MistralConfig\n\n    def __post_init__(self):\n        self._client = None\n\n    @property\n    def client(self) -&gt; Mistral:\n        \"\"\"Initialise le client Mistral de manière lazy (singleton pattern)\"\"\"\n        if self._client is None:\n            try:\n                self._client = Mistral(api_key=self.mistralsecret.mistral_api_key)\n                logger.info('Mistral Client initialized')\n            except ValueError as e:\n                logger.error(f'Erreur: {e}')\n                raise ValueError('Mistral key is not defined')\n            except Exception as e:\n                raise ConnectionError(f'Error {e}')\n        return self._client\n    \n    def _create_message(self, prompt: str, strategy: MistralStrategy) -&gt; list[dict]:\n        \"\"\"Crée la liste de messages pour l'API Mistral\"\"\"\n        return [\n            {'role': 'system', \"content\": strategy.get_prompt()},\n            {'role': 'user', \"content\": prompt}\n        ]\n    \n    def ask_mistral(self, prompt: str, context: str = \"\", strategy: Optional[MistralStrategy] = None):\n        \"\"\"\n        Envoie une requête à Mistral AI\n        \n        Args:\n            prompt: La question de l'utilisateur\n            context: Le contexte pour l'agent (optionnel)\n            strategy: La stratégie à utiliser (si None, utilise AgenticStrategy avec le context)\n        \n        Returns:\n            La réponse de Mistral\n        \"\"\"\n        # À compléter : \n        # 1. Si strategy est None et context n'est pas vide, créer une AgenticStrategy\n        # 2. Si strategy est None et context est vide, créer une SimpleStrategy\n        # 3. Logger la stratégie utilisée\n        # 4. Créer les messages\n        # 5. Récupérer la config\n        # 6. Appeler l'API Mistral\n        # 7. Gérer les erreurs\n        \n        pass",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#code-fourni",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#code-fourni",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Code fourni",
+    "text": "Code fourni\n\n# src/agentic_weather.py\nimport logging\nfrom dataclasses import dataclass\n\nfrom src.logger import setup_logging\nfrom src.models import UserQuery\nfrom src.weather_api import GeoData, WeatherAPI\nfrom src.mistral_api import MistralProvider, MistralSecret, MistralConfig, AgenticStrategy\n\nsetup_logging()\n\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.DEBUG)\n\n\n@dataclass\nclass AgenticWeather:\n    mistralprovider: MistralProvider\n\n    def _get_context(self, address: str) -&gt; dict:\n        \"\"\"Récupère les données météo pour une adresse donnée\"\"\"\n        logging.info(f'Search weather of {address}')\n        userquery = UserQuery(address)\n        geodata = GeoData(userquery.question)\n        lat, lon = geodata.get_location()\n        weather_api = WeatherAPI(lat, lon)\n        response = weather_api.get_weather()\n        return response\n    \n    def ask_weather_question(self, address: str, question: str) -&gt; str:\n        \"\"\"Pose une question sur la météo d'une adresse\"\"\"\n        weather_data = self._get_context(address)\n        context_text = self._format_weather_data(weather_data)\n        mistralagenticstrategy = AgenticStrategy(content=context_text)\n        response = self.mistralprovider.ask_mistral(question, context_text, mistralagenticstrategy)\n        \n        return response.choices[0].message.content\n    \n    def _format_weather_data(self, data: dict) -&gt; str:\n        \"\"\"Formate les données JSON de l'API météo en texte lisible\"\"\"\n        try:\n            weather = data['weather'][0]\n            main = data['main']\n            wind = data['wind']\n            \n            context = f\"\"\"\n            Données météorologiques pour {data['name']}:\n            - Conditions: {weather['description']}\n            - Température: {main['temp'] - 273.15:.1f}°C (ressenti: {main['feels_like'] - 273.15:.1f}°C)\n            - Humidité: {main['humidity']}%\n            - Pression: {main['pressure']} hPa\n            - Vent: {wind['speed']} m/s\n            - Visibilité: {data.get('visibility', 'N/A')} mètres\n            \"\"\"\n            return context\n        except KeyError as e:\n            logging.error(f'Error formatting weather data: {e}')\n            return str(data)",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-3.1-analyse-de-agenticweather",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-3.1-analyse-de-agenticweather",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 3.1 : Analyse de AgenticWeather",
+    "text": "Question 3.1 : Analyse de AgenticWeather\nIdentifiez comment AgenticWeather utilise le problème de conception de WeatherAPI mentionné précédemment. Comment pourrait-on améliorer cela avec votre refactoring ?\nRéponse : ___________________________________________",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-4.1-tests-pour-mistralstrategy",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-4.1-tests-pour-mistralstrategy",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 4.1 : Tests pour MistralStrategy",
+    "text": "Question 4.1 : Tests pour MistralStrategy\n\n# tests/test_mistral_strategy.py\nimport pytest\nfrom src.mistral_api import MistralConfig, AgenticStrategy, SimpleStrategy\n\ndef test_agentic_strategy_with_empty_content():\n    \"\"\"Test que AgenticStrategy lève une erreur si content est vide\"\"\"\n    # Votre code ici\n    pass\n\ndef test_agentic_strategy_get_prompt():\n    \"\"\"Test que le prompt Agentique contient bien le contenu\"\"\"\n    # Votre code ici\n    pass\n\ndef test_simple_strategy_initialization():\n    \"\"\"Test l'initialisation de SimpleStrategy\"\"\"\n    # Votre code ici\n    pass\n\ndef test_strategy_get_setup():\n    \"\"\"Test que get_setup retourne la bonne configuration\"\"\"\n    # Votre code ici\n    pass",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-4.2-tests-pour-mistralprovider",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-4.2-tests-pour-mistralprovider",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 4.2 : Tests pour MistralProvider",
+    "text": "Question 4.2 : Tests pour MistralProvider\n\n# tests/test_mistral_provider.py\nimport pytest\nfrom unittest.mock import Mock, patch\nfrom src.mistral_api import MistralProvider, MistralSecret, MistralConfig, SimpleStrategy\n\ndef test_create_message():\n    \"\"\"Test la création des messages\"\"\"\n    # Votre code ici\n    pass\n\ndef test_ask_mistral_with_simple_strategy():\n    \"\"\"Test une requête simple sans contexte\"\"\"\n    # Votre code ici\n    # Utilisez mock pour simuler l'API Mistral\n    pass",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-4.3-tests-dintégration",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-4.3-tests-dintégration",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 4.3 : Tests d’intégration",
+    "text": "Question 4.3 : Tests d’intégration\nCréez des tests d’intégration qui vérifient le bon fonctionnement du système complet (vous pouvez utiliser des mocks pour les APIs externes).\n\n# tests/test_integration.py\n# Votre code ici",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-5.1-script-de-démonstration",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-5.1-script-de-démonstration",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 5.1 : Script de démonstration",
+    "text": "Question 5.1 : Script de démonstration\nCréez un script main.py qui : 1. Demande à l’utilisateur une adresse 2. Demande une question sur la météo 3. Affiche la réponse de manière formatée\n\n# main.py\n# Votre code ici",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  },
+  {
+    "objectID": "exercices/poo-solid/exercice_rag_weather.html#question-5.2-gestion-des-erreurs",
+    "href": "exercices/poo-solid/exercice_rag_weather.html#question-5.2-gestion-des-erreurs",
+    "title": "Exercice Agentique Météo avec Mistral AI",
+    "section": "Question 5.2 : Gestion des erreurs",
+    "text": "Question 5.2 : Gestion des erreurs\nAjoutez une gestion robuste des erreurs : - Adresse introuvable - API météo indisponible - Erreur Mistral API - Clés API manquantes",
+    "crumbs": [
+      "Pratique",
+      "Exercices"
+    ]
+  }
+]
