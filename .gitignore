@@ -27,9 +27,6 @@ env/
 *.ipynb_checkpoints/
 .jupyter_cache/
 
-# Notebooks de travail (pas les cours finalisés)
-notebook/
-
 # IDE
 .vscode/
 .idea/
